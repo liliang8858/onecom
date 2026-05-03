@@ -1,0 +1,15 @@
+{
+  "id": "health-agent",
+  "name": "Health Agent iOS",
+  "project_path": "apps/health-agent/ios",
+  "workspace": "HealthAgent.xcworkspace",
+  "xcodeproj": "HealthAgent.xcodeproj",
+  "scheme": "HealthAgent",
+  "configuration": "Release",
+  "export_method": "app-store",
+  "bundle_id": "com.yourcompany.healthagent",
+  "dependency": "spm",
+  "upload": "none",
+  "product_type": "ios_app",
+  "description": "Apple Health continuous data + ECG-enhanced intelligent health agent app"
+}

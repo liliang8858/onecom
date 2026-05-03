@@ -14,21 +14,69 @@ OneCom 是一个面向多 iOS 应用的 monorepo 方案。核心目标是把多�
 
 ## 当前仓库实际状态
 
-当前仓库已经提交的文件只有：
+当前仓库已经提交并维护的核心文件包括：
 
 - `README.md`
 - `CLAUDE.md`
 - `docs/ios-monorepo-ci.md`
 - `docs/mac-runner-setup.md`
+- `apps/health-agent/README.md`
+- `apps/health-agent/ci/ios.json`
+- `apps/health-agent/ios/README.md`
+- `apps/health-agent/product/prd.md`
+- `apps/health-agent/product/ui-spec.md`
+- `apps/health-agent/product/agent-schema.md`
+- `apps/health-agent/product/health-data-model.md`
 
 当前存在目录：
 
 - `apps/`
 - `docs/`
 
-`apps/` 目前为空。文档中提到的 `shared/`、`ci/`、`fastlane/`、`.github/workflows/`、`Gemfile`、各 app 示例目录等，目前还没有实际落地到仓库。
+`apps/health-agent/` 已作为第一个子 app 初始化。文档中提到的根级 `shared/`、`ci/`、`fastlane/`、`.github/workflows/`、`Gemfile` 等，目前还没有实际落地到仓库。
 
-因此当前项目更准确地说是：iOS monorepo CI/CD 方案文档仓库，尚未生成可运行的 CI/CD 工程骨架。
+因此当前项目更准确地说是：已经有第一个产品子项目和 CI manifest 的 iOS monorepo 方案仓库，但尚未生成可运行的根级 CI/CD 工程骨架，也尚未加入真实 Xcode 工程。
+
+## 已初始化子项目：Health Agent
+
+第一个子项目路径：
+
+```text
+apps/health-agent/
+```
+
+产品正式定义：
+
+> Health Agent with ECG Intelligence：一个以 Apple Health 连续健康数据为底座、以 ECG 心电作为关键事件增强证据的智能健康 Agent App。
+
+核心定位：
+
+- 不是普通健康 Dashboard。
+- 首页应是 `Today Health Home`，先回答“我今天怎么样”。
+- 主体验顺序是：今日状态 → Agent 发现 → 健康模块 → 智能问题 → 深度分析。
+- Apple Health 连续数据负责日常监测、趋势、恢复、睡眠、运动、异常和周报。
+- ECG 不是所有分析的必要入口，而是关键事件的增强证据和心脏深度解释层。
+- Agent 不动态生成 iOS 代码，只生成 UI Schema，由 App 端白名单 SwiftUI 组件渲染。
+
+Health Agent 的 CI manifest：
+
+```text
+apps/health-agent/ci/ios.json
+```
+
+当前配置：
+
+- `id`: `health-agent`
+- `name`: `Health Agent iOS`
+- `project_path`: `apps/health-agent/ios`
+- `workspace`: `HealthAgent.xcworkspace`
+- `xcodeproj`: `HealthAgent.xcodeproj`
+- `scheme`: `HealthAgent`
+- `bundle_id`: `com.yourcompany.healthagent`
+- `dependency`: `spm`
+- `upload`: `none`
+
+注意：当前 `apps/health-agent/ios/` 只有说明文件，真实 `HealthAgent.xcodeproj` / `HealthAgent.xcworkspace` 需要在 macOS Xcode 中创建后放入该目录。现阶段不能直接打包。
 
 ## 目标仓库结构
 

@@ -18,6 +18,12 @@
 
 OneCom 是一个 iOS Monorepo 方案，将多个 iOS 应用统一管理在同一个 Git 仓库中。通过 **配置驱动 + 自动发现** 机制，新增应用无需修改 CI 主流程，只需提交一个 `ios.json` 配置文件即可自动纳入构建管线。
 
+### 已初始化子项目
+
+| 项目 | 路径 | 定位 | CI 配置 |
+|------|------|------|---------|
+| Health Agent iOS | `apps/health-agent/` | Apple Health 连续数据 + ECG 增强的智能健康 Agent App | `apps/health-agent/ci/ios.json` |
+
 ### 核心特性
 
 - **零配置发现** — 新增子项目只需添加 `apps/<name>/ci/ios.json`，CI 自动扫描识别
