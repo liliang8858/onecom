@@ -1,68 +1,67 @@
 # Health Agent PRD
 
-## Product Name
+## 产品名称
 
 Health Agent with ECG Intelligence
 
-## One-Sentence Positioning
+## 一句话定位
 
-An intelligent health Agent app built on continuous Apple Health data, using ECG as event-level enhancement evidence to explain heart-related moments more deeply.
+一个以 Apple Health 连续健康数据为底座、以 ECG 心电作为关键事件增强证据的智能健康 Agent App。
 
-## Product Thesis
+## 产品判断
 
-Most health apps show metrics first. Health Agent starts from the user's actual question:
+Health Agent 不应该做成普通健康 Dashboard，也不应该只是一个聊天框。它应该先回答用户每天最关心的问题：
 
-- How am I today?
-- Why do I feel off?
-- What changed recently?
-- What should I pay attention to?
-- When ECG exists, what does it add to the story?
+- 我今天身体状态怎么样？
+- 为什么我今天感觉这样？
+- 最近有哪些变化？
+- 我现在最该关注什么？
+- 如果有 ECG，心电能不能帮我看得更深？
 
-The app should not feel like a metric dashboard or a chat prompt launcher. It should feel like a daily health home that gives the user a clear status, a reason, and the next best health questions to explore.
+产品核心不是展示更多指标，而是把复杂健康数据转化成用户真正关心的问题、解释和下一步探索路径。
 
-## Core Product Principles
+## 核心原则
 
-- Apple Health continuous data is the daily analysis foundation.
-- ECG is a high-value enhancement layer, not the required entry point for every analysis.
-- The home screen answers "How am I today?" before showing questions.
-- The app organizes health data by user questions, not by raw metrics.
-- Agent output must be rendered through controlled UI schema and native SwiftUI components.
-- Health insights must stay non-diagnostic and avoid medical claims.
-- Raw HealthKit data should stay local by default; upload only explicitly approved summaries.
+- Apple Health 连续数据是日常分析底座。
+- ECG 是关键事件的增强证据，不是所有分析的必要入口。
+- 首页先回答“我今天怎么样”，再展示智能问题。
+- 健康数据按用户问题组织，而不是按原始指标组织。
+- Agent 只生成结构化 UI Schema，不生成 iOS 代码。
+- App 端使用白名单 SwiftUI 组件渲染动态页面。
+- 健康洞察必须保持非诊断化，不替代医生。
+- 原始 HealthKit 数据默认留在本地，只有用户明确同意时才上传摘要。
 
-## Target Experience
-
-The core flow is:
+## 核心体验链路
 
 ```text
-Today health state
-  -> Agent discovery
-  -> Health modules
-  -> Smart insight questions
-  -> Dynamic analysis page
-  -> Evidence layer
-  -> Next questions or saved preference
+今日健康状态
+  -> Agent 发现
+  -> 健康模块
+  -> 智能问题
+  -> 动态分析页
+  -> 证据层
+  -> 下一步问题或保存偏好
 ```
 
-The user should feel:
+用户应该感受到：
 
-> I do not need to understand every metric. The app notices what may matter, explains why, and lets me go deeper when I want.
+> 我不需要理解所有指标。App 会发现什么值得看，解释为什么，并在我需要时带我看得更深。
 
-## MVP Scope
+## MVP 范围
 
-First version should focus on six core capabilities:
+第一版聚焦这些能力：
 
-- Today Health Home
-- "Am I recovering well recently?"
-- "How did I sleep last night?"
-- "Why do I feel worse this week?"
-- "What changed abnormally recently?"
-- "Is my heart status stable recently?", enhanced by ECG when available
-- "Interpret my latest ECG", shown only when ECG data exists
+- Today Health Home 今日健康首页
+- 我最近恢复得好吗？
+- 昨晚睡得怎么样？
+- 为什么这周状态差？
+- 最近有什么异常？
+- 最近心脏状态稳定吗？有 ECG 时自动增强
+- 解读最新一次 ECG，有 ECG 数据时才出现
 
-## MVP Buttons
+## MVP 洞察按钮
 
-The initial insight buttons:
+初始洞察按钮：
 
 1. 我最近恢复得好吗？
 2. 昨晚睡得怎么样？
@@ -71,152 +70,160 @@ The initial insight buttons:
 5. 最近心脏状态稳定吗？
 6. 解读最新一次 ECG
 
-The ECG button should not appear as a dead entry. It appears only when ECG data exists or when a heart-related flow can explain why ECG would help.
+`解读最新一次 ECG` 不应作为无数据时的死入口。只有存在 ECG 数据，或当前心脏相关分析能解释 ECG 的价值时才出现。
 
-## Primary User Jobs
+## 核心用户任务
 
-### Daily Check-In
+### 每日打开
 
-The user opens the app and wants a fast answer:
+用户打开 App 后想快速知道：
 
 ```text
-Today state: normal / weak / needs attention / data insufficient
-Main reasons: sleep, HRV, resting heart rate, workout load, anomaly
-Next actions: view reason, generate today's suggestion, ask health data
+今日状态：正常 / 偏弱 / 建议关注 / 数据不足
+主要原因：睡眠、HRV、静息心率、运动负荷、异常
+下一步：查看原因、生成今日建议、询问健康数据
 ```
 
-### Recovery Analysis
+### 恢复分析
 
-The user asks whether their body is recovering well.
+回答：
 
-Core metrics:
+> 我最近恢复得好吗？
+
+核心指标：
 
 - HRV
-- Resting heart rate
-- Sleep duration
-- Sleep regularity
-- Workout load
-- Active energy
+- 静息心率
+- 睡眠时长
+- 睡眠规律性
+- 运动负荷
+- 活动能量
 
-Optional enhancement:
+可选增强：
 
-- Recent ECG event stability
-- ECG average heart rate compared with personal baseline
+- 近期 ECG 事件稳定性
+- ECG 平均心率与个人基线对比
 
-### Sleep Analysis
+### 睡眠分析
 
-The user asks how last night went or why sleep is poor.
+回答：
 
-Core metrics:
+> 昨晚睡得怎么样？为什么我睡不好？
 
-- Sleep duration
-- Sleep stages
-- Time asleep / awake
-- Night heart rate
-- Respiratory rate
-- Blood oxygen where available
+核心指标：
 
-### Weekly State Explanation
+- 睡眠时长
+- 睡眠阶段
+- 入睡和醒来时间
+- 夜间心率
+- 呼吸频率
+- 血氧，可用时加入
 
-The user asks why this week feels worse.
+### 本周状态解释
 
-Core method:
+回答：
 
-- Compare current 7 days with previous 7 days
-- Find largest metric deltas
-- Rank likely drivers
-- Show a conclusion-first analysis with evidence
+> 为什么这周状态差？
 
-### Anomaly Center
+分析方式：
 
-The app detects deviations against personal baseline and turns each anomaly into a clickable question.
+- 对比最近 7 天和前 7 天
+- 找变化最大的指标
+- 给出可能驱动因素排序
+- 用结论优先页面展示证据
 
-Examples:
+### 异常中心
 
-- Resting heart rate has been high for four days.
-- HRV is below the 30-day baseline.
-- Sleep duration dropped compared with last week.
-- Night heart rate is higher than usual.
+App 根据个人基线发现变化，并把每个异常变成可点击问题。
 
-### Heart Status
+示例：
 
-The user asks if their heart state looks stable.
+- 静息心率连续 4 天偏高。
+- HRV 低于 30 天基线。
+- 睡眠时长比上周明显下降。
+- 夜间心率高于平时。
 
-Without ECG:
+### 心脏状态
 
-- Resting heart rate
+回答：
+
+> 最近心脏状态稳定吗？
+
+无 ECG 时使用：
+
+- 静息心率
 - HRV
-- Heart rate variability across the day
-- High / low heart rate events where available
-- Sleep and workout context
+- 日内心率波动
+- 高低心率事件，可用时加入
+- 睡眠和运动上下文
 
-With ECG:
+有 ECG 时增加：
 
-- ECG event card
-- ECG classification
-- ECG signal quality
-- Rhythm stability
-- ECG waveform evidence
-- Context around the ECG time
+- ECG 事件卡
+- ECG 分类
+- ECG 信号质量
+- 节律稳定性
+- ECG 波形证据
+- ECG 前后健康上下文
 
-## ECG Product Role
+## ECG 的产品角色
 
-ECG is not the whole product. ECG is a depth amplifier.
+ECG 不是整个产品。ECG 是洞察深度的放大器。
 
-Daily mode:
-
-```text
-Continuous Apple Health data -> trends, recovery, sleep, workouts, anomalies
-```
-
-ECG-enhanced mode:
+日常模式：
 
 ```text
-Key event -> ECG episode -> waveform + rhythm + context -> deeper explanation
+连续 Apple Health 数据 -> 趋势、恢复、睡眠、运动、异常
 ```
 
-ECG should appear in these situations:
+ECG 增强模式：
 
-- A new ECG exists.
-- The user asks about palpitations, chest discomfort, heart rhythm, or a heart-related event.
-- Continuous metrics show heart-related changes.
-- Workout recovery looks unusual and ECG was recorded nearby.
-- Sleep, HRV, and heart signals suggest a deeper event review.
+```text
+关键事件 -> ECG Episode -> 波形 + 节律 + 上下文 -> 深度解释
+```
 
-## Non-Goals For MVP
+ECG 应在这些场景自然出现：
 
-- No medical diagnosis.
-- No claim that the app can rule out disease.
-- No treatment recommendations.
-- No dynamic Swift or executable code from the server.
-- No upload of raw HealthKit data by default.
-- No full app layout rewrites based on freeform model output.
+- 有新的 ECG。
+- 用户询问心慌、胸闷、心跳乱或心脏相关事件。
+- 连续指标发现心脏相关变化。
+- 运动恢复异常，并且附近有 ECG。
+- 睡眠、HRV、心率信号提示值得做事件回看。
 
-## Product Language Guardrails
+## MVP 不做什么
 
-Prefer:
+- 不做医学诊断。
+- 不声称排除疾病。
+- 不给治疗建议。
+- 不允许服务端下发 Swift 或可执行代码。
+- 默认不上传 HealthKit 原始数据。
+- 不让模型任意重写整个 App 界面。
 
-- "发现值得关注的变化"
-- "心电相关观察点"
-- "帮助你回看当时状态"
-- "这不是医学诊断"
-- "如果持续不适，建议咨询医生"
+## 健康表达边界
 
-Avoid:
+推荐表达：
 
-- "诊断房颤"
-- "排除心脏病"
-- "你有心脏风险"
-- "治疗建议"
-- "你的心电异常" as a final diagnosis
+- 发现值得关注的变化。
+- 心电相关观察点。
+- 帮助你回看当时状态。
+- 这不是医学诊断。
+- 如果持续不适，建议咨询医生。
 
-## Success Criteria
+避免表达：
 
-MVP succeeds if:
+- 诊断房颤。
+- 排除心脏病。
+- 你有心脏风险。
+- 治疗建议。
+- 将“你的心电异常”作为最终诊断。
 
-- Users can understand today's health state within a few seconds.
-- Users naturally tap insight buttons instead of hunting through metric pages.
-- A question opens a composed analysis page, not a static chart.
-- ECG feels useful when present but the app remains valuable without ECG.
-- Health explanations show evidence, data sources, and confidence.
-- The app can persist user display preferences for future analyses.
+## 成功标准
+
+MVP 成功的判断：
+
+- 用户几秒内能理解今日身体状态。
+- 用户自然点击洞察按钮，而不是翻指标页面。
+- 每个问题进入的是动态组合分析页，而不是固定图表页。
+- ECG 存在时有明显价值，不存在时 App 仍然每天有用。
+- 健康解释包含证据、数据来源和置信度。
+- App 能保存用户偏好的展示方式和问题按钮。

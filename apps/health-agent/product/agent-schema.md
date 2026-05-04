@@ -1,35 +1,35 @@
-# Health Agent Schema And Agent Workflow
+# Health Agent Schema 与 Agent 工作流
 
-## Architecture Principle
+## 架构原则
 
-The Agent must not generate iOS code.
+Agent 不能动态生成 iOS 代码。
 
-The Agent generates structured UI schema. The iOS app validates that schema and renders it using a whitelist of native SwiftUI components.
+Agent 只生成结构化 UI Schema。iOS App 负责校验 Schema，并用白名单 SwiftUI 组件渲染。
 
 ```text
-User intent
-  -> Agent planner
-  -> Health context builder
-  -> UI schema generator
-  -> Policy / safety / permission checker
-  -> SwiftUI component renderer
-  -> User feedback
-  -> Preference memory
+用户意图
+  -> Agent Planner
+  -> Health Context Builder
+  -> UI Schema Generator
+  -> Policy / Safety / Permission Checker
+  -> SwiftUI Component Renderer
+  -> 用户反馈
+  -> 偏好记忆
 ```
 
-## Why Schema Instead Of Dynamic Code
+## 为什么使用 Schema
 
-Controlled UI schema gives:
+使用受控 Schema 可以获得：
 
-- App Store friendly behavior
-- Native SwiftUI rendering
-- Stable safety boundaries
-- Server-side UI orchestration
-- Component whitelisting
-- Versioning, validation, fallback, and rollback
-- Personalization without arbitrary app rewrites
+- 更符合 App Store 审核边界
+- 保持原生 SwiftUI 体验
+- 保持稳定安全边界
+- 支持服务端智能编排
+- 支持组件白名单
+- 支持版本化、校验、降级和回滚
+- 支持个性化，但不让界面失控
 
-## Schema Envelope
+## Schema 外层结构
 
 ```json
 {
@@ -49,7 +49,7 @@ Controlled UI schema gives:
 }
 ```
 
-## Insight Button Schema
+## 洞察按钮 Schema
 
 ```json
 {
@@ -84,9 +84,9 @@ Controlled UI schema gives:
 }
 ```
 
-## Block Types
+## 组件类型白名单
 
-MVP block whitelist:
+MVP 支持的 block：
 
 - `insight_summary`
 - `metric_delta_grid`
@@ -103,9 +103,9 @@ MVP block whitelist:
 - `rr_interval_chart`
 - `ecg_context_timeline`
 
-Unknown blocks must not crash the app. The renderer should fall back to a supported list or summary block.
+未知组件不能让 App 崩溃。渲染器应降级为列表、摘要或不支持提示。
 
-## Recovery Page Example
+## 恢复页 Schema 示例
 
 ```json
 {
@@ -170,9 +170,9 @@ Unknown blocks must not crash the app. The renderer should fall back to a suppor
 }
 ```
 
-## ECG Enhancement Block
+## ECG 增强组件
 
-When ECG exists and is relevant, the Agent can insert:
+当 ECG 存在且与当前问题相关时，Agent 可以插入：
 
 ```json
 {
@@ -186,48 +186,48 @@ When ECG exists and is relevant, the Agent can insert:
 }
 ```
 
-## Question Generation Inputs
+## 问题生成输入
 
-Inputs:
+输入来源：
 
-- User historical questions
-- Insight button clicks
-- Pinned / hidden questions
-- Apple Health metric changes
-- Recent anomalies
-- Time of day / week / month
-- Permission availability
-- ECG events
-- User UI preference profile
-- Safety risk class
+- 用户历史问题
+- 洞察按钮点击行为
+- 用户固定或隐藏的问题
+- Apple Health 指标变化
+- 近期异常
+- 日期、时间、周期节点
+- HealthKit 权限状态
+- ECG 事件
+- 用户 UI 偏好
+- 安全风险等级
 
-## Button Ranking
+## 按钮排序
 
-MVP ranking can be rule-based plus Agent reordering:
+MVP 可以采用规则分数加 Agent 排序：
 
 ```text
 score =
-  user_frequency_score
-  + metric_change_score
-  + time_relevance_score
-  + permission_completeness_score
-  + preference_score
-  + ecg_event_score
-  - safety_risk_score
+  用户点击频率分
+  + 指标变化分
+  + 时间相关性分
+  + 权限完整度分
+  + 偏好分
+  + ECG 事件分
+  - 安全风险分
 ```
 
-## Display Intent Categories
+## 展示意图分类
 
-- Reading: summary card, highlight, evidence
-- Comparison: comparison table, metric delta grid
-- Decision: recommendation, risk list, next steps
-- Monitoring: dashboard, trend, anomaly list
-- Review: timeline, weekly report, change history
-- Professional ECG: waveform, RR interval, quality, details
+- 阅读型：摘要卡、重点高亮、证据说明
+- 比较型：对比表、指标变化表
+- 决策型：推荐方案、风险列表、下一步
+- 监控型：仪表盘、趋势、异常列表
+- 复盘型：时间线、周报、变更记录
+- 专业 ECG 型：波形、RR 间期、质量、专业细节
 
-## Preference Memory
+## 用户偏好记忆
 
-User statements can become UI profile fields:
+用户表达可以沉淀为 UI Profile：
 
 ```json
 {
@@ -241,27 +241,27 @@ User statements can become UI profile fields:
 }
 ```
 
-Preference examples:
+示例：
 
-- "以后恢复状态都用图表给我看。"
-- "睡眠相关问题默认显示时间线。"
-- "不要给我太多解释，只给结论和动作。"
-- "心脏相关页面默认展开证据。"
+- 以后恢复状态都用图表给我看。
+- 睡眠相关问题默认显示时间线。
+- 不要给我太多解释，只给结论和动作。
+- 心脏相关页面默认展开证据。
 
-## Safety Checker Requirements
+## 安全检查要求
 
-Before rendering schema:
+渲染前必须检查：
 
-- Reject unsupported block types or action types.
-- Downgrade diagnostic claims to non-diagnostic observations.
-- Add disclaimers for ECG and heart-related interpretations.
-- Check data permissions.
-- Mark confidence when data is incomplete.
-- Keep sensitive operations behind stable confirmation UI.
+- 不支持的组件类型或动作类型要拒绝或降级。
+- 诊断式表达要降级为非诊断观察。
+- ECG 和心脏相关解释要加入必要提醒。
+- 检查数据权限。
+- 数据不完整时标注置信度。
+- 敏感操作必须走稳定确认 UI。
 
-## iOS Rendering Model
+## iOS 渲染模型建议
 
-Suggested SwiftUI shape:
+SwiftUI 数据结构可以这样抽象：
 
 ```swift
 struct HealthPageSchema: Codable {

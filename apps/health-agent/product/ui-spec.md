@@ -1,29 +1,21 @@
-# Health Agent UI Spec
+# Health Agent UI 规范
 
-## UI Direction
+## UI 总方向
 
-The product should be a Today Health Home, not a metric dashboard and not a prompt launcher.
+产品首页应是 `Today Health Home`，不是指标 Dashboard，也不是 Prompt 启动器。
 
-The first screen should answer:
+第一屏需要回答：
 
 ```text
-How am I today?
-Why?
-What can I do or inspect next?
-Can ECG help me go deeper when relevant?
+我今天怎么样？
+为什么？
+我现在可以看什么或做什么？
+需要时，ECG 能不能帮我看得更深？
 ```
 
-## Information Architecture
+## 信息架构
 
-Recommended tabs:
-
-- Today
-- Explore
-- Heart
-- Reports
-- Me
-
-Chinese labels:
+建议底部 Tab：
 
 - 今日
 - 探索
@@ -31,21 +23,29 @@ Chinese labels:
 - 报告
 - 我的
 
-## Today Health Home
+对应英文可保留在代码或国际化键中：
 
-The home screen has five zones:
+- Today
+- Explore
+- Heart
+- Reports
+- Me
 
-1. Top status bar: date, Apple Health sync state, profile, permission state
-2. Today Health Hero: overall body state and main drivers
-3. Agent Discovery: one or two meaningful findings
-4. Health Modules: sleep, recovery, heart, workout, anomalies
-5. Smart Exploration: insight chips and health input
+## 今日首页结构
 
-## First Screen Wireframe
+首页分为五个区域：
+
+1. 顶部状态栏：日期、Apple Health 同步状态、头像、权限状态
+2. 今日健康 Hero：整体身体状态和主要驱动因素
+3. Agent 发现：一到两个有意义的发现
+4. 健康模块：睡眠、恢复、心脏、运动、异常
+5. 智能探索：洞察 chips 和健康输入框
+
+## 第一屏线框
 
 ```text
-Today
-May 1 · Apple Health synced
+今日
+5 月 1 日 · Apple Health 已同步
 
 今日身体状态
 偏弱
@@ -68,20 +68,20 @@ Agent 发现
 [睡眠影响心脏状态吗？]
 [运动是不是太多了？]
 
-Ask your health data...
+问问你的健康数据...
 ```
 
-## Today Health Hero
+## 今日健康 Hero
 
-Hero card fields:
+Hero 卡片字段：
 
-- Overall state: 良好 / 正常 / 偏弱 / 建议关注 / 数据不足
-- Composite score: recovery or daily readiness score
-- Main drivers: sleep, HRV, resting heart rate, activity, workout load
-- Primary actions: view reason, generate today's suggestion
-- Data confidence: sufficient / partial / missing key data
+- 整体状态：良好 / 正常 / 偏弱 / 建议关注 / 数据不足
+- 组合分数：恢复分或今日状态分
+- 主要驱动因素：睡眠、HRV、静息心率、活动、运动负荷
+- 主操作：查看原因、生成今日建议
+- 数据可信度：数据充分 / 部分数据 / 缺少关键数据
 
-Example:
+示例：
 
 ```text
 今日状态
@@ -89,27 +89,27 @@ Example:
 Recovery 62
 
 HRV -12%
-Sleep -42m
-RHR +4 bpm
+睡眠 -42m
+静息心率 +4 bpm
 
 主要原因：睡眠减少 + 运动负荷上升
 [查看完整分析]
 ```
 
-## Insight Buttons
+## 洞察按钮
 
-Insight buttons are not ordinary feature buttons. They are Health Agent shortcuts.
+洞察按钮不是普通功能按钮，而是 Health Agent 快捷指令。
 
-Each button contains:
+每个按钮包含：
 
-- Question title
-- Data subtitle
-- Status tag
-- Data sources
-- Priority signal
-- Optional ECG-enhanced marker
+- 问题标题
+- 数据摘要
+- 状态标签
+- 数据来源
+- 推荐优先级视觉
+- ECG 增强标识，可选
 
-Example:
+示例：
 
 ```text
 我最近恢复得好吗？
@@ -118,107 +118,107 @@ HRV 下降 · 静息心率略高
 建议查看
 ```
 
-Button states:
+按钮状态：
 
-- Normal
-- New discovery
-- Suggested
-- ECG enhancement available
-- Permission missing
-- Pinned by user
-- Low confidence / insufficient data
+- 普通
+- 新发现
+- 建议查看
+- ECG 增强可用
+- 权限不足
+- 用户固定
+- 低置信度或数据不足
 
-Long press actions:
+长按操作：
 
-- Edit this insight button
-- Pin to Today
-- Hide
-- Change default view style
-- Change time range
-- Change trigger condition
+- 编辑这个洞察按钮
+- 固定到今日首页
+- 隐藏
+- 更改默认展示风格
+- 更改时间范围
+- 更改触发条件
 
-## Dynamic Analysis Page
+## 动态分析页
 
-Every analysis page keeps a stable skeleton:
+每个分析页保持稳定骨架：
 
-1. User question
-2. Direct answer
-3. Key evidence
-4. Data visualization
-5. Explanation logic
-6. Next question chips
-7. Data source and confidence
+1. 用户问题
+2. 直接答案
+3. 关键证据
+4. 数据可视化
+5. 解释逻辑
+6. 下一步问题
+7. 数据来源和置信度
 
-Agent may dynamically choose:
+Agent 可以动态决定：
 
-- Which metrics to include
-- Which blocks to show
-- Block order
-- Explanation depth
-- Whether ECG is inserted
-- UI style mode
+- 使用哪些指标
+- 展示哪些组件
+- 组件顺序
+- 解释深浅
+- 是否插入 ECG
+- 使用哪种 UI 风格
 
-## UI Style Modes
+## UI 风格模式
 
-Supported MVP styles:
+MVP 支持：
 
-- Insight-first: conclusion, evidence, charts, next actions
-- Chart mode: trend charts, comparison charts, anomaly points
-- Timeline mode: daily sequence of sleep, HRV, heart rate, workout, ECG events
+- 结论优先：结论、证据、图表、下一步
+- 图表模式：趋势图、对比图、异常点
+- 时间线模式：按日期展示睡眠、HRV、心率、运动、ECG 事件
 
-Future styles:
+后续可扩展：
 
-- Minimal
-- Report
-- Professional ECG / quantified self
+- 极简模式
+- 报告模式
+- 专业 ECG / 量化模式
 
-## ECG UI Placement
+## ECG 在 UI 中的位置
 
-ECG should be an event enhancement layer, not the default home structure.
+ECG 是事件增强层，不是首页默认结构。
 
-Without ECG, heart pages use:
+无 ECG 时，心脏页使用：
 
-- Resting heart rate
+- 静息心率
 - HRV
-- Daytime heart rate changes
-- High / low heart rate events
-- Sleep
-- Workout
-- Blood oxygen / respiration where available
+- 日内心率变化
+- 高低心率事件
+- 睡眠
+- 运动
+- 血氧和呼吸，可用时加入
 
-With ECG, the page inserts:
+有 ECG 时，页面插入：
 
-- ECG episode card
-- ECG signal quality
-- ECG waveform
-- Rhythm stability
-- Apple classification explanation
-- Self-developed observations
-- Context before and after ECG
+- ECG 事件卡
+- ECG 信号质量
+- ECG 波形
+- 节律稳定性
+- Apple 分类解释
+- 自研观察点
+- ECG 前后上下文
 
-## ECG Detail Page
+## ECG 详情页
 
-Three layers:
+分三层展示。
 
-### User Layer
+### 普通用户层
 
-- Main observation
-- Signal quality
-- Average heart rate
-- Rhythm stability
-- Non-diagnostic disclaimer
-- Suggested next action
+- 主要观察
+- 信号质量
+- 平均心率
+- 节律稳定性
+- 非诊断提醒
+- 建议下一步
 
-### Evidence Layer
+### 证据层
 
-- ECG waveform
-- RR interval chart
-- Apple classification
-- Sleep / HRV / heart rate context
+- ECG 波形
+- RR 间期图
+- Apple 分类
+- 睡眠、HRV、心率上下文
 
-### Professional Layer
+### 专业层
 
-Collapsed by default:
+默认折叠：
 
 - RR interval variation
 - QRS duration estimate
@@ -227,42 +227,42 @@ Collapsed by default:
 - Baseline wander
 - Beat classification
 
-## Key Screens
+## 关键页面
 
-### Recovery Page
+### 恢复页
 
-Answers:
+回答：
 
 > 我最近是不是累了？恢复得好吗？
 
-Blocks:
+组件：
 
-- Recovery summary card
-- HRV trend
-- Resting heart rate trend
-- Sleep and workout timeline
-- Key anomaly dates
-- Next questions
+- 恢复结论卡
+- HRV 趋势
+- 静息心率趋势
+- 睡眠和运动时间线
+- 关键异常日期
+- 下一步问题
 
-### Heart Status Page
+### 心脏状态页
 
-Answers:
+回答：
 
 > 最近心脏状态稳定吗？
 
-Blocks:
+组件：
 
-- Heart status summary
-- Heart rate trend
-- HRV trend
-- High / low heart rate events
-- ECG event if available
-- Sleep and workout context
-- Next questions
+- 心脏状态概览
+- 心率趋势
+- HRV 趋势
+- 高低心率事件
+- ECG 事件，有数据时出现
+- 睡眠和运动上下文
+- 下一步问题
 
-### Anomaly Center
+### 异常中心
 
-Each anomaly becomes a clickable question:
+每个异常都变成可点击问题：
 
 ```text
 静息心率连续 4 天偏高
@@ -270,50 +270,50 @@ Each anomaly becomes a clickable question:
 [查看原因]
 ```
 
-### Relationship Exploration Page
+### 关系探索页
 
-Example question:
+示例问题：
 
 > 运动对睡眠有帮助吗？
 
-Blocks:
+组件：
 
-- Conclusion card
-- Workout day vs non-workout day comparison
-- Scatter plot
-- Timeline samples
-- Next questions
+- 结论卡
+- 运动日和非运动日对比
+- 散点图
+- 时间线样本
+- 下一步问题
 
-## Onboarding
+## 新用户引导
 
-Step 1: Choose focus areas:
+第一步：选择关注方向：
 
-- Sleep
-- Recovery
-- Heart
-- Workout
-- Stress proxy
+- 睡眠
+- 恢复
+- 心脏
+- 运动
+- 压力代理
 - ECG
-- Weight
-- Overall health
+- 体重
+- 整体健康
 
-Step 2: Request progressive HealthKit permissions based on selected areas.
+第二步：根据选择渐进式请求 HealthKit 权限。
 
-Step 3: Generate first insight buttons.
+第三步：生成第一批洞察按钮。
 
-Step 4: Choose UI preference:
+第四步：选择 UI 偏好：
 
-- Simple conclusion
-- More charts
-- Report style
-- Timeline review
-- Professional data mode
+- 简单结论
+- 图表多一点
+- 像报告一样
+- 按时间线复盘
+- 专业数据模式
 
-## Permission UX
+## 权限不足时的体验
 
-Do not show empty pages when data is missing.
+不要显示空页面，而要解释“解锁这个问题需要什么”。
 
-Show what can be unlocked:
+示例：
 
 ```text
 我最近恢复得好吗？
@@ -330,25 +330,25 @@ Show what can be unlocked:
 [授权健康数据]
 ```
 
-## Tone
+## 文案语气
 
-The UI should be calm, trustworthy, and non-alarming.
+整体应冷静、可信、不制造焦虑。
 
-Prefer:
+推荐：
 
-- "今天恢复偏弱。主要和睡眠减少、运动负荷上升有关。"
-- "最近心率略高，建议查看影响因素。"
-- "这次数据中有值得关注的心律相关信号。"
+- 今天恢复偏弱。主要和睡眠减少、运动负荷上升有关。
+- 最近心率略高，建议查看影响因素。
+- 这次数据中有值得关注的心律相关信号。
 
-Avoid:
+避免：
 
-- Fear-based labels
-- Diagnostic language
-- Dense medical jargon in the default layer
+- 恐吓式标签
+- 诊断式语言
+- 默认层展示过密医学术语
 
-## Component Library
+## 组件库
 
-Core components:
+核心组件：
 
 - `InsightButtonCard`
 - `InsightSummaryCard`
@@ -362,7 +362,7 @@ Core components:
 - `DataSourceCard`
 - `ConfidenceBadge`
 
-ECG components:
+ECG 组件：
 
 - `ECGEpisodeCard`
 - `ECGWaveformView`

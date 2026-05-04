@@ -1,16 +1,16 @@
-# HealthAgent iOS Project
+# HealthAgent iOS 工程目录
 
-This directory is reserved for the real Xcode project.
+这个目录用于放置真实的 Xcode 工程。
 
-Create the project on macOS with Xcode:
+请在 macOS 上用 Xcode 创建项目：
 
-- Product Name: `HealthAgent`
-- Interface: SwiftUI
-- Language: Swift
-- Bundle Identifier: `com.yourcompany.healthagent`
-- Minimum target: iOS 15+
+- Product Name：`HealthAgent`
+- Interface：SwiftUI
+- Language：Swift
+- Bundle Identifier：`com.yourcompany.healthagent`
+- 最低系统：iOS 15+
 
-Expected files after Xcode setup:
+创建完成后的预期结构：
 
 ```text
 apps/health-agent/ios/
@@ -19,10 +19,15 @@ apps/health-agent/ios/
   HealthAgent/
 ```
 
-CI already points at:
+当前 CI 配置指向：
 
-- Workspace: `HealthAgent.xcworkspace`
-- Xcode project: `HealthAgent.xcodeproj`
-- Scheme: `HealthAgent`
+- Workspace：`HealthAgent.xcworkspace`
+- Xcode Project：`HealthAgent.xcodeproj`
+- Scheme：`HealthAgent`
 
-Before the first CI build, make sure the scheme is shared and committed.
+第一次接入 CI 前，请确认：
+
+- Scheme 已设置为 shared
+- 工程文件已提交到仓库
+- Bundle ID 与 `apps/health-agent/ci/ios.json` 保持一致
+- 如果启用 TestFlight，证书、profile、App Store Connect App 已准备好

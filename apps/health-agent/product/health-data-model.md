@@ -1,47 +1,47 @@
-# Health Data Model
+# Health Agent 健康数据模型
 
-## Data Philosophy
+## 数据原则
 
-Health Agent should organize Apple Health data around user questions rather than raw metric pages.
+Health Agent 不按原始指标页组织体验，而按用户真正关心的问题组织健康数据。
 
-The app has three data classes:
+数据分三类：
 
-| Type | Examples | Product Role | ECG Dependency |
+| 类型 | 示例 | 产品角色 | 是否依赖 ECG |
 | --- | --- | --- | --- |
-| Continuous data | Heart rate, resting heart rate, HRV, sleep, steps, active energy, respiratory rate, blood oxygen | Daily analysis foundation | No |
-| Event data | Workouts, symptoms, abnormal heart events, user notes | Explains what happened around a time point | No |
-| Enhancement data | ECG waveform, ECG classification, rhythm features | Deep interpretation of key heart-related events | Requires ECG |
+| 连续数据 | 心率、静息心率、HRV、睡眠、步数、活动能量、呼吸频率、血氧 | 日常分析底座 | 否 |
+| 事件数据 | 运动记录、症状、异常心率事件、用户备注 | 解释某个时间点发生了什么 | 否 |
+| 增强数据 | ECG 波形、ECG 分类、节律特征 | 深度解释关键心脏事件 | 需要 ECG |
 
-## HealthKit Access Principle
+## HealthKit 访问原则
 
-HealthKit access must be progressive and purpose-driven.
+HealthKit 权限必须渐进、明确、按需请求。
 
-The app should request only the data needed for the user's selected question or module. It should explain:
+App 应解释：
 
-- What data is needed
-- Why it is needed
-- What analysis it unlocks
-- Whether the analysis can run with partial data
+- 需要什么数据
+- 为什么需要这些数据
+- 这些数据能解锁什么分析
+- 部分数据缺失时还能分析到什么程度
 
-## Privacy Boundary
+## 隐私边界
 
-Default:
+默认策略：
 
-- Raw HealthKit data stays on device.
-- Derived metrics and local summaries are used for rendering.
-- Server/Agent receives only user-approved summaries when needed.
+- 原始 HealthKit 数据留在设备本地。
+- 洞察页优先使用本地派生指标和摘要。
+- 服务端或 Agent 只接收用户明确同意的摘要数据。
 
-User controls:
+用户控制：
 
-- View data sources used in every insight.
-- Delete analysis history.
-- Delete preference memory.
-- Revoke permissions.
-- Avoid upload of raw ECG waveform unless explicitly approved for a clearly defined purpose.
+- 查看每次洞察使用的数据来源。
+- 删除分析历史。
+- 删除偏好记忆。
+- 撤销 HealthKit 权限。
+- 未经明确授权，不上传原始 ECG 波形。
 
-## Normalized Metric Model
+## 标准化指标模型
 
-Each HealthKit metric should be normalized into a stable app model:
+每个 HealthKit 指标应标准化为稳定模型：
 
 ```text
 metric_id
@@ -56,7 +56,7 @@ available_range
 source_devices
 ```
 
-Example metric IDs:
+示例指标 ID：
 
 - `heart_rate`
 - `resting_heart_rate`
@@ -73,131 +73,131 @@ Example metric IDs:
 - `mindful_minutes`
 - `ecg`
 
-## Derived Feature Layer
+## 派生特征层
 
-The Agent should not reason directly over raw samples. The app should derive structured features:
+Agent 不应直接分析原始样本。App 应先生成结构化特征：
 
-- 7-day average
-- 30-day average
-- 90-day trend
-- Personal baseline
-- Week-over-week delta
-- Deviation from baseline
-- Anomaly points
-- Variability
-- Missing data windows
-- Recovery score
-- Sleep debt
-- Training load
-- Heart rate recovery
-- Correlation candidates
-- Good-state and bad-state sample days
+- 7 日均值
+- 30 日均值
+- 90 日趋势
+- 个人基线
+- 周环比变化
+- 基线偏离
+- 异常点
+- 波动性
+- 缺失数据窗口
+- 恢复评分
+- 睡眠债
+- 运动负荷
+- 心率恢复
+- 相关性候选
+- 好状态日和差状态日样本
 
-## Data Packs
+## 数据组合包
 
-### Recovery Pack
+### Recovery Pack 恢复组合
 
-Metrics:
+指标：
 
 - HRV
-- Resting heart rate
-- Sleep duration
-- Sleep regularity
-- Workout load
-- Active energy
+- 静息心率
+- 睡眠时长
+- 睡眠规律性
+- 运动负荷
+- 活动能量
 
-Answers:
+回答：
 
 - 我最近恢复得好吗？
 - 运动是不是太多了？
 - 为什么这周状态差？
 
-### Sleep Pack
+### Sleep Pack 睡眠组合
 
-Metrics:
+指标：
 
-- Sleep stages
-- Sleep duration
-- Bedtime and wake time
-- Night heart rate
-- Respiratory rate
-- Blood oxygen where available
+- 睡眠阶段
+- 睡眠时长
+- 入睡和醒来时间
+- 夜间心率
+- 呼吸频率
+- 血氧，可用时加入
 
-Answers:
+回答：
 
 - 昨晚睡得怎么样？
 - 为什么我睡不好？
 - 睡眠影响心脏状态吗？
 
-### Heart Pack
+### Heart Pack 心脏组合
 
-Metrics:
+指标：
 
-- Heart rate
-- Resting heart rate
+- 心率
+- 静息心率
 - HRV
-- Walking heart rate
-- Heart rate recovery
-- ECG where available
+- 步行心率
+- 心率恢复
+- ECG，可用时加入
 
-Answers:
+回答：
 
 - 最近心脏状态稳定吗？
 - 最近心率为什么偏高？
 - 最近心律稳定吗？
 
-### Training Load Pack
+### Training Load Pack 运动负荷组合
 
-Metrics:
+指标：
 
-- Workouts
-- Active energy
-- Exercise minutes
-- Heart rate zones
-- Steps
+- 运动记录
+- 活动能量
+- 运动分钟数
+- 心率区间
+- 步数
 - HRV
-- Resting heart rate
+- 静息心率
 
-Answers:
+回答：
 
 - 运动是不是太多了？
 - 运动后恢复好吗？
 - 运动对睡眠有帮助吗？
 
-### Anomaly Pack
+### Anomaly Pack 异常组合
 
-Metrics:
+指标：
 
-- All authorized core metrics
-- Personal baseline
-- Missing data
-- Device source quality
+- 所有已授权核心指标
+- 个人基线
+- 缺失数据
+- 设备来源质量
 
-Answers:
+回答：
 
 - 最近有什么异常？
 - 我该关注哪个指标？
 
-### Weekly Review Pack
+### Weekly Review Pack 周期复盘组合
 
-Metrics:
+指标：
 
-- Sleep
-- Heart rate
+- 睡眠
+- 心率
 - HRV
-- Workouts
-- Activity
-- Anomalies
-- ECG events where available
+- 运动
+- 活动
+- 异常
+- ECG 事件，可用时加入
 
-Answers:
+回答：
 
 - 这周健康状态总结
 - 下周我应该关注什么？
 
-## ECG Episode Model
+## ECG Episode 模型
 
-Every ECG should be represented as an event:
+每次 ECG 都应抽象为事件对象：
 
 ```text
 ecg_id
@@ -216,41 +216,41 @@ symptom_tags
 episode_summary
 ```
 
-ECG waveform and advanced analysis should be handled carefully because it is highly sensitive health data.
+ECG 波形和高级分析属于高度敏感健康数据，必须谨慎处理。
 
-## ECG Feature Layer
+## ECG 特征层
 
-Potential self-developed ECG features:
+可自研的 ECG 特征：
 
-- Signal quality
-- Noise level
-- Baseline wander
-- RR interval sequence
-- Rhythm regularity
-- P wave observations
-- QRS observations
-- T wave observations
-- QT / QTc estimate
-- Beat classification
-- Comparison to prior ECGs
+- 信号质量
+- 噪声水平
+- 基线漂移
+- RR 间期序列
+- 节律规律性
+- P 波观察
+- QRS 观察
+- T 波观察
+- QT / QTc 估计
+- 心搏分类
+- 与历史 ECG 对比
 
-All outputs should be phrased as observations, not diagnosis.
+所有输出都应表达为“观察点”，不能表达为诊断。
 
-## ECG Context Window
+## ECG 上下文窗口
 
-For ECG event explanation, collect context around the event:
+ECG 事件解释应拉取事件前后的健康上下文：
 
-| Window | Data | Purpose |
+| 时间窗口 | 数据 | 目的 |
 | --- | --- | --- |
-| Previous 24 hours | Sleep, workout, HRV, heart rate, blood oxygen | Find possible background factors |
-| Previous 2 hours | Heart rate, activity, symptoms, caffeine/alcohol tags if user supplied | Find immediate context |
-| ECG duration | Waveform, heart rate, quality | Analyze the ECG event itself |
-| Next 2 hours | Heart rate and symptom state | See whether the event persisted |
-| Next 24 hours | HRV, sleep, resting heart rate | See follow-up impact |
+| 前 24 小时 | 睡眠、运动、HRV、心率、血氧 | 找背景因素 |
+| 前 2 小时 | 心率、活动、症状、咖啡因或饮酒标签 | 找直接上下文 |
+| ECG 期间 | 波形、心率、信号质量 | 分析事件本体 |
+| 后 2 小时 | 心率和症状状态 | 看事件是否持续 |
+| 后 24 小时 | HRV、睡眠、静息心率 | 看后续影响 |
 
-## ECG-Enhanced Questions
+## ECG 增强问题
 
-Questions that can run without ECG but improve with ECG:
+不依赖 ECG，但有 ECG 时增强：
 
 - 最近心脏状态稳定吗？
 - 为什么我最近容易心慌？
@@ -258,7 +258,7 @@ Questions that can run without ECG but improve with ECG:
 - 睡眠差会影响心脏状态吗？
 - 最近心率为什么偏高？
 
-ECG-only questions:
+必须有 ECG 才能回答：
 
 - 解读我最新一次心电
 - 这次 ECG 和上次有什么不同？
@@ -266,9 +266,9 @@ ECG-only questions:
 - 这次心电的信号质量怎么样？
 - 最近几次 ECG 有什么变化？
 
-## Required iOS Data Services
+## iOS 数据服务模块
 
-Suggested module split:
+建议模块拆分：
 
 ```text
 HealthKit/
@@ -295,19 +295,19 @@ Models/
   UserPreference.swift
 ```
 
-## MVP Data Requirements
+## MVP 数据优先级
 
-For the first version, prioritize:
+第一版优先支持：
 
-- Sleep
+- 睡眠
 - HRV
-- Resting heart rate
-- Heart rate
-- Active energy
-- Workouts
-- Steps
-- Respiratory rate where available
-- Blood oxygen where available
-- ECG if available
+- 静息心率
+- 心率
+- 活动能量
+- 运动记录
+- 步数
+- 呼吸频率，可用时加入
+- 血氧，可用时加入
+- ECG，可用时加入
 
-The app should still be useful if ECG is unavailable.
+即使没有 ECG，App 也必须依然有日常价值。

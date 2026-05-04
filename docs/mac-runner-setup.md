@@ -1,4 +1,4 @@
-下面是 **Mac self-hosted runner 的具体配置步骤**。你按这个做，就能让 GitHub Actions 把 iOS 打包任务派发到你这台 Mac 上。
+﻿下面是 **Mac self-hosted runner 的具体配置步骤**。你按这个做，就能让 GitHub Actions 把 iOS 打包任务派发到你这台 Mac 上。
 
 ---
 

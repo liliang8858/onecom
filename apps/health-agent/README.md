@@ -1,49 +1,55 @@
 # Health Agent iOS
 
-Health Agent is an iOS app built around Apple Health continuous data and ECG-enhanced health intelligence.
+Health Agent 是一个围绕 Apple Health 连续健康数据和 ECG 心电增强智能构建的 iOS App。
 
-It is not a traditional health dashboard. The app starts from a daily Today Health Home, detects what the user may care about, and turns health data into interactive insight flows.
+它不是传统健康 Dashboard。它的首页应从 `Today Health Home` 开始，先告诉用户“今天身体状态怎么样”，再把值得关注的问题、Agent 发现和深度分析路径组织起来。
 
-## Product Definition
+## 产品定义
 
-Health Agent with ECG Intelligence:
+正式定位：
 
-> A health Agent app built on continuous Apple Health data, using ECG as high-value evidence for key event interpretation.
+```text
+Health Agent with ECG Intelligence
+```
 
-Daily Apple Health data answers:
+中文定义：
 
-- How am I today?
-- Why do I feel this way?
-- What changed recently?
-- What should I look at next?
+> 一个以 Apple Health 连续健康数据为底座、以 ECG 心电作为关键事件增强证据的智能健康 Agent App。
 
-ECG adds depth when available:
+日常 Apple Health 数据负责回答：
 
-- What does the latest ECG show?
-- How does this ECG compare with previous ones?
-- What happened before and after this ECG event?
-- Is this heart-related signal connected to sleep, recovery, workout load, or symptoms?
+- 我今天怎么样？
+- 为什么今天状态这样？
+- 最近什么指标变了？
+- 我现在最应该关注什么？
 
-## Core Experience
+ECG 在有数据时提供增强解释：
 
-- Today Health Home
-- Agent-generated insight buttons
-- Dynamic SwiftUI insight pages
-- Apple Health continuous data analysis
-- ECG-enhanced event explanation
-- Privacy-first local health data processing
+- 最新一次 ECG 显示了什么？
+- 这次 ECG 和上次有什么不同？
+- 这次 ECG 前后发生了什么？
+- 这次心脏相关信号是否和睡眠、恢复、运动负荷或症状有关？
 
-## MVP
+## 核心体验
 
-- Today status overview
-- Recovery analysis
-- Sleep analysis
-- Weekly state explanation
-- Anomaly center
-- Heart status, with ECG enhancement when available
-- Latest ECG interpretation when ECG data exists
+- Today Health Home 今日健康首页
+- Agent 生成的洞察按钮
+- 动态 SwiftUI 分析页
+- Apple Health 连续数据分析
+- ECG 增强事件解释
+- 隐私优先的本地健康数据处理
 
-## Directory Layout
+## MVP 范围
+
+- 今日状态概览
+- 恢复状态分析
+- 睡眠分析
+- 本周状态解释
+- 异常中心
+- 心脏状态分析，存在 ECG 时自动增强
+- 最新 ECG 解读，仅在 ECG 数据存在时出现
+
+## 目录结构
 
 ```text
 apps/health-agent/
@@ -59,20 +65,20 @@ apps/health-agent/
     health-data-model.md
 ```
 
-## iOS Project
+## iOS 工程
 
-Target Xcode project:
+目标 Xcode 工程：
 
-- Product Name: `HealthAgent`
-- Interface: SwiftUI
-- Language: Swift
-- Bundle Identifier: `com.yourcompany.healthagent`
-- Dependency manager: Swift Package Manager
+- Product Name：`HealthAgent`
+- Interface：SwiftUI
+- Language：Swift
+- Bundle Identifier：`com.yourcompany.healthagent`
+- 依赖管理：Swift Package Manager
 
-The real Xcode project should be created on macOS and placed under:
+真实 Xcode 工程需要在 macOS 上创建，并放入：
 
 ```text
 apps/health-agent/ios/
 ```
 
-CI is configured with `upload: none` until signing, Bundle ID, App Store Connect, and TestFlight are ready.
+当前 CI 中 `upload` 设置为 `none`。等 Bundle ID、签名、App Store Connect App 和 TestFlight 都准备好后，再切换为 `testflight`。
