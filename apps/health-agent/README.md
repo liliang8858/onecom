@@ -81,4 +81,6 @@ apps/health-agent/
 apps/health-agent/ios/
 ```
 
+当前已提供 `apps/health-agent/ios/project.yml`，可在 Mac 上用 XcodeGen 生成 `HealthAgent.xcodeproj`。
+
 当前 CI 中 `upload` 设置为 `none`。等 Bundle ID、签名、App Store Connect App 和 TestFlight 都准备好后，再切换为 `testflight`。

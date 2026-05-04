@@ -1,0 +1,95 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build one iOS project from the monorepo matrix"
+  lane :monorepo_build do
+    setup_ci
+
+    project_id = ENV.fetch("PROJECT_ID")
+    project_path = ENV.fetch("PROJECT_PATH")
+    workspace = ENV["WORKSPACE_NAME"]
+    xcodeproj = ENV["XCODEPROJ_NAME"]
+    scheme = ENV.fetch("SCHEME_NAME")
+    configuration = ENV.fetch("CONFIGURATION")
+    export_method = ENV.fetch("EXPORT_METHOD")
+    bundle_id = ENV.fetch("BUNDLE_ID")
+    dependency = ENV["DEPENDENCY"]
+    upload_target = ENV["UPLOAD_TARGET"]
+
+    if dependency == "cocoapods"
+      Dir.chdir(project_path) do
+        sh("bundle exec pod install || pod install")
+      end
+    end
+
+    if dependency == "spm"
+      UI.message("Using Swift Package Manager for #{project_id}")
+    end
+
+    project_arg = nil
+    if workspace && !workspace.empty?
+      project_arg = "-workspace #{File.join(project_path, workspace)}"
+    elsif xcodeproj && !xcodeproj.empty?
+      project_arg = "-project #{File.join(project_path, xcodeproj)}"
+    else
+      UI.user_error!("Either workspace or xcodeproj must be provided for #{project_id}")
+    end
+
+    if upload_target == "none"
+      sh(
+        "xcodebuild #{project_arg} " \
+        "-scheme #{scheme} " \
+        "-configuration #{configuration} " \
+        "-destination 'generic/platform=iOS Simulator' " \
+        "CODE_SIGNING_ALLOWED=NO build"
+      )
+      next
+    end
+
+    if upload_target == "testflight"
+      match(
+        type: "appstore",
+        app_identifier: bundle_id,
+        readonly: true
+      )
+    else
+      UI.message("Skipping match because UPLOAD_TARGET=#{upload_target}")
+    end
+
+    build_number = ENV["GITHUB_RUN_NUMBER"] || Time.now.strftime("%Y%m%d%H%M")
+    output_dir = File.join("build", project_id)
+
+    build_options = {
+      scheme: scheme,
+      configuration: configuration,
+      export_method: export_method,
+      clean: true,
+      output_directory: output_dir,
+      output_name: "#{project_id}.ipa",
+      xcargs: "CURRENT_PROJECT_VERSION=#{build_number}"
+    }
+
+    if workspace && !workspace.empty?
+      build_options[:workspace] = File.join(project_path, workspace)
+    else
+      build_options[:project] = File.join(project_path, xcodeproj)
+    end
+
+    build_app(build_options)
+
+    next unless upload_target == "testflight"
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
+      is_key_content_base64: false
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: File.join(output_dir, "#{project_id}.ipa"),
+      skip_waiting_for_build_processing: true
+    )
+  end
+end

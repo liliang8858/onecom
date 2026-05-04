@@ -84,6 +84,14 @@ apps/health-agent/ci/ios.json
 
 注意：当前 `apps/health-agent/ios/` 只有说明文件，真实 `HealthAgent.xcodeproj` / `HealthAgent.xcworkspace` 需要在 macOS Xcode 中创建后放入该目录。现阶段不能直接打包。
 
+2026-05-04 更新：`apps/health-agent/ios/HealthAgent/` 已加入 SwiftUI 源码雏形，包含 App、Features、Components、Agent、Renderer、Models、Resources/Assets.xcassets 等目录。当前仍没有真实 Xcode project/workspace，但源码可迁入 Xcode 工程。
+
+2026-05-04 更新：`apps/health-agent/product/ui/` 已加入视觉系统、高保真 UI 图和 App 图片资产。生成的 UI 图位于 `mockups/`，可用图片资产位于 `assets/`，并已复制到 iOS `Assets.xcassets`。
+
+2026-05-04 更新：根级 CI/CD 骨架已落地，包括 `ci/discover_ios_projects.py`、`.github/workflows/ios-monorepo-build.yml`、`fastlane/Fastfile`、`fastlane/Matchfile`、`Gemfile`。`health-agent` 当前 `upload` 为 `none`，Fastlane 会走无签名 iOS Simulator 构建验证；切到 `testflight` 后才走 match、归档和上传。
+
+2026-05-04 更新：新增 `scripts/validate_health_agent.ps1`，用于校验 Health Agent 的 `ios.json`、Asset Catalog、plist、entitlements、项目发现脚本、Swift 静态危险模式、UI 图数量。新增 `.gitignore`，忽略 Xcode 生成物、DerivedData、Fastlane 构建产物和 Python 缓存。
+
 ## 目标仓库结构
 
 文档规划的目标结构如下：

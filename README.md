@@ -25,6 +25,22 @@ OneCom 是一个 iOS Monorepo 方案，将多个 iOS 应用统一管理在同一
 |------|------|------|---------|
 | Health Agent iOS | `apps/health-agent/` | Apple Health 连续数据 + ECG 增强的智能健康 Agent App | `apps/health-agent/ci/ios.json` |
 
+当前根级 CI/CD 骨架已包含：
+
+- `ci/discover_ios_projects.py`
+- `.github/workflows/ios-monorepo-build.yml`
+- `fastlane/Fastfile`
+- `fastlane/Matchfile`
+- `Gemfile`
+
+`health-agent` 当前 `upload` 为 `none`，CI 会优先做无签名模拟器构建验证。准备好证书、Team、Bundle ID 和 App Store Connect 后，再切换为 TestFlight 上传。
+
+本地结构校验：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\validate_health_agent.ps1
+```
+
 ### 核心特性
 
 - **零配置发现** — 新增子项目只需添加 `apps/<name>/ci/ios.json`，CI 自动扫描识别

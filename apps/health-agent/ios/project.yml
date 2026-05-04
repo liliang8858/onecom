@@ -1,0 +1,46 @@
+name: HealthAgent
+options:
+  bundleIdPrefix: com.yourcompany
+  deploymentTarget:
+    iOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+targets:
+  HealthAgent:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: HealthAgent
+        excludes:
+          - Resources
+    resources:
+      - path: HealthAgent/Resources/Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.yourcompany.healthagent
+        INFOPLIST_FILE: HealthAgent/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_ENTITLEMENTS: HealthAgent/Resources/HealthAgent.entitlements
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: false
+        ENABLE_USER_SCRIPT_SANDBOXING: true
+    info:
+      path: HealthAgent/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Health Agent
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen:
+          UIColorName: ""
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UIRequiredDeviceCapabilities:
+          - armv7
+        NSHealthShareUsageDescription: Health Agent 会在你授权后读取睡眠、心率、HRV、运动和 ECG 等数据，用于生成非诊断化健康洞察。
+        NSHealthUpdateUsageDescription: Health Agent 当前不会写入健康数据，未来如需写入会单独说明用途并请求授权。

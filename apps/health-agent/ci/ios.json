@@ -2,7 +2,7 @@
   "id": "health-agent",
   "name": "Health Agent iOS",
   "project_path": "apps/health-agent/ios",
-  "workspace": "HealthAgent.xcworkspace",
+  "workspace": "",
   "xcodeproj": "HealthAgent.xcodeproj",
   "scheme": "HealthAgent",
   "configuration": "Release",

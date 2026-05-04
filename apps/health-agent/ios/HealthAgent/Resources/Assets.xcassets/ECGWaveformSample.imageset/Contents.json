@@ -1,0 +1,13 @@
+{
+  "images" : [
+    {
+      "filename" : "ecg-waveform-sample.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
