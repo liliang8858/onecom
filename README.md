@@ -57,16 +57,12 @@ powershell -ExecutionPolicy Bypass -File scripts\validate_health_agent.ps1
 ```
 onecom/
 ├── apps/                           # 应用目录
-│   ├── shop/                       #   商城应用
-│   │   ├── ios/                    #     Xcode 工程
-│   │   └── ci/
-│   │       └── ios.json            #     构建清单
-│   ├── driver/                     #   司机端应用
-│   │   ├── ios/
-│   │   └── ci/ios.json
-│   └── customer/                   #   客户端应用
-│       ├── ios/
-│       └── ci/ios.json
+│   └── health-agent/               #   Apple Health + ECG 智能健康 Agent
+│       ├── h5/                     #     H5 高保真交互原型
+│       ├── ios/                    #     SwiftUI 源码 + XcodeGen 配置
+│       ├── product/                #     PRD、UI、Agent Schema、数据模型
+│       └── ci/
+│           └── ios.json            #     构建清单
 ├── shared/                         # 共享代码 / 公共组件
 ├── ci/
 │   └── discover_ios_projects.py    # 子项目自动发现脚本

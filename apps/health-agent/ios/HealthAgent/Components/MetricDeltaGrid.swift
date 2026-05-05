@@ -31,7 +31,7 @@ struct MetricDeltaGrid: View {
                 .padding(14)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(metric.color.opacity(0.08))
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             }
         }
     }

@@ -30,17 +30,28 @@ HealthKitPermissionManager.swift
 HealthDataStore.swift
 ```
 
-真实实现建议新增：
+真实实现入口：
 
 ```text
-LiveHealthDataStore.swift
+HealthKitHealthDataStore.swift
 ```
 
-并实现：
+当前已实现授权范围内的基础查询：
 
 - `fetchDailySnapshot()`
 - `fetchMetricSeries(metricID:range:)`
 - `fetchLatestECG()`
+
+支持的第一批真实指标包括：
+
+- HRV
+- 静息心率
+- 心率
+- 活动能量
+- 睡眠时长
+- 最新 ECG 元数据
+
+MVP 阶段 UI 默认仍使用 `MockHealthDataStore`，方便在无真机 HealthKit 权限的环境中验证界面。真机接入时可以把查询服务的默认 store 切换为 `HealthKitHealthDataStore`，同时补齐权限请求、空状态和错误态。
 
 ## 3. ECG
 

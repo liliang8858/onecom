@@ -49,9 +49,24 @@ apps/health-agent/ios/HealthAgent/Resources/Assets.xcassets/
 - `TodayHeroBackground`
 - `ECGWaveformSample`
 
+## H5 原型复用
+
+H5 高保真原型位于：
+
+```text
+apps/health-agent/h5/
+```
+
+它复用本目录中的两张 App 图片资产，并提供移动视口截图：
+
+```text
+apps/health-agent/h5/screenshots/today-home-h5.png
+```
+
 ## 设计原则
 
 - 首页先回答“我今天怎么样”。
 - ECG 作为证据层出现，不作为所有分析的默认入口。
 - 所有健康表达保持非诊断化。
 - 图表和数据卡保持克制，不制造医疗焦虑。
+- SwiftUI 与 H5 的卡片类容器统一使用 8px 圆角。

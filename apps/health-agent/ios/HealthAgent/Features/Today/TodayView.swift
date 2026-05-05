@@ -37,7 +37,7 @@ struct TodayView: View {
                 Text("今日")
                     .font(.system(size: 44, weight: .bold, design: .rounded))
                     .foregroundStyle(HAColor.primaryText)
-                Text("5 月 18 日 · Apple Health 已同步")
+                Text("5 月 5 日 · 星期二 · Apple Health 已同步")
                     .font(.subheadline)
                     .foregroundStyle(HAColor.secondaryText)
             }

@@ -41,7 +41,7 @@ struct OnboardingView: View {
                                     .padding(12)
                                     .background(selectedFocus.contains(area) ? HAColor.primaryGreen.opacity(0.12) : HAColor.border.opacity(0.35))
                                     .foregroundStyle(selectedFocus.contains(area) ? HAColor.primaryGreen : HAColor.secondaryText)
-                                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                                 }
                                 .buttonStyle(.plain)
                             }

@@ -1,6 +1,6 @@
 # OneCom 项目记忆
 
-更新时间：2026-05-03
+更新时间：2026-05-05
 
 ## 全局语言规则
 
@@ -37,11 +37,13 @@ OneCom 是一个面向多 iOS 应用的 monorepo 方案。核心目标是把多�
 当前存在目录：
 
 - `apps/`
+- `ci/`
 - `docs/`
+- `fastlane/`
+- `.github/workflows/`
+- `scripts/`
 
-`apps/health-agent/` 已作为第一个子 app 初始化。文档中提到的根级 `shared/`、`ci/`、`fastlane/`、`.github/workflows/`、`Gemfile` 等，目前还没有实际落地到仓库。
-
-因此当前项目更准确地说是：已经有第一个产品子项目和 CI manifest 的 iOS monorepo 方案仓库，但尚未生成可运行的根级 CI/CD 工程骨架，也尚未加入真实 Xcode 工程。
+`apps/health-agent/` 已作为第一个子 app 初始化。根级 CI/CD 骨架已经落地；Health Agent iOS 端已经有 SwiftUI 源码、资源目录和 XcodeGen `project.yml`，可在 Mac 上生成 `HealthAgent.xcodeproj` 后编译。
 
 ## 已初始化子项目：Health Agent
 
@@ -75,22 +77,26 @@ apps/health-agent/ci/ios.json
 - `id`: `health-agent`
 - `name`: `Health Agent iOS`
 - `project_path`: `apps/health-agent/ios`
-- `workspace`: `HealthAgent.xcworkspace`
+- `workspace`: 空字符串，当前优先使用 `xcodeproj`
 - `xcodeproj`: `HealthAgent.xcodeproj`
 - `scheme`: `HealthAgent`
 - `bundle_id`: `com.yourcompany.healthagent`
 - `dependency`: `spm`
 - `upload`: `none`
 
-注意：当前 `apps/health-agent/ios/` 只有说明文件，真实 `HealthAgent.xcodeproj` / `HealthAgent.xcworkspace` 需要在 macOS Xcode 中创建后放入该目录。现阶段不能直接打包。
+注意：当前不提交生成后的 `HealthAgent.xcodeproj`。Mac 构建前应先在 `apps/health-agent/ios/` 下执行 `xcodegen generate`，由 `project.yml` 生成 Xcode 工程。
 
-2026-05-04 更新：`apps/health-agent/ios/HealthAgent/` 已加入 SwiftUI 源码雏形，包含 App、Features、Components、Agent、Renderer、Models、Resources/Assets.xcassets 等目录。当前仍没有真实 Xcode project/workspace，但源码可迁入 Xcode 工程。
+2026-05-04 更新：`apps/health-agent/ios/HealthAgent/` 已加入 SwiftUI 源码雏形，包含 App、Features、Components、Agent、Renderer、Models、Resources/Assets.xcassets 等目录。当前使用 XcodeGen 管理工程文件。
 
 2026-05-04 更新：`apps/health-agent/product/ui/` 已加入视觉系统、高保真 UI 图和 App 图片资产。生成的 UI 图位于 `mockups/`，可用图片资产位于 `assets/`，并已复制到 iOS `Assets.xcassets`。
 
 2026-05-04 更新：根级 CI/CD 骨架已落地，包括 `ci/discover_ios_projects.py`、`.github/workflows/ios-monorepo-build.yml`、`fastlane/Fastfile`、`fastlane/Matchfile`、`Gemfile`。`health-agent` 当前 `upload` 为 `none`，Fastlane 会走无签名 iOS Simulator 构建验证；切到 `testflight` 后才走 match、归档和上传。
 
 2026-05-04 更新：新增 `scripts/validate_health_agent.ps1`，用于校验 Health Agent 的 `ios.json`、Asset Catalog、plist、entitlements、项目发现脚本、Swift 静态危险模式、UI 图数量。新增 `.gitignore`，忽略 Xcode 生成物、DerivedData、Fastlane 构建产物和 Python 缓存。
+
+2026-05-05 更新：新增 `apps/health-agent/h5/` 高保真交互原型，使用原生 HTML/CSS/JS 实现 Today/探索/心脏/报告/我的 Tab、洞察详情页、ECG 详情页、异常中心和 Onboarding。H5 复用 `today-hero-background.png` 与 `ecg-waveform-sample.png`，并已生成 `screenshots/today-home-h5.png` 作为移动视口预览。SwiftUI 与 H5 卡片类圆角已统一收紧到 8px，保持健康工具的克制感。
+
+2026-05-05 更新：新增 `HealthKitHealthDataStore.swift`，预留真实 HealthKit 查询实现，覆盖 HRV、静息心率、心率、活动能量、睡眠时长和最新 ECG 元数据。MVP UI 默认仍使用 mock store，方便在无真机权限环境中开发；真机接入时可切换查询服务的 store。
 
 ## 目标仓库结构
 
@@ -263,9 +269,9 @@ Mac 基础要求：
 
 ## 重要风险和后续注意事项
 
-- 当前仓库还没有实际 CI 脚本和 workflow，不能直接运行 GitHub Actions 打包。
+- 当前仓库已经有 CI 脚本和 workflow；真实 iOS 编译仍依赖 Mac runner 上安装 Xcode、XcodeGen、Bundler 和 Fastlane。
 - `README.md` 和 `docs/` 内容是 UTF-8 中文；PowerShell 默认输出可能出现乱码，读取时建议设置 UTF-8 输出。
-- 后续落地时，应优先实现 `ci/discover_ios_projects.py`、`.github/workflows/ios-monorepo-build.yml`、`fastlane/Fastfile`、`Gemfile`。
+- 后续落地重点是用 Mac/Xcode 环境执行 `xcodegen generate` 和 CI 构建验证，并补齐 Apple Developer Team、签名、Bundle ID 与 App Store Connect 配置。
 - 新增真实 iOS app 前，应先确认 Xcode scheme 已 shared，Bundle ID 已在 Apple Developer / App Store Connect 侧准备好。
 - 每个新 app 第一次上 CI 前，应由管理员执行一次 `fastlane match appstore -a <bundle_id>` 准备签名。
 - CI 中处理 App Store Connect API key 和 match 密码时，必须只通过 GitHub Secrets 注入，不要提交到仓库。

@@ -38,9 +38,9 @@ struct HACard<Content: View>: View {
         content
             .padding(padding)
             .background(background)
-            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay {
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .stroke(HAColor.border.opacity(0.8), lineWidth: 1)
             }
     }

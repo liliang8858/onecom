@@ -46,9 +46,9 @@ struct TodayHealthHeroCard: View {
                             .padding(.vertical, 14)
                             .background(.white.opacity(0.18))
                             .foregroundStyle(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                             .overlay {
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                RoundedRectangle(cornerRadius: 8, style: .continuous)
                                     .stroke(.white.opacity(0.42), lineWidth: 1)
                             }
                     }
@@ -61,14 +61,14 @@ struct TodayHealthHeroCard: View {
                             .padding(.vertical, 14)
                             .background(.white)
                             .foregroundStyle(HAColor.primaryGreen)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     }
                 }
             }
             .padding(22)
         }
         .frame(height: 354)
-        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 }
 

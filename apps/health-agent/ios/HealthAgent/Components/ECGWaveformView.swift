@@ -7,8 +7,8 @@ struct ECGWaveformView: View {
                 .resizable()
                 .scaledToFill()
                 .opacity(0.92)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .stroke(HAColor.ecgRed.opacity(0.16), lineWidth: 1)
         }
     }

@@ -56,13 +56,28 @@ apps/health-agent/
   README.md
   ci/
     ios.json
+  h5/
+    index.html
+    styles.css
+    app.js
   ios/
     README.md
+    project.yml
+    HealthAgent/
+      App/
+      Features/
+      Components/
+      Agent/
+      Renderer/
+      HealthKit/
+      Models/
+      Resources/
   product/
     prd.md
     ui-spec.md
     agent-schema.md
     health-data-model.md
+    ui/
 ```
 
 ## iOS 工程
@@ -84,3 +99,46 @@ apps/health-agent/ios/
 当前已提供 `apps/health-agent/ios/project.yml`，可在 Mac 上用 XcodeGen 生成 `HealthAgent.xcodeproj`。
 
 当前 CI 中 `upload` 设置为 `none`。等 Bundle ID、签名、App Store Connect App 和 TestFlight 都准备好后，再切换为 `testflight`。
+
+## 本地验证
+
+在 Windows / Mac 上都可以先跑结构校验：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\validate_health_agent.ps1
+```
+
+在 Mac 上生成 Xcode 工程：
+
+```bash
+cd apps/health-agent/ios
+xcodegen generate
+open HealthAgent.xcodeproj
+```
+
+## H5 高保真原型
+
+H5 原型位于：
+
+```text
+apps/health-agent/h5/
+```
+
+运行：
+
+```powershell
+cd apps\health-agent\h5
+python -m http.server 4173
+```
+
+访问：
+
+```text
+http://localhost:4173
+```
+
+移动视口预览截图：
+
+```text
+apps/health-agent/h5/screenshots/today-home-h5.png
+```

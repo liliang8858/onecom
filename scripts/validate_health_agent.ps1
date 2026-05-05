@@ -33,13 +33,37 @@ if ($matches) {
 }
 Write-Host "OK Swift static scan"
 
+$largeCornerRadius = Select-String -Path (Join-Path $healthRoot "ios\HealthAgent\**\*.swift") -Pattern "cornerRadius: [1-9][0-9]" -CaseSensitive
+if ($largeCornerRadius) {
+    $largeCornerRadius | ForEach-Object { Write-Host $_.Line }
+    throw "Large SwiftUI card corner radius found"
+}
+Write-Host "OK SwiftUI card radius scan"
+
 $swiftCount = (Get-ChildItem -Recurse -Path (Join-Path $healthRoot "ios\HealthAgent") -Filter "*.swift").Count
 $mockupCount = (Get-ChildItem -Path (Join-Path $healthRoot "product\ui\mockups") -File -Filter "*.png").Count
 $mockup8kCount = (Get-ChildItem -Path (Join-Path $healthRoot "product\ui\mockups\8k") -File -Filter "*.png").Count
+$h5Root = Join-Path $healthRoot "h5"
+$h5Required = @("index.html", "styles.css", "app.js", "README.md", "assets\today-hero-background.png", "assets\ecg-waveform-sample.png", "screenshots\today-home-h5.png")
+foreach ($relative in $h5Required) {
+    $path = Join-Path $h5Root $relative
+    if (!(Test-Path $path)) {
+        throw "Missing H5 file: $relative"
+    }
+}
+
+$node = Get-Command node -ErrorAction SilentlyContinue
+if ($node) {
+    node --check (Join-Path $h5Root "app.js") | Out-Null
+    Write-Host "OK H5 JavaScript syntax"
+} else {
+    Write-Host "SKIP H5 JavaScript syntax because node is unavailable"
+}
 
 Write-Host "Swift files: $swiftCount"
 Write-Host "Mockups: $mockupCount"
 Write-Host "High-res mockups: $mockup8kCount"
+Write-Host "H5 files present"
 
 if ($swiftCount -lt 30) { throw "Expected at least 30 Swift files" }
 if ($mockupCount -lt 7) { throw "Expected at least 7 mockups" }
