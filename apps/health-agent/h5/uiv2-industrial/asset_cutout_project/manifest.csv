@@ -1,0 +1,11 @@
+id,category,path,width,height,source_sheet,x,y,w,h,method,usage
+brand_app_icon,brand,assets/brand_app_icon.png,104,112,资产图003.png,1002,48,104,112,manual_box_opaque,top brand app icon
+brand_heart_logo,brand,assets/brand_heart_logo.png,79,94,资产图003.png,1110,54,96,96,manual_box_alpha,heart ecg logo
+mascot_hero_wave,mascots,assets/mascot_hero_wave.png,203,150,资产图003.png,40,38,250,150,manual_box_alpha,hero assistant mascot
+mascot_point,mascots,assets/mascot_point.png,198,145,资产图003.png,318,40,220,145,manual_box_alpha,pointing assistant mascot
+mascot_sleep,mascots,assets/mascot_sleep.png,191,144,资产图003.png,55,205,210,145,manual_box_alpha,sleep assistant mascot
+mascot_stethoscope,mascots,assets/mascot_stethoscope.png,162,145,资产图003.png,762,40,185,145,manual_box_alpha,heart care assistant mascot
+mascot_question,mascots,assets/mascot_question.png,154,128,资产图002.png,48,35,158,128,manual_box_alpha,question assistant mascot
+mascot_report,mascots,assets/mascot_report.png,142,130,资产图002.png,42,175,170,130,manual_box_alpha,report assistant mascot
+mascot_heart,mascots,assets/mascot_heart.png,127,126,资产图002.png,235,182,160,130,manual_box_alpha,heart assistant mascot
+night_landscape,decorations,assets/night_landscape.png,260,120,资产图001.png,1135,770,260,120,manual_box_opaque,night landscape decorative panel

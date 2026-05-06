@@ -1,0 +1,227 @@
+{
+  "project": "health-agent-uiv2-industrial-assets",
+  "mode": "hybrid",
+  "source": "apps/health-agent/product/uiv2",
+  "assets": [
+    {
+      "id": "brand_app_icon",
+      "category": "brand",
+      "path": "assets/brand_app_icon.png",
+      "width": 104,
+      "height": 112,
+      "source_sheet": "资产图003.png",
+      "source_box": {
+        "x": 1002,
+        "y": 48,
+        "w": 104,
+        "h": 112
+      },
+      "extraction_method": "manual_box_opaque",
+      "usage": "top brand app icon",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": false,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "brand_heart_logo",
+      "category": "brand",
+      "path": "assets/brand_heart_logo.png",
+      "width": 79,
+      "height": 94,
+      "source_sheet": "资产图003.png",
+      "source_box": {
+        "x": 1110,
+        "y": 54,
+        "w": 96,
+        "h": 96
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "heart ecg logo",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_hero_wave",
+      "category": "mascots",
+      "path": "assets/mascot_hero_wave.png",
+      "width": 203,
+      "height": 150,
+      "source_sheet": "资产图003.png",
+      "source_box": {
+        "x": 40,
+        "y": 38,
+        "w": 250,
+        "h": 150
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "hero assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_point",
+      "category": "mascots",
+      "path": "assets/mascot_point.png",
+      "width": 198,
+      "height": 145,
+      "source_sheet": "资产图003.png",
+      "source_box": {
+        "x": 318,
+        "y": 40,
+        "w": 220,
+        "h": 145
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "pointing assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_sleep",
+      "category": "mascots",
+      "path": "assets/mascot_sleep.png",
+      "width": 191,
+      "height": 144,
+      "source_sheet": "资产图003.png",
+      "source_box": {
+        "x": 55,
+        "y": 205,
+        "w": 210,
+        "h": 145
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "sleep assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_stethoscope",
+      "category": "mascots",
+      "path": "assets/mascot_stethoscope.png",
+      "width": 162,
+      "height": 145,
+      "source_sheet": "资产图003.png",
+      "source_box": {
+        "x": 762,
+        "y": 40,
+        "w": 185,
+        "h": 145
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "heart care assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_question",
+      "category": "mascots",
+      "path": "assets/mascot_question.png",
+      "width": 154,
+      "height": 128,
+      "source_sheet": "资产图002.png",
+      "source_box": {
+        "x": 48,
+        "y": 35,
+        "w": 158,
+        "h": 128
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "question assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_report",
+      "category": "mascots",
+      "path": "assets/mascot_report.png",
+      "width": 142,
+      "height": 130,
+      "source_sheet": "资产图002.png",
+      "source_box": {
+        "x": 42,
+        "y": 175,
+        "w": 170,
+        "h": 130
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "report assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "mascot_heart",
+      "category": "mascots",
+      "path": "assets/mascot_heart.png",
+      "width": 127,
+      "height": 126,
+      "source_sheet": "资产图002.png",
+      "source_box": {
+        "x": 235,
+        "y": 182,
+        "w": 160,
+        "h": 130
+      },
+      "extraction_method": "manual_box_alpha",
+      "usage": "heart assistant mascot",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": true,
+        "reviewed": true
+      }
+    },
+    {
+      "id": "night_landscape",
+      "category": "decorations",
+      "path": "assets/night_landscape.png",
+      "width": 260,
+      "height": 120,
+      "source_sheet": "资产图001.png",
+      "source_box": {
+        "x": 1135,
+        "y": 770,
+        "w": 260,
+        "h": 120
+      },
+      "extraction_method": "manual_box_opaque",
+      "usage": "night landscape decorative panel",
+      "qa": {
+        "rgba": true,
+        "has_visible_alpha": true,
+        "has_transparent_pixels": false,
+        "reviewed": true
+      }
+    }
+  ]
+}
