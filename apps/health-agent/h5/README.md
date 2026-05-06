@@ -38,6 +38,27 @@ http://localhost:4173
 - 周报页
 - 我的页和 Onboarding 入口
 
+## UI v2 像素审核版
+
+第二版像素审核入口：
+
+```text
+apps/health-agent/h5/uiv2/index.html
+```
+
+运行：
+
+```powershell
+cd apps\health-agent\h5\uiv2
+python -m http.server 4174
+```
+
+像素比对：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File apps\health-agent\h5\uiv2\verify-pixel.ps1
+```
+
 ## 预览截图
 
 已生成一张本地渲染截图：

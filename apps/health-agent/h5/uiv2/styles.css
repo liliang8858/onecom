@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: #eef7ff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.stage {
+  position: relative;
+  width: var(--board-width, 100vw);
+  height: var(--board-height, auto);
+  margin: 0;
+  overflow: hidden;
+  background: #eef7ff;
+}
+
+.board {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: var(--board-width, 100%);
+  height: var(--board-height, auto);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hotspot {
+  position: absolute;
+  z-index: 2;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  opacity: 0;
+  outline: none;
+}
+
+.hotspot:focus {
+  outline: none;
+}
+
+.prev-zone {
+  inset: 0 auto 0 0;
+  width: 18%;
+}
+
+.next-zone {
+  inset: 0 0 0 auto;
+  width: 18%;
+}
+
+.page-zone {
+  bottom: 3%;
+  height: 8%;
+}
+
+.page-1 {
+  left: 5%;
+  width: 22%;
+}
+
+.page-2 {
+  left: 28%;
+  width: 22%;
+}
+
+.page-3 {
+  left: 51%;
+  width: 22%;
+}
+
+.page-4 {
+  left: 74%;
+  width: 21%;
+}
+
+.sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
