@@ -573,7 +573,7 @@ body {
 .today-card h4 {
   margin: 9px 0 7px 0;
   color: #cf7918;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1;
   font-weight: 900;
 }
@@ -708,12 +708,20 @@ body {
   background: white;
 }
 
+.metric-card .label {
+  gap: 4px;
+}
+
 .memory-card {
   margin: 0 24px 10px;
   padding: 8px 12px;
   border: 1px solid #dbe5f4;
   border-radius: 17px;
   background: linear-gradient(180deg, #ffffff, #f8fbff);
+}
+
+.memory-card .feedback-row {
+  display: none;
 }
 
 .memory-title {
@@ -742,15 +750,13 @@ body {
 .memory-card p {
   margin: 6px 0 5px;
   color: #394963;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.32;
   font-weight: 680;
 }
 
 .memory-card small {
-  color: #8490a5;
-  font-size: 9px;
-  font-weight: 750;
+  display: none;
 }
 
 .feedback-row {
@@ -799,9 +805,9 @@ body {
 .metric-card .label {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   color: #586783;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 }
 
@@ -819,7 +825,7 @@ body {
   display: block;
   margin-top: 5px;
   color: #0d6dff;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1;
   font-weight: 900;
 }
@@ -836,7 +842,7 @@ body {
   display: block;
   margin-top: 3px;
   color: #657085;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 650;
 }
 
@@ -995,8 +1001,8 @@ body {
   display: grid;
   grid-template-columns: 32px 1fr 56px;
   gap: 9px;
-  min-height: 130px;
-  padding: 12px 10px;
+  min-height: 114px;
+  padding: 10px 10px;
   border: 1px solid #f3d9d5;
   border-radius: 18px;
   background: #fffefc;
@@ -1025,16 +1031,16 @@ body {
 .insight-card h4 {
   margin: 0;
   color: #1b2448;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.2;
   font-weight: 900;
 }
 
 .insight-card p {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   color: #657084;
-  font-size: 10px;
-  line-height: 1.42;
+  font-size: 9px;
+  line-height: 1.34;
   font-weight: 650;
 }
 
@@ -1046,7 +1052,7 @@ body {
 }
 
 .insight-actions button {
-  height: 25px;
+  height: 22px;
   border: 1px solid #d8e6fb;
   border-radius: 999px;
   color: #3d5e90;
@@ -1281,12 +1287,12 @@ body {
 
 .ecg-wave {
   width: 100%;
-  height: 108px;
+  height: 96px;
 }
 
 .ecg-conclusion {
   margin: 0 19px 9px;
-  padding: 11px 13px;
+  padding: 9px 13px;
   border: 1px solid #dce9fb;
   border-radius: 14px;
   background: linear-gradient(180deg, #ffffff, #f8fbff);
@@ -1346,15 +1352,15 @@ body {
 }
 
 .ecg-grid .metric-card {
-  min-height: 70px;
+  min-height: 62px;
 }
 
 .ecg-grid .metric-card strong {
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .context-panel {
-  padding: 12px;
+  padding: 10px 12px;
 }
 
 .context-grid {
@@ -1364,8 +1370,8 @@ body {
 }
 
 .context-card {
-  min-height: 63px;
-  padding: 8px;
+  min-height: 54px;
+  padding: 7px;
   border: 1px solid #dce9fb;
   border-radius: 13px;
   text-align: center;
@@ -1376,10 +1382,10 @@ body {
 }
 
 .source-panel {
-  padding: 11px 15px;
+  padding: 9px 15px;
   color: #59667d;
   font-size: 10px;
-  line-height: 1.7;
+  line-height: 1.45;
   font-weight: 700;
 }
 
