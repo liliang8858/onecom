@@ -1,0 +1,168 @@
+{
+  "project": "health-agent-ui001-home-audit",
+  "canvas": {
+    "width": 1448,
+    "height": 1086
+  },
+  "source": "original_sources/ui001.png",
+  "render": "../qa-ui001-home.png",
+  "fidelity_mode": "hybrid + pixel_audit",
+  "palette": {
+    "canvas": {
+      "top_left": "#cde3fc",
+      "center": "#f8fafc",
+      "bottom": "#eaf5ff"
+    },
+    "text": {
+      "title": "#131432",
+      "body_muted": "#5f6c8a",
+      "phone_primary": "#172148"
+    },
+    "brand": {
+      "blue": "#1267ff",
+      "cyan": "#2bd2de",
+      "heart_green": "#20b86a"
+    },
+    "health_status": {
+      "red": "#ff4a53",
+      "orange": "#ff9c20",
+      "green": "#20b86a"
+    },
+    "surfaces": {
+      "card": "#ffffff",
+      "card_border": "#d8e7fb",
+      "phone_black": "#0b0b0c",
+      "screen": "#fbfdff"
+    }
+  },
+  "regions": [
+    {
+      "id": "010_brand_header",
+      "usage": "品牌图标、标题、副标题",
+      "source_box": {
+        "x": 64,
+        "y": 29,
+        "w": 746,
+        "h": 109
+      },
+      "full_canvas_layer": "full_canvas_layers/001_010_brand_header.png",
+      "component_image": "component_images/010_brand_header.png",
+      "z_order": 1
+    },
+    {
+      "id": "020_mascot_and_speech",
+      "usage": "顶部小智吉祥物和气泡",
+      "source_box": {
+        "x": 82,
+        "y": 114,
+        "w": 535,
+        "h": 124
+      },
+      "full_canvas_layer": "full_canvas_layers/002_020_mascot_and_speech.png",
+      "component_image": "component_images/020_mascot_and_speech.png",
+      "z_order": 2
+    },
+    {
+      "id": "030_trust_cards",
+      "usage": "隐私、本地、非诊断三张信任卡",
+      "source_box": {
+        "x": 821,
+        "y": 51,
+        "w": 571,
+        "h": 70
+      },
+      "full_canvas_layer": "full_canvas_layers/003_030_trust_cards.png",
+      "component_image": "component_images/030_trust_cards.png",
+      "z_order": 3
+    },
+    {
+      "id": "110_phone_today_home",
+      "usage": "手机 1 今日健康首页",
+      "source_box": {
+        "x": 31,
+        "y": 239,
+        "w": 313,
+        "h": 686
+      },
+      "full_canvas_layer": "full_canvas_layers/004_110_phone_today_home.png",
+      "component_image": "component_images/110_phone_today_home.png",
+      "z_order": 4
+    },
+    {
+      "id": "120_phone_agent_discovery",
+      "usage": "手机 2 Agent 发现页",
+      "source_box": {
+        "x": 383,
+        "y": 239,
+        "w": 313,
+        "h": 687
+      },
+      "full_canvas_layer": "full_canvas_layers/005_120_phone_agent_discovery.png",
+      "component_image": "component_images/120_phone_agent_discovery.png",
+      "z_order": 5
+    },
+    {
+      "id": "130_phone_recovery_analysis",
+      "usage": "手机 3 恢复睡眠分析页",
+      "source_box": {
+        "x": 736,
+        "y": 239,
+        "w": 307,
+        "h": 687
+      },
+      "full_canvas_layer": "full_canvas_layers/006_130_phone_recovery_analysis.png",
+      "component_image": "component_images/130_phone_recovery_analysis.png",
+      "z_order": 6
+    },
+    {
+      "id": "140_phone_ecg_reading",
+      "usage": "手机 4 ECG 解读页",
+      "source_box": {
+        "x": 1083,
+        "y": 239,
+        "w": 307,
+        "h": 687
+      },
+      "full_canvas_layer": "full_canvas_layers/007_140_phone_ecg_reading.png",
+      "component_image": "component_images/140_phone_ecg_reading.png",
+      "z_order": 7
+    },
+    {
+      "id": "210_captions",
+      "usage": "四个页面编号标题",
+      "source_box": {
+        "x": 112,
+        "y": 936,
+        "w": 1220,
+        "h": 35
+      },
+      "full_canvas_layer": "full_canvas_layers/008_210_captions.png",
+      "component_image": "component_images/210_captions.png",
+      "z_order": 8
+    },
+    {
+      "id": "300_bottom_value_bar",
+      "usage": "底部价值主张条",
+      "source_box": {
+        "x": 28,
+        "y": 991,
+        "w": 1388,
+        "h": 60
+      },
+      "full_canvas_layer": "full_canvas_layers/009_300_bottom_value_bar.png",
+      "component_image": "component_images/300_bottom_value_bar.png",
+      "z_order": 9
+    }
+  ],
+  "pixel_audit": {
+    "reference": "original_sources/ui001.png",
+    "render": "../qa-ui001-home.png",
+    "mae_rgb_0_255": 25.629,
+    "rmse_rgb_0_255": 56.373,
+    "pixel_mean_diff_within_8": 0.5739,
+    "pixel_mean_diff_within_16": 0.7248,
+    "pixel_mean_diff_within_32": 0.8169,
+    "diff_raw": "diagnostics/ui001_pixel_diff_raw.png",
+    "diff_heatmap": "diagnostics/ui001_pixel_diff_heatmap.png"
+  }
+}

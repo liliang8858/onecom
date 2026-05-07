@@ -1,0 +1,46 @@
+{
+  "manifest": "E:\\onecom\\apps\\health-agent\\h5\\uiv2-industrial\\ui001_home_audit\\ppt_manifest.json",
+  "output": "E:\\onecom\\apps\\health-agent\\h5\\uiv2-industrial\\ui001_home_audit\\ui001_audit.pptx",
+  "slide_width_in": 14.48,
+  "slide_height_in": 10.860000000000001,
+  "canvas_width": 1448.0,
+  "canvas_height": 1086.0,
+  "counts": {
+    "slides": 3,
+    "background": 3,
+    "image": 3,
+    "text": 6,
+    "shape": 3,
+    "table": 0,
+    "unsupported": 0
+  },
+  "slides": [
+    {
+      "name": "原始 UI001 参考图",
+      "elements": 5,
+      "image": 1,
+      "text": 2,
+      "shape": 1,
+      "table": 0,
+      "background": 1
+    },
+    {
+      "name": "H5 工业化组件复刻",
+      "elements": 5,
+      "image": 1,
+      "text": 2,
+      "shape": 1,
+      "table": 0,
+      "background": 1
+    },
+    {
+      "name": "像素差异热力图",
+      "elements": 5,
+      "image": 1,
+      "text": 2,
+      "shape": 1,
+      "table": 0,
+      "background": 1
+    }
+  ]
+}

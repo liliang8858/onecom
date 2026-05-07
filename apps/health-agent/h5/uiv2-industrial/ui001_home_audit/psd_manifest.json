@@ -1,0 +1,34 @@
+{
+  "canvas": {
+    "width": 1448,
+    "height": 1086,
+    "composite_background": "#eaf5ff"
+  },
+  "output": "ui001_audit.psd",
+  "preview": "ui001_audit.preview.png",
+  "save_layers_dir": "psd_layers",
+  "zip_layers": "ui001_audit.layers.zip",
+  "layers": [
+    {
+      "name": "01 Reference ui001.png",
+      "file": "original_sources/ui001.png",
+      "fit": "none",
+      "remove_background": "none",
+      "opacity": 1
+    },
+    {
+      "name": "02 H5 render overlay 45pct",
+      "file": "render_ui001_home.png",
+      "fit": "none",
+      "remove_background": "none",
+      "opacity": 0.45
+    },
+    {
+      "name": "03 Pixel diff heatmap 35pct",
+      "file": "diagnostics/ui001_pixel_diff_heatmap.png",
+      "fit": "none",
+      "remove_background": "none",
+      "opacity": 0.35
+    }
+  ]
+}

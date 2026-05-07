@@ -75,8 +75,35 @@ python tools/build_assets.py
 
 - `qa-desktop.png`
 - `qa-mobile.png`
+- `qa-ui001-home.png`
 
 推荐每次改动后重新跑桌面和移动端截图，检查是否有横向溢出、文字裁切、资产边缘污染、层级错乱。
+
+## UI001 首页专题
+
+首页专题入口：
+
+```text
+http://localhost:4176/ui001.html
+```
+
+对应文件：
+
+- `ui001.html`
+- `ui001.css`
+- `ui001.js`
+- `tools/build_ui001_home_audit.py`
+- `ui001_home_audit/manifest.json`
+- `ui001_home_audit/PROCESS_NOTES.md`
+
+这个专题页针对 `asset_cutout_project/original_sources/ui001.png` 单独处理，不复用通用四场景页。它按 1448 × 1086 画布拆解首页展示稿，重建了顶部品牌区、信任卡、吉祥物气泡、四台 iPhone、底部价值条、手机内卡片、图表、ECG 波形和导航控件。
+
+已生成审核资料：
+
+- `ui001_home_audit/diagnostics/ui001_regions_numbered.png`
+- `ui001_home_audit/diagnostics/ui001_pixel_diff_heatmap.png`
+- `ui001_home_audit/ui001_audit.psd`
+- `ui001_home_audit/ui001_audit.pptx`
 
 ## 与旧版 H5 的区别
 

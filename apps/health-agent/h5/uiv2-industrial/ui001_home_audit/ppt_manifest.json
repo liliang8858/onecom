@@ -1,0 +1,176 @@
+{
+  "deck": {
+    "canvas_width": 1448,
+    "canvas_height": 1086,
+    "slide_width_in": 14.48,
+    "name": "Health Agent UI001 Audit"
+  },
+  "output": "ui001_audit.pptx",
+  "slides": [
+    {
+      "name": "原始 UI001 参考图",
+      "elements": [
+        {
+          "kind": "background",
+          "fill": "#eaf5ff"
+        },
+        {
+          "kind": "image",
+          "name": "原始 UI001 参考图",
+          "file": "original_sources/ui001.png",
+          "x": 0,
+          "y": 0,
+          "w": 1448,
+          "h": 1086,
+          "fit": "contain"
+        },
+        {
+          "kind": "shape",
+          "shape": "roundRect",
+          "x": 30,
+          "y": 28,
+          "w": 430,
+          "h": 66,
+          "fill": "#ffffff",
+          "stroke": "#cddff3",
+          "stroke_width_px": 1
+        },
+        {
+          "kind": "text",
+          "name": "slide title",
+          "text": "原始 UI001 参考图",
+          "x": 54,
+          "y": 42,
+          "w": 380,
+          "h": 22,
+          "font_size_px": 24,
+          "font_family": "Arial",
+          "bold": true,
+          "color": "#131432"
+        },
+        {
+          "kind": "text",
+          "name": "slide desc",
+          "text": "源设计稿，用于检查布局、色彩、组件密度。",
+          "x": 54,
+          "y": 70,
+          "w": 380,
+          "h": 16,
+          "font_size_px": 12,
+          "font_family": "Arial",
+          "color": "#5f6c8a"
+        }
+      ]
+    },
+    {
+      "name": "H5 工业化组件复刻",
+      "elements": [
+        {
+          "kind": "background",
+          "fill": "#eaf5ff"
+        },
+        {
+          "kind": "image",
+          "name": "H5 工业化组件复刻",
+          "file": "render_ui001_home.png",
+          "x": 0,
+          "y": 0,
+          "w": 1448,
+          "h": 1086,
+          "fit": "contain"
+        },
+        {
+          "kind": "shape",
+          "shape": "roundRect",
+          "x": 30,
+          "y": 28,
+          "w": 430,
+          "h": 66,
+          "fill": "#ffffff",
+          "stroke": "#cddff3",
+          "stroke_width_px": 1
+        },
+        {
+          "kind": "text",
+          "name": "slide title",
+          "text": "H5 工业化组件复刻",
+          "x": 54,
+          "y": 42,
+          "w": 380,
+          "h": 22,
+          "font_size_px": 24,
+          "font_family": "Arial",
+          "bold": true,
+          "color": "#131432"
+        },
+        {
+          "kind": "text",
+          "name": "slide desc",
+          "text": "由 HTML/CSS/JS 和独立资产渲染，不使用整图背景。",
+          "x": 54,
+          "y": 70,
+          "w": 380,
+          "h": 16,
+          "font_size_px": 12,
+          "font_family": "Arial",
+          "color": "#5f6c8a"
+        }
+      ]
+    },
+    {
+      "name": "像素差异热力图",
+      "elements": [
+        {
+          "kind": "background",
+          "fill": "#eaf5ff"
+        },
+        {
+          "kind": "image",
+          "name": "像素差异热力图",
+          "file": "diagnostics/ui001_pixel_diff_heatmap.png",
+          "x": 0,
+          "y": 0,
+          "w": 1448,
+          "h": 1086,
+          "fit": "contain"
+        },
+        {
+          "kind": "shape",
+          "shape": "roundRect",
+          "x": 30,
+          "y": 28,
+          "w": 430,
+          "h": 66,
+          "fill": "#ffffff",
+          "stroke": "#cddff3",
+          "stroke_width_px": 1
+        },
+        {
+          "kind": "text",
+          "name": "slide title",
+          "text": "像素差异热力图",
+          "x": 54,
+          "y": 42,
+          "w": 380,
+          "h": 22,
+          "font_size_px": 24,
+          "font_family": "Arial",
+          "bold": true,
+          "color": "#131432"
+        },
+        {
+          "kind": "text",
+          "name": "slide desc",
+          "text": "红色区域代表当前实现和源图的差异集中点。",
+          "x": 54,
+          "y": 70,
+          "w": 380,
+          "h": 16,
+          "font_size_px": 12,
+          "font_family": "Arial",
+          "color": "#5f6c8a"
+        }
+      ]
+    }
+  ]
+}
