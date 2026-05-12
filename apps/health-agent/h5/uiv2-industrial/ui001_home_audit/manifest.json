@@ -157,11 +157,11 @@
   "pixel_audit": {
     "reference": "original_sources/ui001.png",
     "render": "../qa-ui001-home.png",
-    "mae_rgb_0_255": 25.741,
-    "rmse_rgb_0_255": 56.531,
-    "pixel_mean_diff_within_8": 0.5728,
-    "pixel_mean_diff_within_16": 0.7235,
-    "pixel_mean_diff_within_32": 0.8154,
+    "mae_rgb_0_255": 24.805,
+    "rmse_rgb_0_255": 55.278,
+    "pixel_mean_diff_within_8": 0.5908,
+    "pixel_mean_diff_within_16": 0.736,
+    "pixel_mean_diff_within_32": 0.8219,
     "diff_raw": "diagnostics/ui001_pixel_diff_raw.png",
     "diff_heatmap": "diagnostics/ui001_pixel_diff_heatmap.png"
   }

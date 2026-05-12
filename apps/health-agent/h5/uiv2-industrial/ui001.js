@@ -41,33 +41,35 @@ function homeScreen() {
     ${statusBar()}
     <div class="home-head">
       <h2>早上好，Alex 👋</h2>
-      <p>今天恢复偏低，建议轻量活动</p>
+      <p>数据来自 Apple Health 与 ECG</p>
       <span class="circle-action">+</span>
     </div>
-    <section class="panel today-card conclusion-first">
+    <section class="panel today-card status-first">
       <div>
-        <h3>今日身体解释</h3>
-        <h4>恢复偏低，建议关注</h4>
-        <p>主要关联睡眠不足、HRV 低于个人基线、夜间心率偏高。</p>
-        <div class="primary-actions"><button>查看原因</button><button>生成今日计划</button></div>
+        <h3>今天身体状态怎么样？</h3>
+        <h4>今日状态：建议关注</h4>
+        <p>你的恢复能力偏低，睡眠不足可能导致心率偏高，建议适度放松、规律作息。</p>
+        <small>更新于 07:30</small>
       </div>
-      <div class="recovery-score"><strong>72</strong><span>/100</span><em>较昨日 +12</em></div>
+      <span class="card-alert">!</span>
+      <img class="mini-mascot" src="${A}mascot_point.png" alt="" />
     </section>
     <div class="metric-grid">
-      ${metric("☾", "#f2b633", "睡眠", "6h08m", "低于目标 52m")}
-      ${metric("◆", "#ffb22d", "HRV", "42ms", "低于基线 18%")}
-      ${metric("♥", "#ffb22d", "静息心率", "58bpm", "高于基线 6bpm")}
+      ${metric("☾", "#1267ff", "睡眠", "6h 08m", "低于目标 1h02m")}
+      ${metric("◆", "#ff4a53", "HRV", "42 ms", "低于基线 16%", "red")}
+      ${metric("♥", "#ff4a53", "静息心率", "58 bpm", "高于基线 6 bpm", "red")}
     </div>
-    <div class="question-title">今天只建议先做一件事</div>
-    <div class="action-plan">
-      <strong>安排 20 分钟轻量活动</strong>
-      <span>避免高强度训练，晚间优先补足睡眠。</span>
+    <div class="metric-grid two">
+      ${metric("⌘", "#15b96b", "活动负荷", "中等偏低", "较昨日 -18%", "green")}
+      ${metric("!", "#ff4a53", "异常信号", "2 项", "较昨日 +1", "red")}
     </div>
-    <section class="memory-card">
-      <div class="memory-title"><span>我记住了</span><button>编辑</button></div>
-      <p>你连续 3 次在睡眠不足后，上午专注力会下降。今天建议把高强度任务放到下午。</p>
-      <small>基于最近 21 天数据 · 可信度 78%</small>
-      <div class="feedback-row"><button>有帮助</button><button>不准确</button><button>不想再看到</button></div>
+    <div class="question-title">想了解什么？</div>
+    <div class="chip-grid">
+      ${["我最近恢复得好吗？", "昨晚睡得怎么样？", "为什么这周状态差？", "最近有什么异常？"].map((item) => `<button class="pill-chip">${item}</button>`).join("")}
+    </div>
+    <section class="assistant-note">
+      <img src="${A}mascot_question.png" alt="" />
+      <p>昨晚睡眠偏短，HRV 较低，静息心率偏高。先别着急，我来帮你一起看看细节吧！</p>
     </section>
     ${bottomNav("home")}
   `;
@@ -75,9 +77,10 @@ function homeScreen() {
 
 function discoverScreen() {
   const rows = [
-    ["⚠", "恢复下降", "发现：恢复分低于 7 日均值 14 分。依据：睡眠少 52 分钟，HRV 低于基线 18%。影响：上午专注与运动恢复可能下降。建议：今天安排 20 分钟轻量活动。", "置信度 78%", ""],
-    ["♥", "夜间心率偏高", "发现：过去 3 晚静息心率高于基线。依据：夜间均值高 6-10bpm。影响：可能和压力或睡眠不足相关。建议：今晚减少刺激性活动。", "置信度 72%", ""],
-    ["☾", "近 3 天睡眠不足", "发现：连续 3 晚低于 6.5 小时。依据：睡眠记录和醒后心率同步变化。影响：恢复分波动更明显。建议：生成今晚睡眠计划。", "置信度 66%", "blue"]
+    ["⚠", "恢复下降", "恢复分较昨日下降 12 分，HRV 下降且睡眠偏短，身体恢复不足。", "置信度 78%", ""],
+    ["♥", "夜间心率偏高", "过去 3 晚静息心率高于你的基线 6-10bpm，建议留意压力与作息。", "置信度 72%", ""],
+    ["☾", "近 3 天睡眠不足", "连续 3 晚睡眠不足 6.5 小时，影响恢复与专注力。", "置信度 66%", "blue"],
+    ["♡", "有新的 ECG 可辅助分析", "5/15 08:23 的 ECG 已传输至本地，可帮助判断心律节律变化。", "置信度 80%", "blue"]
   ];
   return `
     ${statusBar()}
@@ -96,7 +99,7 @@ function discoverScreen() {
             <p>${desc}</p>
           </div>
           <span class="severity">${severity}</span>
-          <div class="insight-actions"><button>看依据</button><button>生成计划</button><button>不适合我</button></div>
+          <button class="go-btn">去看看</button>
         </article>
       `).join("")}
     </div>
@@ -246,7 +249,7 @@ function bottomNav(active) {
   return `
     <nav class="bottom-nav" aria-label="底部导航">
       ${items.map(([key, label]) => key === "agent"
-        ? `<span class="nav-item twin ${active === key ? "active" : ""}"><i></i>${label}</span>`
+        ? `<span class="nav-item agent-slot ${active === key ? "active" : ""}"><span class="nav-agent"><img src="${A}mascot_question.png" alt="" /></span>${label}</span>`
         : `<span class="nav-item ${active === key ? "active" : ""}"><i></i>${label}</span>`
       ).join("")}
     </nav>

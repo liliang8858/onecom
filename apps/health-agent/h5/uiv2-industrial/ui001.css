@@ -44,16 +44,16 @@ body {
   overflow: hidden;
   transform-origin: top left;
   background:
-    radial-gradient(circle at 55px 20px, rgba(126, 191, 255, 0.42), transparent 180px),
-    radial-gradient(circle at 1380px 10px, rgba(142, 202, 255, 0.46), transparent 210px),
-    linear-gradient(112deg, #dcebff 0%, #f8fbff 36%, #f5fbff 62%, #dff0ff 100%);
+    radial-gradient(circle at 54px 18px, rgba(117, 185, 255, 0.34), transparent 170px),
+    radial-gradient(circle at 1374px 0, rgba(128, 196, 255, 0.34), transparent 210px),
+    linear-gradient(112deg, #ddebff 0%, #f9fbfd 34%, #f8fbff 62%, #e6f4ff 100%);
 }
 
 .ui001-stage::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.62;
+  opacity: 0.34;
   background:
     radial-gradient(circle at 18px 18px, rgba(255, 255, 255, 0.86) 0 1.6px, transparent 1.8px) 0 0 / 17px 17px,
     radial-gradient(circle at 9px 9px, rgba(53, 146, 255, 0.12) 0 1px, transparent 1.2px) 0 0 / 17px 17px;
@@ -68,7 +68,7 @@ body {
   content: "";
   position: absolute;
   inset: -80px -60px;
-  opacity: 0.18;
+  opacity: 0.1;
   background:
     repeating-radial-gradient(ellipse at 0% 6%, transparent 0 15px, rgba(63, 151, 255, 0.23) 16px 18px, transparent 19px 34px),
     repeating-radial-gradient(ellipse at 102% 3%, transparent 0 16px, rgba(63, 151, 255, 0.18) 17px 19px, transparent 20px 35px);
@@ -98,7 +98,7 @@ body {
   bottom: -120px;
   width: 420px;
   height: 360px;
-  opacity: 0.38;
+  opacity: 0.2;
   background: repeating-radial-gradient(circle at 28% 48%, transparent 0 14px, rgba(60, 146, 255, 0.25) 15px 17px, transparent 18px 32px);
 }
 
@@ -107,7 +107,7 @@ body {
   top: -112px;
   width: 520px;
   height: 360px;
-  opacity: 0.34;
+  opacity: 0.18;
   background: repeating-radial-gradient(circle at 74% 24%, transparent 0 13px, rgba(59, 141, 255, 0.22) 14px 16px, transparent 17px 31px);
 }
 
@@ -150,7 +150,7 @@ body {
   left: 64px;
   top: 29px;
   display: grid;
-  grid-template-columns: 108px 1fr;
+  grid-template-columns: 108px 628px;
   gap: 24px;
   align-items: center;
 }
@@ -175,7 +175,7 @@ body {
 .brand-copy h1 {
   margin: 0;
   color: #121332;
-  font-size: 38px;
+  font-size: 35px;
   line-height: 1;
   letter-spacing: 0;
   font-weight: 850;
@@ -191,8 +191,8 @@ body {
 
 .assistant-hero {
   position: absolute;
-  left: 99px;
-  top: 114px;
+  left: 97px;
+  top: 112px;
   width: 223px;
   height: 138px;
   overflow: visible;
@@ -205,8 +205,8 @@ body {
 
 .speech-card {
   position: absolute;
-  left: 350px;
-  top: 136px;
+  left: 349px;
+  top: 135px;
   width: 265px;
   min-height: 86px;
   padding: 17px 23px;
@@ -350,7 +350,7 @@ body {
 .phone-row {
   position: absolute;
   left: 30px;
-  top: 238px;
+  top: 237px;
   right: 31px;
   display: grid;
   grid-template-columns: 313px 313px 307px 307px;
@@ -509,7 +509,7 @@ body {
 .home-head {
   position: relative;
   height: 78px;
-  padding: 14px 28px 0;
+  padding: 13px 28px 0;
 }
 
 .home-head h2 {
@@ -549,31 +549,29 @@ body {
 
 .today-card {
   position: relative;
-  min-height: 134px;
-  padding: 13px 14px 11px;
+  min-height: 102px;
+  padding: 11px 14px 9px;
   background:
     linear-gradient(110deg, rgba(255, 255, 255, 0.98), rgba(255, 250, 234, 0.94)),
     #fff;
 }
 
-.today-card.conclusion-first {
-  display: grid;
-  grid-template-columns: 1fr 82px;
-  gap: 10px;
+.today-card.status-first {
+  padding-right: 72px;
 }
 
 .today-card h3 {
   margin: 0;
   color: #0764ff;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.1;
   font-weight: 900;
 }
 
 .today-card h4 {
-  margin: 9px 0 7px 0;
-  color: #cf7918;
-  font-size: 18px;
+  margin: 8px 0 5px 0;
+  color: #d85c18;
+  font-size: 17px;
   line-height: 1;
   font-weight: 900;
 }
@@ -582,8 +580,8 @@ body {
   width: auto;
   margin: 0;
   color: #596378;
-  font-size: 11px;
-  line-height: 1.5;
+  font-size: 10px;
+  line-height: 1.42;
   font-weight: 650;
 }
 
@@ -660,7 +658,7 @@ body {
 
 .today-card small {
   display: block;
-  margin-top: 9px;
+  margin-top: 6px;
   color: #a5aaba;
   font-size: 10px;
   font-weight: 700;
@@ -668,8 +666,8 @@ body {
 
 .card-alert {
   position: absolute;
-  right: 18px;
-  top: 48px;
+  right: 26px;
+  top: 31px;
   width: 32px;
   height: 32px;
   display: grid;
@@ -684,16 +682,16 @@ body {
 
 .today-card .mini-mascot {
   position: absolute;
-  right: 30px;
-  bottom: 9px;
-  width: 55px;
+  right: 6px;
+  bottom: 1px;
+  width: 58px;
 }
 
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin: 0 24px 10px;
+  margin: 0 24px 8px;
 }
 
 .metric-grid.two {
@@ -701,8 +699,8 @@ body {
 }
 
 .metric-card {
-  min-height: 62px;
-  padding: 8px 9px 7px;
+  min-height: 59px;
+  padding: 7px 8px 6px;
   border: 1px solid #dce9fb;
   border-radius: 13px;
   background: white;
@@ -713,7 +711,7 @@ body {
 }
 
 .memory-card {
-  margin: 0 24px 10px;
+  margin: 0 24px 8px;
   padding: 8px 12px;
   border: 1px solid #dbe5f4;
   border-radius: 17px;
@@ -812,8 +810,8 @@ body {
 }
 
 .dot-icon {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -823,7 +821,7 @@ body {
 
 .metric-card strong {
   display: block;
-  margin-top: 5px;
+  margin-top: 4px;
   color: #0d6dff;
   font-size: 16px;
   line-height: 1;
@@ -840,14 +838,14 @@ body {
 
 .metric-card span:last-child {
   display: block;
-  margin-top: 3px;
+  margin-top: 2px;
   color: #657085;
   font-size: 9px;
   font-weight: 650;
 }
 
 .question-title {
-  margin: 7px 24px 8px;
+  margin: 6px 24px 6px;
   color: #202747;
   font-size: 15px;
   font-weight: 850;
@@ -856,12 +854,12 @@ body {
 .chip-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin: 0 24px 10px;
+  gap: 6px;
+  margin: 0 24px 8px;
 }
 
 .pill-chip {
-  height: 29px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -881,14 +879,17 @@ body {
 }
 
 .assistant-note {
-  position: relative;
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 74px;
   display: grid;
-  grid-template-columns: 66px 1fr;
+  grid-template-columns: 58px 1fr;
   gap: 8px;
   align-items: center;
-  min-height: 74px;
-  margin: 0 24px 0;
-  padding: 6px 12px 8px 0;
+  min-height: 64px;
+  margin: 0;
+  padding: 5px 10px 6px 0;
   border: 1px solid #dce9fb;
   border-radius: 18px;
   background: linear-gradient(180deg, #f5fbff, #ffffff);
@@ -896,15 +897,15 @@ body {
 }
 
 .assistant-note img {
-  width: 70px;
+  width: 62px;
   transform: translate(-5px, 4px);
 }
 
 .assistant-note p {
   margin: 0;
   color: #295181;
-  font-size: 11px;
-  line-height: 1.5;
+  font-size: 10px;
+  line-height: 1.42;
   font-weight: 750;
 }
 
@@ -912,7 +913,7 @@ body {
   position: absolute;
   left: 14px;
   right: 14px;
-  bottom: 12px;
+  bottom: 10px;
   height: 62px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -950,9 +951,9 @@ body {
 
 .nav-agent {
   align-self: center;
-  width: 54px;
-  height: 54px;
-  margin-bottom: -5px;
+  width: 52px;
+  height: 52px;
+  margin-bottom: -9px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -962,23 +963,23 @@ body {
 }
 
 .nav-agent img {
-  width: 41px;
+  width: 42px;
 }
 
 .discover-head {
   position: relative;
-  height: 82px;
+  height: 68px;
   padding: 10px 26px 0;
 }
 
 .discover-head h3 {
   margin: 0;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 900;
 }
 
 .discover-head p {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   color: #718099;
   font-size: 10px;
   font-weight: 650;
@@ -988,21 +989,23 @@ body {
   position: absolute;
   right: 10px;
   top: 0;
-  width: 84px;
+  width: 76px;
 }
 
 .insight-list {
   display: grid;
-  gap: 10px;
+  gap: 7px;
   margin: 0 21px;
 }
 
 .insight-card {
   display: grid;
-  grid-template-columns: 32px 1fr 56px;
-  gap: 9px;
-  min-height: 114px;
-  padding: 10px 10px;
+  grid-template-columns: 30px 1fr 58px;
+  gap: 8px;
+  height: 83px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 9px 9px;
   border: 1px solid #f3d9d5;
   border-radius: 18px;
   background: #fffefc;
@@ -1013,8 +1016,8 @@ body {
 }
 
 .insight-card .big-icon {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   display: grid;
   place-items: center;
   border-radius: 11px;
@@ -1031,16 +1034,16 @@ body {
 .insight-card h4 {
   margin: 0;
   color: #1b2448;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.2;
   font-weight: 900;
 }
 
 .insight-card p {
-  margin: 6px 0 0;
+  margin: 5px 0 0;
   color: #657084;
-  font-size: 9px;
-  line-height: 1.34;
+  font-size: 8px;
+  line-height: 1.26;
   font-weight: 650;
 }
 
@@ -1064,30 +1067,30 @@ body {
 .severity {
   justify-self: end;
   align-self: start;
-  padding: 5px 8px;
+  padding: 5px 7px;
   border-radius: 999px;
   color: #8b6424;
   background: #fff2d4;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
 }
 
 .go-btn {
   grid-column: 3;
   justify-self: end;
-  align-self: end;
-  min-width: 49px;
-  height: 27px;
+  align-self: center;
+  min-width: 47px;
+  height: 24px;
   border: 1px solid #9ab9ff;
   border-radius: 999px;
   color: #0c65ff;
   background: white;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 850;
 }
 
 .discover-foot {
-  margin: 31px 0 0;
+  margin: 9px 0 0;
   text-align: center;
   color: #9aa5b4;
   font-size: 11px;
@@ -1095,9 +1098,10 @@ body {
 }
 
 .score-card {
-  height: 101px;
-  margin: 0 20px 11px;
-  padding: 14px;
+  height: 94px;
+  margin: 0 20px 8px;
+  padding: 11px 11px;
+  overflow: hidden;
   border-radius: 14px;
   color: white;
   background: linear-gradient(135deg, #075cff, #2bd2de);
@@ -1111,27 +1115,28 @@ body {
 
 .score-main {
   display: grid;
-  grid-template-columns: 1fr 86px 90px;
+  grid-template-columns: 88px 72px 72px;
+  gap: 7px;
   align-items: center;
 }
 
 .score-main strong {
   display: block;
-  margin-top: 12px;
-  font-size: 43px;
+  margin-top: 9px;
+  font-size: 38px;
   line-height: 0.92;
 }
 
 .score-main small {
   display: block;
-  margin-top: 8px;
-  font-size: 13px;
+  margin-top: 6px;
+  font-size: 11px;
   font-weight: 850;
 }
 
 .donut {
-  width: 78px;
-  height: 78px;
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
   background: conic-gradient(#ffc44c 0 30%, #1a6cff 30% 70%, #55dedb 70% 100%);
   position: relative;
@@ -1147,13 +1152,13 @@ body {
 
 .legend {
   display: grid;
-  gap: 8px;
+  gap: 4px;
   color: #285070;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 800;
   background: rgba(255, 255, 255, 0.88);
   border-radius: 10px;
-  padding: 9px 10px;
+  padding: 8px 7px;
 }
 
 .legend i {
@@ -1166,13 +1171,13 @@ body {
 }
 
 .trend-panel {
-  padding: 13px 14px 10px;
+  padding: 10px 14px 8px;
 }
 
 .trend-panel h3,
 .data-list h3,
 .reason-panel h3 {
-  margin: 0 0 9px;
+  margin: 0 0 7px;
   color: #202747;
   font-size: 14px;
   font-weight: 900;
@@ -1180,11 +1185,11 @@ body {
 
 .chart {
   width: 100%;
-  height: 82px;
+  height: 66px;
 }
 
 .data-list {
-  padding: 13px 14px 12px;
+  padding: 10px 14px 8px;
 }
 
 .indicator-row {
@@ -1192,7 +1197,7 @@ body {
   grid-template-columns: 58px 1fr 42px 44px;
   align-items: center;
   gap: 8px;
-  height: 33px;
+  height: 26px;
   border-bottom: 1px solid #eef3fb;
   color: #1d2847;
   font-size: 11px;
@@ -1209,7 +1214,7 @@ body {
 }
 
 .reason-panel {
-  padding: 13px 14px;
+  padding: 10px 14px;
   background: linear-gradient(180deg, #fffdfb, #fff);
 }
 
@@ -1218,7 +1223,7 @@ body {
   grid-template-columns: 21px 74px 1fr 54px;
   gap: 8px;
   align-items: center;
-  height: 29px;
+  height: 23px;
   color: #4b566f;
   font-size: 10px;
   font-weight: 750;
@@ -1251,7 +1256,7 @@ body {
 
 .large-cta {
   margin: 0 10px;
-  height: 42px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1312,7 +1317,7 @@ body {
 .ecg-conclusion span {
   margin-top: 6px;
   color: #66728a;
-  font-size: 10px;
+  font-size: 9px;
   line-height: 1.35;
   font-weight: 700;
 }
