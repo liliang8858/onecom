@@ -1,12 +1,5 @@
 import Foundation
 
-struct HealthContext: Codable, Hashable {
-    let snapshot: DailyHealthSnapshot
-    let permissionSummary: HealthPermissionSummary
-    let latestECG: ECGEpisode?
-    let userPreference: UserPreference
-}
-
 final class HealthContextBuilder {
     private let store: HealthDataStore
     private let permissionManager: HealthKitPermissionManager
@@ -19,7 +12,7 @@ final class HealthContextBuilder {
         self.permissionManager = permissionManager
     }
 
-    func buildTodayContext() async -> HealthContext {
+    func buildTodayContext(userTwin: UserTwin = .default) async -> HealthContext {
         permissionManager.refreshPermissionSummary()
         async let snapshot = store.fetchDailySnapshot()
         async let ecg = store.fetchLatestECG()
@@ -27,7 +20,10 @@ final class HealthContextBuilder {
             snapshot: snapshot,
             permissionSummary: permissionManager.summary,
             latestECG: ecg,
-            userPreference: .default
+            userTwin: userTwin,
+            sessionId: UUID().uuidString,
+            appOpenTime: Date(),
+            localTimezone: TimeZone.current.identifier
         )
     }
 }

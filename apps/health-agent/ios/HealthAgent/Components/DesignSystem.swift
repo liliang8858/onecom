@@ -8,6 +8,7 @@ enum HAColor {
     static let primaryGreen = Color(red: 0.184, green: 0.490, blue: 0.408)
     static let recoveryGreen = Color(red: 0.259, green: 0.722, blue: 0.514)
     static let ecgRed = Color(red: 0.851, green: 0.373, blue: 0.349)
+    static let alertRed = Color(red: 0.957, green: 0.263, blue: 0.212)
     static let sleepPurple = Color(red: 0.431, green: 0.482, blue: 0.851)
     static let workoutAmber = Color(red: 0.882, green: 0.639, blue: 0.239)
     static let border = Color(red: 0.866, green: 0.906, blue: 0.882)

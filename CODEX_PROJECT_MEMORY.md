@@ -98,6 +98,18 @@ apps/health-agent/ci/ios.json
 
 2026-05-05 更新：新增 `HealthKitHealthDataStore.swift`，预留真实 HealthKit 查询实现，覆盖 HRV、静息心率、心率、活动能量、睡眠时长和最新 ECG 元数据。MVP UI 默认仍使用 mock store，方便在无真机权限环境中开发；真机接入时可切换查询服务的 store。
 
+2026-05-08 更新：Health Agent Twin 架构全面升级至 PRD v3.0。完成以下内容：
+- 新增 12 个 Swift 模型/组件文件，23 个文件被修改
+- iOS 侧：UISchemaModels v3.0（15 种 block type）、UserTwin 五层画像、Memory 生命周期引擎、SafetyLevel 五级安全分级、FeedbackEngine 反馈闭环、ComplianceModels 非诊断声明、AgentClient 协议、HealthAction/DailyHealthSnapshot 派生指标
+- 新增组件：AgencyToggle、WhyThisCard、PersonalizationBadge、FeedbackBar、LearningCard、MemoryCard、ConfirmCard、PreferenceTuner、ColdStartBanner、ActionPlanCard、ProgressTracker、ChangeLogEntryView、ECGQualityCard、RRIntervalChart、ECGContextTimeline
+- ECGWaveformView 从静态图片升级为支持真实 voltage samples 的 SVG 渲染
+- TodayView 集成 PRD v3.0 布局：PersonalizationBadge + AgencyToggle + ColdStartBanner + ActionPlanCard + WhyThisCard + FeedbackBar
+- H5 原型完全重写：iOS 原生品质设计系统（925 行 CSS）、1049 行 JS 支持堆栈导航/agency 切换/模拟反馈/Toast/骨架屏
+- 新增 `docs/ADR-001-architecture.md` 架构设计文档
+- 新增 `models/SafetyLevel.swift` 消除循环依赖
+- `DerivedInsight.swift` 移除 `SortedInsight`（该类型属于 Agent 层排序结果，应移至 Agent/ 目录）
+- 项目 YAML 暂未修改（xcodegen 会自动收录 HealthAgent/ 下所有 .swift 文件）
+
 ## 目标仓库结构
 
 文档规划的目标结构如下：

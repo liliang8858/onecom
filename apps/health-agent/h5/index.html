@@ -1,17 +1,112 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f5f7f4" />
-    <title>Health Agent H5 Prototype</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main class="device-shell" aria-label="Health Agent H5 高保真原型">
-      <section id="app" class="app-screen"></section>
-      <nav id="tabbar" class="tabbar" aria-label="底部导航"></nav>
-    </main>
-    <script src="./app.js"></script>
-  </body>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"/>
+  <meta name="theme-color" content="#F5F7F4"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <title>Health Agent</title>
+  <link rel="stylesheet" href="./styles.css"/>
+  <!-- iOS 18+ style PWA manifest -->
+  <link rel="manifest" href="manifest.json"/>
+  <!-- Preload critical assets -->
+  <link rel="preload" href="./assets/today-hero-background.png" as="image"/>
+  <link rel="preload" href="./assets/ecg-waveform-sample.png" as="image"/>
+</head>
+<body>
+  <!-- Status bar simulation -->
+  <div class="status-bar" id="statusBar">
+    <span class="status-time" id="statusTime">9:41</span>
+    <div class="status-icons">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+        <path d="M1 10.5V1.5H3.5L7 5.5L10 1.5H13L16.5 6V10.5H17V12H1V10.5Z" fill="currentColor" opacity="0.6"/>
+      </svg>
+      <span class="status-battery">87%</span>
+    </div>
+  </div>
+
+  <main class="device-shell" id="deviceShell">
+    <!-- Skeleton overlay for loading -->
+    <div class="skeleton-overlay" id="skeletonOverlay" style="display:none;">
+      <div class="skeleton-hero"></div>
+      <div class="skeleton-line w60"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line w80"></div>
+      <div class="skeleton-card-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </div>
+
+    <!-- Page container with stack navigation -->
+    <div class="page-stack" id="pageStack">
+      <section class="app-screen" id="appScreen"></section>
+    </div>
+
+    <!-- Tab bar -->
+    <nav class="tabbar" id="tabbar" aria-label="底部导航">
+      <div class="tabbar-inner">
+        <button class="tab-btn" data-tab="today" aria-label="今日">
+          <span class="tab-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </span>
+          <span class="tab-label">今日</span>
+          <span class="tab-indicator"></span>
+        </button>
+        <button class="tab-btn" data-tab="explore" aria-label="探索">
+          <span class="tab-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <span class="tab-label">探索</span>
+          <span class="tab-indicator"></span>
+        </button>
+        <button class="tab-btn tab-center" data-tab="" aria-label="健康提问">
+          <span class="tab-icon-ring">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="2"/>
+              <path d="M14 8v7l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="tab-label">提问</span>
+          <span class="tab-indicator"></span>
+        </button>
+        <button class="tab-btn" data-tab="heart" aria-label="心脏">
+          <span class="tab-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 6.07l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l7.78 7.78 7.78-7.78a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </span>
+          <span class="tab-label">心脏</span>
+          <span class="tab-indicator"></span>
+        </button>
+        <button class="tab-btn" data-tab="me" aria-label="我的">
+          <span class="tab-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <span class="tab-label">我的</span>
+          <span class="tab-indicator"></span>
+        </button>
+      </div>
+      <!-- Center FAB overlap -->
+      <div class="tab-fab-overlap"></div>
+    </nav>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
 </html>

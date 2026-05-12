@@ -1,54 +1,119 @@
 import SwiftUI
 
+// MARK: - Health Block Renderer (PRD v3.0 §10)
+// 渲染 UISchema.blocks 中的所有 block 类型
+
 struct HealthBlockRenderer: View {
-    let block: HealthUIBlock
+    let block: UIBlock
+    @Binding var agencyMode: AgencyMode
+    @Binding var feedbackEnabled: Bool
 
     var body: some View {
-        switch block {
-        case .insightSummary(let config):
-            HACard {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack {
-                        Label(config.title, systemImage: config.tone == "attention" ? "sparkles" : "checkmark.seal.fill")
-                            .font(.headline)
-                            .foregroundStyle(config.tone == "attention" ? HAColor.workoutAmber : HAColor.primaryGreen)
-                        Spacer()
-                        ConfidenceBadge(text: "非诊断")
-                    }
-                    Text(config.summary)
-                        .font(.body)
-                        .foregroundStyle(HAColor.secondaryText)
-                        .lineSpacing(5)
-                }
+        switch block.type {
+        case .insightSummary:
+            if let cfg = decodeConfig(block, as: InsightSummaryConfig.self) {
+                renderInsightSummary(cfg)
             }
+        case .metricDeltaGrid:
+            if let cfg = decodeConfig(block, as: MetricDeltaGridConfig.self) {
+                MetricDeltaGrid(metrics: cfg.metrics)
+            }
+        case .trendChart:
+            if let cfg = decodeConfig(block, as: TrendChartConfig.self) {
+                TrendChartBlock(title: cfg.title, subtitle: cfg.subtitle, values: cfg.values, colorName: cfg.colorName)
+            }
+        case .multiMetricTimeline:
+            if let cfg = decodeConfig(block, as: MultiMetricTimelineConfig.self) {
+                MultiMetricTimeline(title: cfg.title, rows: cfg.rows)
+            }
+        case .anomalyList:
+            if let cfg = decodeConfig(block, as: AnomalyListConfig.self) {
+                AnomalyListBlock(anomalies: cfg.anomalies)
+            }
+        case .suggestedQuestions:
+            if let cfg = decodeConfig(block, as: SuggestedQuestionsConfig.self) {
+                SuggestedQuestionBar(questions: cfg.questions)
+            }
+        case .ecgEpisodeCard:
+            if let cfg = decodeConfig(block, as: ECGEpisodeConfig.self) {
+                ECGEpisodeCard(episode: cfg.episode)
+            }
+        case .ecgWaveform:
+            if let cfg = decodeConfig(block, as: ECGWaveformConfig.self) {
+                ECGWaveformView(cfg: cfg)
+            }
+        case .ecgQuality:
+            if let cfg = decodeConfig(block, as: ECGQualityConfig.self) {
+                ECGQualityCard(cfg: cfg)
+            }
+        case .rrIntervalChart:
+            if let cfg = decodeConfig(block, as: ECGWaveformConfig.self) {
+                RRIntervalChartView(cfg: cfg)
+            }
+        case .ecgContextTimeline:
+            if let cfg = decodeConfig(block, as: ECGWaveformConfig.self) {
+                ECGContextTimelineView(cfg: cfg)
+            }
+        case .actionPlanCard:
+            if let cfg = decodeConfig(block, as: ActionPlanConfig.self) {
+                ActionPlanCard(actions: cfg.actions)
+            }
+        case .progressTracker:
+            if let cfg = decodeConfig(block, as: ProgressTrackerConfig.self) {
+                ProgressTrackerView(cfg: cfg)
+            }
+        case .feedbackBar:
+            if let cfg = decodeConfig(block, as: FeedbackBarConfig.self) {
+                FeedbackBar(
+                    blockId: block.blockId,
+                    screenId: "dynamic",
+                    enabledFeedbackTypes: FeedbackCategory.allCases
+                ) { _ in }
+            }
+        case .whyShownReason:
+            if let cfg = decodeConfig(block, as: WhyShownReasonConfig.self) {
+                WhyThisCard(reason: cfg.reason)
+            }
+        case .separatorSpacer:
+            Divider().padding(.vertical, 8)
+        }
+    }
 
-        case .metricDeltaGrid(let config):
-            MetricDeltaGrid(metrics: config.metrics)
+    // MARK: - WhyThisCard wrapper
 
-        case .trendChart(let config):
-            TrendChartBlock(title: config.title, subtitle: config.subtitle, values: config.values, colorName: config.colorName)
+    private func renderInsightSummary(_ config: InsightSummaryConfig) -> some View {
+        HACard {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Label(config.title, systemImage: config.tone == "attention" ? "sparkles" : "checkmark.seal.fill")
+                        .font(.headline)
+                        .foregroundStyle(config.tone == "attention" ? HAColor.workoutAmber : HAColor.primaryGreen)
+                    Spacer()
+                    ConfidenceBadge.Legacy(text: "非诊断")
+                }
+                Text(config.summary)
+                    .font(.body)
+                    .foregroundStyle(HAColor.secondaryText)
+                    .lineSpacing(5)
+            }
+            .padding(14)
+        }
+    }
 
-        case .multiMetricTimeline(let config):
-            MultiMetricTimeline(title: config.title, rows: config.rows)
+    // MARK: - Generic config decoder
 
-        case .anomalyList(let config):
-            AnomalyListBlock(anomalies: config.anomalies)
-
-        case .suggestedQuestions(let config):
-            SuggestedQuestionBar(questions: config.questions)
-
-        case .ecgEpisode(let config):
-            ECGEpisodeCard(episode: config.episode)
-
-        case .dataSource(let config):
-            Text(config.text)
-                .font(.footnote)
-                .foregroundStyle(HAColor.secondaryText)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 4)
+    private func decodeConfig<T: Decodable>(_ block: UIBlock, as type: T.Type) -> T? {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: block.dataPayload)
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            print("Failed to decode config for block \(block.blockId): \(error)")
+            return nil
         }
     }
 }
+
+// MARK: - Suggested Question Bar
 
 struct SuggestedQuestionBar: View {
     let questions: [String]
@@ -73,5 +138,23 @@ struct SuggestedQuestionBar: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Preview
+
+struct HealthBlockRenderer_Previews: PreviewProvider {
+    static var previews: some View {
+        HealthBlockRenderer(
+            block: .insightSummary(InsightSummaryConfig(
+                id: "preview",
+                title: "测试摘要",
+                summary: "这是一个预览摘要内容，用于验证渲染效果。",
+                tone: "attention"
+            )),
+            agencyMode: .constant(.agentGuided),
+            feedbackEnabled: .constant(true)
+        )
+        .padding()
     }
 }
