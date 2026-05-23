@@ -27,6 +27,9 @@ fastlane/test_output/
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
+.pytest_cache/
+.venv/
 
 # Local environment
 .env
