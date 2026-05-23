@@ -31,7 +31,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 当前进度
 
-当前已完成第 01 章：工程启动与开发环境。
+当前已完成第 02 章：Python 包结构与导入路径。
 
 进度记录维护在：
 
@@ -40,6 +40,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | [docs/COURSE_PROGRESS.md](docs/COURSE_PROGRESS.md) | 学习章节进度、当前章节、下一章计划 |
 | [docs/ENGINEERING_PROGRESS.md](docs/ENGINEERING_PROGRESS.md) | 工程实现进度、已完成代码、遗留状态 |
 | [docs/lessons/01-project-setup.md](docs/lessons/01-project-setup.md) | 第 01 章学习文档 |
+| [docs/lessons/02-package-structure.md](docs/lessons/02-package-structure.md) | 第 02 章学习文档 |
 
 新会话继续推进时，先阅读 `COURSE_PROGRESS.md` 和 `ENGINEERING_PROGRESS.md`，再进入下一章。
 
@@ -69,7 +70,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | 章节 | 标题 | 阶段 | 状态 | 工程交付 |
 |------|------|------|------|----------|
 | 01 | 工程启动与开发环境 | A | 已完成 | `pyproject.toml`、`src/enterprise_agent/`、pytest smoke test |
-| 02 | Python 包结构与导入路径 | A | 未开始 | 包目录、`__init__.py`、模块导入练习 |
+| 02 | Python 包结构与导入路径 | A | 已完成 | 包目录、`__init__.py`、模块导入练习 |
 | 03 | 测试驱动的开发节奏 | A | 未开始 | pytest 断言、失败用例、测试命名规范 |
 | 04 | 配置与环境变量基础 | A | 未开始 | `.env.example`、配置对象、默认值 |
 | 05 | 日志与错误信息 | A | 未开始 | logging 基础、错误消息约定 |
@@ -131,6 +132,23 @@ python -m pytest
 
 ```text
 1 passed
+```
+
+### 第 02 章：Python 包结构与导入路径
+
+学习文档：[docs/lessons/02-package-structure.md](docs/lessons/02-package-structure.md)
+
+已完成内容：
+
+- 新增 `src/enterprise_agent/foundation/` 子包。
+- 新增 `ModuleInfo` 和课程模块地图。
+- 演示顶层包入口与子包入口的导入边界。
+- 新增 `tests/unit/test_package_structure.py`，验证公开 API、子包导入和模块查找。
+
+当前结果：
+
+```text
+4 passed
 ```
 
 ---
@@ -200,16 +218,21 @@ enterprise-agent/
 ├── src/
 │   └── enterprise_agent/
 │       ├── __init__.py
-│       └── project.py
+│       ├── project.py
+│       └── foundation/
+│           ├── __init__.py
+│           └── package_map.py
 ├── tests/
 │   └── unit/
-│       └── test_project_setup.py
+│       ├── test_project_setup.py
+│       └── test_package_structure.py
 ├── docs/
 │   ├── AI Agent 企业级开发技术设计文档.md
 │   ├── COURSE_PROGRESS.md
 │   ├── ENGINEERING_PROGRESS.md
 │   └── lessons/
-│       └── 01-project-setup.md
+│       ├── 01-project-setup.md
+│       └── 02-package-structure.md
 └── README.md
 ```
 
@@ -256,6 +279,7 @@ python -m pytest
 | [课程进度](docs/COURSE_PROGRESS.md) | 大阶段、细分章节状态和下一步 |
 | [工程进度](docs/ENGINEERING_PROGRESS.md) | 工程实现状态和验证命令 |
 | [第 01 章：工程启动与开发环境](docs/lessons/01-project-setup.md) | 当前已完成章节 |
+| [第 02 章：Python 包结构与导入路径](docs/lessons/02-package-structure.md) | 当前已完成章节 |
 
 ---
 

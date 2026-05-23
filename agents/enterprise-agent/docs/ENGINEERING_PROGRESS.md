@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-项目已完成课程化实现的第 01 章：工程启动与开发环境。
+项目已完成课程化实现的第 02 章：Python 包结构与导入路径。
 
 ## 已完成
 
@@ -22,6 +22,11 @@
 - 已清理第一章暂未使用的空占位目录：`evaluation/`、`k8s/`、`monitoring/`、`prompts/`、`scripts/`、`src/api/`、`src/llm/`、`src/memory/`、`src/rag/`、`src/tools/`、`tests/integration/`、`tests/e2e/`。
 - 已清理旧骨架目录 `src/agents/`。后续 Agent 代码统一放到 `src/enterprise_agent/agents/`。
 - 已清理本地测试缓存：`.pytest_cache/` 和 `__pycache__/`。
+- 新增 `src/enterprise_agent/foundation/` 子包，用于工程基础阶段教学示例。
+- 新增 `ModuleInfo`、`CORE_MODULES`、`get_module_names()`、`find_module()`，演示子模块、子包入口和公开 API。
+- 新增 `tests/unit/test_package_structure.py`，验证顶层包入口、子包导入和模块查找。
+- 新增第 02 章学习文档 `docs/lessons/02-package-structure.md`。
+- 已运行 `python -m pytest`，结果为 `4 passed`。
 
 ## 现有遗留状态
 
@@ -37,11 +42,11 @@ python -m pytest
 
 ## 下一步工程任务
 
-第 02 章实现 Python 包结构与导入路径：
+第 03 章实现测试驱动的开发节奏：
 
-- 梳理 `src/enterprise_agent/` 包入口。
-- 补充一个小型子模块，让学员理解模块拆分。
-- 演示 `from enterprise_agent import ...` 与内部模块导入的区别。
-- 增加对应单元测试，覆盖公开 API 导出。
+- 增加一个小型纯函数需求，先写失败测试。
+- 展示 pytest 失败信息如何定位问题。
+- 实现代码让测试通过。
+- 补充边界用例，让学员理解测试命名和断言粒度。
 
-LLM 网关推迟到第 06 章开始。这样基础学员会先掌握 Python 工程和测试节奏，再进入模型调用。
+LLM 网关从第 06 章开始。基础学员会先掌握 Python 工程、导入路径和测试节奏，再进入模型调用。
