@@ -29,10 +29,10 @@ Health Agent with ECG Intelligence
 
 注意：当前 `apps/health-agent/ios/` 还没有真实 Xcode 工程，只有占位说明。根级 CI/CD 骨架也还没有落地，包括：
 
-- `ci/discover_ios_projects.py`
-- `fastlane/Fastfile`
+- `apps/ci/discover_ios_projects.py`
+- `apps/fastlane/Fastfile`
 - `.github/workflows/ios-monorepo-build.yml`
-- `Gemfile`
+- `apps/Gemfile`
 
 ## 仓库结构约定
 
@@ -98,10 +98,10 @@ apps/<name>/ci/ios.json
 
 - `shared/`
 - `packages/`
-- `ci/`
-- `fastlane/`
-- `Gemfile`
-- `Gemfile.lock`
+- `apps/ci/`
+- `apps/fastlane/`
+- `apps/Gemfile`
+- `apps/Gemfile.lock`
 - `.github/workflows/ios-monorepo-build.yml`
 
 ## Tag 规范

@@ -1,5 +1,5 @@
-param(
-    [string]$Root = (Resolve-Path "$PSScriptRoot\..").Path
+﻿param(
+    [string]$Root = (Resolve-Path "$PSScriptRoot\..\..").Path
 )
 
 $ErrorActionPreference = "Stop"
@@ -22,7 +22,7 @@ Write-Host "OK asset catalog json"
 [xml](Get-Content -Raw -Encoding UTF8 (Join-Path $healthRoot "ios\HealthAgent\Resources\HealthAgent.entitlements")) | Out-Null
 Write-Host "OK plist and entitlements"
 
-python (Join-Path $projectRoot "ci\discover_ios_projects.py") | Out-Null
+python (Join-Path $projectRoot "apps\ci\discover_ios_projects.py") | Out-Null
 Write-Host "OK project discovery"
 
 $forbidden = "NavigationStack|import Charts|TODO|fatalError|诊断房颤|排除心脏病|治疗建议"

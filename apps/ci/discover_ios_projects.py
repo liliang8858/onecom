@@ -4,14 +4,14 @@ import os
 import subprocess
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 APPS_DIR = ROOT / "apps"
 
 SHARED_PATH_PREFIXES = [
     "shared/",
     "packages/",
-    "ci/",
-    "fastlane/",
+    "apps/ci/",
+    "apps/fastlane/",
     "Gemfile",
     "Gemfile.lock",
     ".github/workflows/ios-monorepo-build.yml",

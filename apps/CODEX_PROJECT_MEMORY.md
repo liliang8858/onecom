@@ -37,9 +37,9 @@ OneCom 是一个配置驱动的 Monorepo，面向两大体系：iOS 客户端应
 当前存在目录：
 
 - `apps/`
-- `ci/`
+- `apps/ci/`
 - `docs/`
-- `fastlane/`
+- `apps/fastlane/`
 - `.github/workflows/`
 - `scripts/`
 
@@ -90,7 +90,7 @@ apps/health-agent/ci/ios.json
 
 2026-05-04 更新：`apps/health-agent/product/ui/` 已加入视觉系统、高保真 UI 图和 App 图片资产。生成的 UI 图位于 `mockups/`，可用图片资产位于 `assets/`，并已复制到 iOS `Assets.xcassets`。
 
-2026-05-04 更新：根级 CI/CD 骨架已落地，包括 `ci/discover_ios_projects.py`、`.github/workflows/ios-monorepo-build.yml`、`fastlane/Fastfile`、`fastlane/Matchfile`、`Gemfile`。`health-agent` 当前 `upload` 为 `none`，Fastlane 会走无签名 iOS Simulator 构建验证；切到 `testflight` 后才走 match、归档和上传。
+2026-05-04 更新：根级 CI/CD 骨架已落地，包括 `apps/ci/discover_ios_projects.py`、`.github/workflows/ios-monorepo-build.yml`、`fastlane/Fastfile`、`fastlane/Matchfile`、`Gemfile`。`health-agent` 当前 `upload` 为 `none`，Fastlane 会走无签名 iOS Simulator 构建验证；切到 `testflight` 后才走 match、归档和上传。
 
 2026-05-04 更新：新增 `scripts/validate_health_agent.ps1`，用于校验 Health Agent 的 `ios.json`、Asset Catalog、plist、entitlements、项目发现脚本、Swift 静态危险模式、UI 图数量。新增 `.gitignore`，忽略 Xcode 生成物、DerivedData、Fastlane 构建产物和 Python 缓存。
 
@@ -170,7 +170,7 @@ CI/CD 采用 GitHub Actions + Dynamic Matrix + self-hosted Mac runner + Fastlane
 流程：
 
 1. GitHub Actions 的 `discover` job 在 Ubuntu runner 上运行。
-2. `ci/discover_ios_projects.py` 扫描 `apps/*/ci/ios.json`。
+2. `apps/ci/discover_ios_projects.py` 扫描 `apps/*/ci/ios.json`。
 3. 脚本根据事件类型、tag、手动输入和变更文件生成 matrix。
 4. `build` job 使用 `fromJSON(...)` 读取 matrix。
 5. 真正的 iOS build 派发到 `[self-hosted, macOS, ios-builder]` Mac runner。

@@ -28,10 +28,10 @@ OneCom 是一个配置驱动的 Monorepo，统一管理 **iOS 客户端应用**�
 
 当前根级 CI/CD 骨架已包含：
 
-- `ci/discover_ios_projects.py`
+- `apps/ci/discover_ios_projects.py`
 - `.github/workflows/ios-monorepo-build.yml`
-- `fastlane/Fastfile`
-- `fastlane/Matchfile`
+- `apps/fastlane/Fastfile`
+- `apps/fastlane/Matchfile`
 - `Gemfile`
 
 `health-agent` 当前 `upload` 为 `none`，CI 会优先做无签名模拟器构建验证。准备好证书、Team、Bundle ID 和 App Store Connect 后，再切换为 TestFlight 上传。
@@ -167,7 +167,7 @@ CI 自动发现 → 生成 Matrix → 派发至 Mac Runner → 构建完成。
 
 ## Mac Runner 配置
 
-详见 [Mac Runner 配置指南](docs/mac-runner-setup.md)
+详见 [Mac Runner 配置指南](apps/docs/mac-runner-setup.md)
 
 **Runner 规格要求：**
 
@@ -229,8 +229,8 @@ CI 解析 Tag → 仅构建目标应用 → 签名 → 上传 TestFlight。
 
 | 文档 | 说明 |
 |------|------|
-| [CI/CD 架构设计](docs/ios-monorepo-ci.md) | Monorepo 自动发现 + 动态 Matrix 完整方案 |
-| [Mac Runner 配置指南](docs/mac-runner-setup.md) | Self-hosted Mac Runner 安装与注册 |
+| [CI/CD 架构设计](apps/docs/ios-monorepo-ci.md) | Monorepo 自动发现 + 动态 Matrix 完整方案 |
+| [Mac Runner 配置指南](apps/docs/mac-runner-setup.md) | Self-hosted Mac Runner 安装与注册 |
 
 ---
 

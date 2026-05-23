@@ -1,4 +1,4 @@
-name: iOS Monorepo CI/CD
+﻿name: iOS Monorepo CI/CD
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           REF_NAME: ${{ github.ref_name }}
           MANUAL_PROJECT: ${{ github.event.inputs.project }}
-        run: python3 ci/discover_ios_projects.py
+        run: python3 apps/ci/discover_ios_projects.py
 
   build:
     name: Build ${{ matrix.id }}
