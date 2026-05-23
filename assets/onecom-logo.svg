@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+<rect width="600" height="400" fill="#ffffff"/>
+<circle cx="300" cy="170" r="58" fill="none" stroke="#1A1A2E" stroke-width="14" stroke-dasharray="204.20 204.20" stroke-linecap="butt"/>
+<circle cx="300" cy="170" r="58" fill="none" stroke="#00D4AA" stroke-width="14" stroke-dasharray="204.20 204.20" stroke-dashoffset="-204.20" stroke-linecap="butt"/>
+<circle cx="358.9" cy="197.5" r="5" fill="#00D4AA"/>
+<circle cx="332.5" cy="226.3" r="5" fill="#00D4AA"/>
+<circle cx="294.3" cy="234.8" r="5" fill="#00D4AA"/>
+<circle cx="258.2" cy="219.8" r="5" fill="#00D4AA"/>
+<circle cx="241.1" cy="197.5" r="5" fill="#00D4AA"/>
+<path d="M 255.0,144.0 A 52,52 0 0,0 274.0,215.0" fill="none" stroke="#00D4AA" stroke-width="2.5" stroke-linecap="round"/>
+<text x="300" y="290" text-anchor="middle" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-weight="700" font-size="42" fill="#1A1A2E" letter-spacing="4">OneCom</text>
+<text x="300" y="325" text-anchor="middle" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-weight="300" font-size="13" fill="#999" letter-spacing="7">iOS APPS + AI AGENTS</text>
+<circle cx="428" cy="290" r="2.5" fill="#00D4AA"/>
+</svg>

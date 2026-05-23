@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs><style>@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700");</style></defs>
+  <rect width="600" height="400" fill="#fff"/>
