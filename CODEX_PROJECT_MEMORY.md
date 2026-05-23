@@ -1,4 +1,4 @@
-# OneCom 项目记忆
+﻿# OneCom 项目记忆
 
 更新时间：2026-05-05
 
@@ -10,11 +10,11 @@
 
 ## 项目定位
 
-OneCom 是一个面向多 iOS 应用的 monorepo 方案。核心目标是把多个 iOS App 放在同一个 GitHub 仓库中统一管理，并通过配置驱动的 CI/CD 自动发现、构建、签名和发布。
+OneCom 是一个配置驱动的 Monorepo，面向两大体系：iOS 客户端应用（`apps/`）和 AI Agent 云端系统（`agents/`）。核心目标是统一管理并通过配置驱动的 CI/CD 实现自动化。
 
 项目设计口号可以概括为：
 
-> 一个仓库，一套流程，N 个应用。
+> 一个仓库，两大体系，N 个项目。
 
 新增应用的理想成本是：提交 `apps/<app-name>/ci/ios.json`，不需要修改 GitHub Actions 主流程、Fastlane 主 lane 或 Mac runner 配置。
 
@@ -287,6 +287,31 @@ Mac 基础要求：
 - 新增真实 iOS app 前，应先确认 Xcode scheme 已 shared，Bundle ID 已在 Apple Developer / App Store Connect 侧准备好。
 - 每个新 app 第一次上 CI 前，应由管理员执行一次 `fastlane match appstore -a <bundle_id>` 准备签名。
 - CI 中处理 App Store Connect API key 和 match 密码时，必须只通过 GitHub Secrets 注入，不要提交到仓库。
+
+
+## 已初始化云端项目：Enterprise Agent
+
+路径：
+```text
+agents/enterprise-agent/
+```
+
+产品定位：**企业级 AI Agent 万能模板项目**
+
+核心设计文档：`agents/enterprise-agent/docs/AI Agent 企业级开发技术设计文档.md`（v1.0）
+
+技术架构要点：
+- 编排层：LangGraph（Planner → Task Decomposer → Tool Router → Synthesizer）
+- LLM 网关：GPT / Claude / Qwen 多模型，支持 vLLM 本地化部署
+- 记忆系统：短期 + 长期 + 向量（Qdrant）+ 图谱四层
+- 工具层：API 调用 / 代码执行 / 搜索 / 数据库
+- RAG：混合检索（BM25 + 向量）+ BGE-Reranker-v2 重排序
+- 多 Agent：Supervisor + Specialist 模式
+- 可观测性：LangSmith + Langfuse（开源备选）
+- 部署：K8s + ArgoCD（GitOps）
+- 覆盖 4 大阶段：系统入门 → 核心开发 → 企业进阶 → 项目落地
+
+`agents/` 与 `apps/` 是平起平坐的两大系统线：前者负责云端 AI 能力，后者负责客户端体验。
 
 ## 我后续处理本项目时的默认判断
 

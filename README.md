@@ -1,6 +1,6 @@
 ﻿<p align="center">
-  <h1 align="center">OneCom iOS Monorepo</h1>
-  <p align="center">多应用统一仓库 · 自动发现构建 · 一键发布 TestFlight</p>
+  <h1 align="center">OneCom Monorepo</h1>
+  <p align="center">iOS 应用 + AI Agent 云端系统 · 统一仓库 · 配置驱动</p>
 </p>
 
 <p align="center">
@@ -17,13 +17,14 @@
 
 ## 项目简介
 
-OneCom 是一个 iOS Monorepo 方案，将多个 iOS 应用统一管理在同一个 Git 仓库中。通过 **配置驱动 + 自动发现** 机制，新增应用无需修改 CI 主流程，只需提交一个 `ios.json` 配置文件即可自动纳入构建管线。
+OneCom 是一个配置驱动的 Monorepo，统一管理 **iOS 客户端应用**（`apps/`）和 **AI Agent 云端系统**（`agents/`）。通过 **配置驱动 + 自动发现** 机制，新增 iOS 应用无需修改 CI 主流程，只需提交一个 `ios.json` 配置文件即可自动纳入构建管线。
 
 ### 已初始化子项目
 
 | 项目 | 路径 | 定位 | CI 配置 |
 |------|------|------|---------|
 | Health Agent iOS | `apps/health-agent/` | Apple Health 连续数据 + ECG 增强的智能健康 Agent App | `apps/health-agent/ci/ios.json` |
+| Enterprise Agent | `agents/enterprise-agent/` | 企业级 AI Agent 万能模板（云端系统） | 技术设计文档 v1.0 |
 
 当前根级 CI/CD 骨架已包含：
 
@@ -56,7 +57,9 @@ powershell -ExecutionPolicy Bypass -File scripts\validate_health_agent.ps1
 
 ```
 onecom/
-├── apps/                           # 应用目录
+├── agents/                         # 云端 AI Agent 系统
+│   └── enterprise-agent/          #   企业级 AI Agent 万能模板
+├── apps/                           # iOS 应用目录
 │   └── health-agent/               #   Apple Health + ECG 智能健康 Agent
 │       ├── h5/                     #     H5 高保真交互原型
 │       ├── ios/                    #     SwiftUI 源码 + XcodeGen 配置
@@ -233,7 +236,9 @@ CI 解析 Tag → 仅构建目标应用 → 签名 → 上传 TestFlight。
 
 ## 设计理念
 
-> **一个仓库，一套流程，N 个应用。**
+> **一个仓库，两大体系，N 个项目。**
+>
+> `apps/` — 客户端应用（iOS），`agents/` — 云端系统（AI Agent）。
 
 新增应用的成本 = **提交一个 JSON 文件**。
 

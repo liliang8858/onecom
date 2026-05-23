@@ -1,4 +1,4 @@
-# AGENTS.md — OneCom iOS Monorepo
+﻿# AGENTS.md — OneCom Monorepo
 
 > Context an agent needs to work in this repo without asking obvious questions.
 
@@ -6,11 +6,28 @@
 
 ## What This Repo Is
 
-A **config-driven iOS monorepo**. Multiple iOS apps live under `apps/`, each declared by a single `ci/ios.json` file. A Python discovery script + GitHub Actions dynamic Matrix handles build orchestration. No CI changes needed to add a new app.
+A **config-driven monorepo**. Multiple iOS apps live under `apps/`, each declared by a single `ci/ios.json` file. A Python discovery script + GitHub Actions dynamic Matrix handles build orchestration. No CI changes needed to add a new app.
 
-Currently one app exists: `apps/health-agent/` (SPM-based, unsigned simulator builds only — no real Xcode project committed yet).
+Currently two projects exist: `apps/health-agent/` (iOS) and `agents/enterprise-agent/` (cloud).
 
 ---
+
+
+## Agents System (`agents/`)
+
+Cloud-side AI Agent projects. Currently one:
+
+### `enterprise-agent` — 企业级 AI Agent 万能模板
+
+Architecture: LangGraph orchestration, LLM gateway (GPT/Claude/Qwen), memory (short/long/vector/graph), tool layer, hybrid RAG, multi-agent collaboration. Covers full lifecycle from entry to production.
+
+| File | Purpose |
+|------|---------|
+| `agents/enterprise-agent/README.md` | Project overview |
+| `agents/enterprise-agent/docs/AI Agent 企业级开发技术设计文档.md` | Full architecture & implementation guide (v1.0) |
+
+---
+
 
 ## Key Commands
 
@@ -141,4 +158,5 @@ These are non-negotiable for the `health-agent` app specifically:
 | `apps/health-agent/ios/project.yml` | XcodeGen project definition |
 | `docs/ios-monorepo-ci.md` | Full CI/CD architecture explainer |
 | `docs/mac-runner-setup.md` | Runner installation and troubleshooting |
-| `CODEX_PROJECT_MEMORY.md` | Detailed project memory (less frequently needed) |
+\| `CODEX_PROJECT_MEMORY\.md` \| Detailed project memory
+| `agents/enterprise-agent/docs/AI Agent 企业级开发技术设计文档.md` | Enterprise Agent architecture | (less frequently needed) |

@@ -1,14 +1,19 @@
-# CLAUDE.md
+﻿# CLAUDE.md
 
 本文件用于说明在当前仓库中协作、阅读和修改代码时应遵守的项目约定。
 
 ## 项目概览
 
-OneCom 是一个面向多个 iOS 应用的 Monorepo。每个子 App 放在 `apps/<app-name>/` 下，拥有自己的 iOS 工程和 CI 配置。仓库目标是通过 GitHub Actions、Fastlane 和自托管 Mac Runner 实现统一发现、构建、签名和发布。
+OneCom 是一个配置驱动的 Monorepo，统一管理 **iOS 客户端应用**（`apps/`）和 **AI Agent 云端系统**（`agents/`）。每个子 App 放在 `apps/<app-name>/` 下，拥有自己的 iOS 工程和 CI 配置；每个云端 Agent 系统放在 `agents/<agent-name>/` 下，独立设计、开发和部署。仓库目标是通过 GitHub Actions、Fastlane 和自托管 Mac Runner 实现统一发现、构建、签名和发布。
 
 ## 当前状态
+### 当前仓库已经初始化第一个子 agents 项目：
+```text
+agents/enterprise-agent/
+```
+它的产品定位是： 企业级 AI Agent 项目万能模板项目
 
-当前仓库已经初始化第一个子 App：
+### 当前仓库已经初始化第一个子 App：
 
 ```text
 apps/health-agent/
