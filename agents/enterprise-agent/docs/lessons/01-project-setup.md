@@ -228,6 +228,14 @@ src/enterprise_agent/
 
 ## 12. 下一章预告
 
-第 02 章会实现统一 LLM 网关。
+第 02 章会讲 Python 包结构与导入路径。
 
-我们会先实现一个不需要真实 API Key 的 `MockLLMClient`。这样你可以先理解模型调用接口、请求结构、返回结构和测试方式，再接入真实模型。
+你会学习：
+
+- 为什么源码放在 `src/enterprise_agent/` 下。
+- `__init__.py` 有什么作用。
+- 什么时候从包入口导出函数或类。
+- 测试里为什么可以直接 `from enterprise_agent import get_project_info`。
+- 后续新增 `llm`、`agents`、`tools` 模块时，应该如何组织导入关系。
+
+统一 LLM 网关会在第 06 章开始实现。这样你会先掌握 Python 工程结构，再进入模型调用。

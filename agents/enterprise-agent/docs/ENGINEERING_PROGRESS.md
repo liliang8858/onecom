@@ -37,10 +37,11 @@ python -m pytest
 
 ## 下一步工程任务
 
-第 02 章实现统一 LLM 网关：
+第 02 章实现 Python 包结构与导入路径：
 
-- `src/enterprise_agent/llm/types.py`
-- `src/enterprise_agent/llm/base.py`
-- `src/enterprise_agent/llm/mock.py`
-- `src/enterprise_agent/llm/router.py`
-- `tests/unit/llm/`
+- 梳理 `src/enterprise_agent/` 包入口。
+- 补充一个小型子模块，让学员理解模块拆分。
+- 演示 `from enterprise_agent import ...` 与内部模块导入的区别。
+- 增加对应单元测试，覆盖公开 API 导出。
+
+LLM 网关推迟到第 06 章开始。这样基础学员会先掌握 Python 工程和测试节奏，再进入模型调用。
