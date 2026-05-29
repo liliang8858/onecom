@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">顶层包入口像一个克制的前台</title>
+  <desc id="desc">小黑守着前台，只把稳定 API 放到 __all__ 公告牌上，内部杂物留在后面。</desc>
+  <rect width="1600" height="900" fill="#fff"/>
+  <g fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M220 595 h610 l60 130 H160z"/>
+    <path d="M255 480 h500 c28 0 52 22 52 50 v65 H205 v-65 c0 -28 22 -50 50 -50z"/>
+    <path d="M330 355 h360 v125 H330z"/>
+    <path d="M365 395 h86"/>
+    <path d="M492 395 h150"/>
+    <path d="M365 438 h248"/>
+    <path d="M1000 250 h315 c40 0 70 28 70 66 v390 c0 38 -30 66 -70 66h-315c-40 0 -70 -28 -70 -66V316c0 -38 30 -66 70 -66z"/>
+    <path d="M985 345 h330"/>
+    <path d="M985 440 h360"/>
+    <path d="M985 535 h320"/>
+    <path d="M985 630 h350"/>
+    <path d="M880 450 C930 408 940 360 930 315"/>
+    <path d="M880 515 C930 540 940 594 928 650"/>
+  </g>
+  <g>
+    <path d="M800 458 c-42 -5 -78 22 -84 64 c-8 44 20 82 63 90 c46 7 84 -19 91 -64 c8 -45 -24 -84 -70 -90z" fill="#111"/>
+    <circle cx="784" cy="522" r="8" fill="#fff"/>
+    <circle cx="822" cy="522" r="8" fill="#fff"/>
+    <path d="M780 612 c-16 40 -16 63 -6 84" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M838 610 c18 34 24 60 18 86" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M740 548 C682 596 632 612 590 620" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M865 528 C900 508 924 482 950 450" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" fill="#111">
+    <text x="360" y="332" font-size="34">__all__ 公告牌</text>
+    <text x="300" y="532" font-size="30">ProjectInfo</text>
+    <text x="300" y="582" font-size="28">get_project_info</text>
+    <text x="1030" y="220" font-size="34">内部货架</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="28" fill="#d13b2f">
+    <text x="1010" y="724">别把所有东西都端出来</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="28" fill="#2670b8">
+    <text x="260" y="780">顶层入口要克制</text>
+  </g>
+  <g fill="none" stroke="#f08a24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M460 640 C565 705 680 704 780 634"/>
+    <path d="M780 634 l-38 5"/>
+    <path d="M780 634 l-16 34"/>
+  </g>
+</svg>

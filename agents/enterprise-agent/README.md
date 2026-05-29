@@ -1,6 +1,6 @@
 # Enterprise Agent — 企业级 AI Agent 课程化工程
 
-> **文档版本**: v1.1 | **更新日期**: 2026-05-24 | **架构阶段**: 课程化实现中
+> **文档版本**: v1.1 | **更新日期**: 2026-05-29 | **架构阶段**: 课程化实现中
 
 ---
 
@@ -31,7 +31,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 当前进度
 
-当前已完成第 02 章：Python 包结构与导入路径。
+当前已完成第 03 章：测试驱动的开发节奏。
 
 进度记录维护在：
 
@@ -41,6 +41,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | [docs/ENGINEERING_PROGRESS.md](docs/ENGINEERING_PROGRESS.md) | 工程实现进度、已完成代码、遗留状态 |
 | [docs/lessons/01-project-setup.md](docs/lessons/01-project-setup.md) | 第 01 章学习文档 |
 | [docs/lessons/02-package-structure.md](docs/lessons/02-package-structure.md) | 第 02 章学习文档 |
+| [docs/lessons/03-testing-rhythm.md](docs/lessons/03-testing-rhythm.md) | 第 03 章学习文档 |
 
 新会话继续推进时，先阅读 `COURSE_PROGRESS.md` 和 `ENGINEERING_PROGRESS.md`，再进入下一章。
 
@@ -71,7 +72,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 |------|------|------|------|----------|
 | 01 | 工程启动与开发环境 | A | 已完成 | `pyproject.toml`、`src/enterprise_agent/`、pytest smoke test |
 | 02 | Python 包结构与导入路径 | A | 已完成 | 包目录、`__init__.py`、模块导入练习 |
-| 03 | 测试驱动的开发节奏 | A | 未开始 | pytest 断言、失败用例、测试命名规范 |
+| 03 | 测试驱动的开发节奏 | A | 已完成 | pytest 断言、失败用例、测试命名规范 |
 | 04 | 配置与环境变量基础 | A | 未开始 | `.env.example`、配置对象、默认值 |
 | 05 | 日志与错误信息 | A | 未开始 | logging 基础、错误消息约定 |
 | 06 | LLM 调用长什么样 | B | 未开始 | `Message`、`LLMRequest`、`LLMResponse` |
@@ -151,6 +152,22 @@ python -m pytest
 4 passed
 ```
 
+### 第 03 章：测试驱动的开发节奏
+
+学习文档：[docs/lessons/03-testing-rhythm.md](docs/lessons/03-testing-rhythm.md)
+
+已完成内容：
+
+- 新增 `format_chapter_title()`，演示一个小需求如何被测试驱动实现。
+- 新增 `tests/unit/test_testing_rhythm.py`，覆盖正常格式化、空白清理和异常输入。
+- 演示 `pytest.raises`、断言粒度和测试命名。
+
+当前结果：
+
+```text
+9 passed
+```
+
 ---
 
 ## 四阶段演进路线
@@ -221,18 +238,21 @@ enterprise-agent/
 │       ├── project.py
 │       └── foundation/
 │           ├── __init__.py
+│           ├── chapter_titles.py
 │           └── package_map.py
 ├── tests/
 │   └── unit/
 │       ├── test_project_setup.py
-│       └── test_package_structure.py
+│       ├── test_package_structure.py
+│       └── test_testing_rhythm.py
 ├── docs/
 │   ├── AI Agent 企业级开发技术设计文档.md
 │   ├── COURSE_PROGRESS.md
 │   ├── ENGINEERING_PROGRESS.md
 │   └── lessons/
 │       ├── 01-project-setup.md
-│       └── 02-package-structure.md
+│       ├── 02-package-structure.md
+│       └── 03-testing-rhythm.md
 └── README.md
 ```
 
@@ -259,7 +279,7 @@ enterprise-agent/
 
 ## 快速开始
 
-当前第 01 章可运行命令：
+当前可运行命令：
 
 ```powershell
 cd E:\onecom\agents\enterprise-agent
@@ -280,6 +300,7 @@ python -m pytest
 | [工程进度](docs/ENGINEERING_PROGRESS.md) | 工程实现状态和验证命令 |
 | [第 01 章：工程启动与开发环境](docs/lessons/01-project-setup.md) | 当前已完成章节 |
 | [第 02 章：Python 包结构与导入路径](docs/lessons/02-package-structure.md) | 当前已完成章节 |
+| [第 03 章：测试驱动的开发节奏](docs/lessons/03-testing-rhythm.md) | 当前已完成章节 |
 
 ---
 

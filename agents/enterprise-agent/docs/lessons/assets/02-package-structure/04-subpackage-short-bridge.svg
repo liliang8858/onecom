@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">子包入口把长路径折成短桥</title>
+  <desc id="desc">小黑在 foundation 子包门口搭短桥，让使用者不用走到 package_map 深处。</desc>
+  <rect width="1600" height="900" fill="#fff"/>
+  <g fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M185 310 h365 c35 0 64 29 64 64 v280 c0 35 -29 64 -64 64H185c-35 0 -64 -29 -64 -64V374c0 -35 29 -64 64 -64z"/>
+    <path d="M180 410 h370"/>
+    <path d="M250 500 h220"/>
+    <path d="M250 580 h170"/>
+    <path d="M1050 275 h345 c36 0 65 28 65 64v325c0 36 -29 65 -65 65h-345c-36 0 -65 -29 -65 -65V339c0 -36 29 -64 65 -64z"/>
+    <path d="M1030 380 h410"/>
+    <path d="M1090 470 h230"/>
+    <path d="M1090 545 h280"/>
+    <path d="M1090 620 h190"/>
+    <path d="M620 505 C715 428 850 426 975 498"/>
+    <path d="M620 575 C745 660 860 662 985 590"/>
+    <path d="M725 500 l165 0"/>
+    <path d="M890 500 l-30 -24"/>
+    <path d="M890 500 l-30 24"/>
+  </g>
+  <g>
+    <path d="M690 492 c-42 -5 -78 24 -84 66 c-6 43 22 80 65 86 c44 6 82 -21 88 -65 c6 -43 -24 -82 -69 -87z" fill="#111"/>
+    <circle cx="674" cy="556" r="8" fill="#fff"/>
+    <circle cx="711" cy="556" r="8" fill="#fff"/>
+    <path d="M668 644 c-15 38 -16 62 -5 84" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M728 642 c17 34 24 60 18 86" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M760 548 C812 520 856 510 905 512" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M624 570 C590 592 560 604 526 610" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" fill="#111">
+    <text x="230" y="270" font-size="36">foundation 入口</text>
+    <text x="1080" y="235" font-size="36">package_map 深处</text>
+    <text x="284" y="468" font-size="28">get_module_names</text>
+    <text x="286" y="548" font-size="28">find_module</text>
+    <text x="1090" y="448" font-size="28">CORE_MODULES</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="28" fill="#2670b8">
+    <text x="625" y="440">短路径</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="28" fill="#d13b2f">
+    <text x="970" y="780">不用每次走到最里面</text>
+  </g>
+  <g fill="none" stroke="#f08a24" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M505 670 C650 772 882 760 1060 665"/>
+    <path d="M1060 665 l-44 0"/>
+    <path d="M1060 665 l-20 38"/>
+  </g>
+</svg>

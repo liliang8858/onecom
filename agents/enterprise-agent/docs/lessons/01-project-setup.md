@@ -13,6 +13,8 @@
 
 本章不会调用真实大模型，也不会实现 Agent 推理逻辑。第一步只做一件事：让工程可以被安装、被导入、被测试。
 
+![第一章先打工程地基](assets/01-project-setup/01-build-baseline.png)
+
 ## 2. 你正在做的项目是什么
 
 本项目叫 `enterprise-agent`，目标是一步步实现一个企业级 AI Agent 工程。
@@ -69,6 +71,8 @@ enterprise-agent/
 
 先记住一个规则：后续正式代码都放在 `src/enterprise_agent/` 下面。
 
+![最小目录骨架](assets/01-project-setup/02-minimal-shelf.png)
+
 ## 5. 安装开发环境
 
 进入项目目录：
@@ -97,6 +101,8 @@ python -m pip install -e ".[dev]"
 
 这里的 `-e` 表示 editable install。它的意思是：你修改 `src/` 下的代码后，不需要重新安装包，测试会直接读取最新代码。
 
+![editable install 是一根活线](assets/01-project-setup/03-editable-wire.png)
+
 ## 6. 运行测试
 
 在 `enterprise-agent` 目录下运行：
@@ -110,6 +116,8 @@ python -m pytest
 - Python 能找到 `enterprise_agent` 包。
 - `pyproject.toml` 的测试配置生效。
 - 当前最小工程结构没有问题。
+
+![pytest 是第一盏验收灯](assets/01-project-setup/04-pytest-lantern.png)
 
 ## 7. 第一段代码：ProjectInfo
 

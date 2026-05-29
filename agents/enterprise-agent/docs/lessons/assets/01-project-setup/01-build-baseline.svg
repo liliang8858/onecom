@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">第一章先打工程地基</title>
+  <desc id="desc">小黑给企业级 Agent 工程铺地基，先让项目可安装、可导入、可测试。</desc>
+  <rect width="1600" height="900" fill="#fff"/>
+  <g fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M245 650 h1010 l85 105 H170z"/>
+    <path d="M300 610 h190 v40 H300z"/>
+    <path d="M520 565 h220 v85 H520z"/>
+    <path d="M775 520 h250 v130 H775z"/>
+    <path d="M1060 585 h190 v65 h-190z"/>
+    <path d="M365 590 v-110 h790 v105"/>
+    <path d="M395 480 h720"/>
+    <path d="M430 425 h170"/>
+    <path d="M665 425 h205"/>
+    <path d="M930 425 h150"/>
+  </g>
+  <g>
+    <path d="M710 500 c-42 -5 -78 22 -86 64 c-8 45 20 84 64 91 c48 7 86 -21 92 -68 c7 -45 -24 -82 -70 -87z" fill="#111"/>
+    <circle cx="693" cy="563" r="8" fill="#fff"/>
+    <circle cx="731" cy="563" r="8" fill="#fff"/>
+    <path d="M685 654 c-16 40 -16 66 -4 91" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M748 651 c22 38 30 68 24 94" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M645 568 c-60 20 -100 35 -145 70" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M780 562 c60 -14 105 -10 152 10" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" fill="#111">
+    <text x="548" y="375" font-size="38">先铺工程地基</text>
+    <text x="330" y="705" font-size="30">可安装</text>
+    <text x="585" y="705" font-size="30">可导入</text>
+    <text x="850" y="705" font-size="30">可测试</text>
+    <text x="1102" y="705" font-size="30">可继续</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="28" fill="#d13b2f">
+    <text x="520" y="805">别急着召唤大模型</text>
+  </g>
+  <g fill="none" stroke="#f08a24" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M250 790 C550 850 960 850 1260 780"/>
+    <path d="M1260 780 l-42 -8"/>
+    <path d="M1260 780 l-24 35"/>
+  </g>
+</svg>
+

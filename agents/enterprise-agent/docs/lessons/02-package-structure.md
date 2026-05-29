@@ -30,6 +30,8 @@ src/
 
 它的好处是：测试必须像真实用户一样导入已安装的包，而不是误打误撞导入当前目录里的某个同名文件。对教学项目来说，这能让学员更早暴露导入路径问题。
 
+![src layout 像一道安检门](assets/02-package-structure/01-src-layout-gate.png)
+
 ## 3. 什么是包
 
 在 Python 里，一个目录只要包含 `__init__.py`，就可以被当成包使用。
@@ -57,6 +59,8 @@ src/enterprise_agent/foundation/__init__.py
 ```python
 from enterprise_agent import foundation
 ```
+
+![__init__.py 是包的钥匙](assets/02-package-structure/02-init-key-door.png)
 
 ## 4. 包入口应该放什么
 
@@ -86,6 +90,8 @@ from enterprise_agent import get_project_info
 ```
 
 不要把所有内部模块都塞进顶层入口。顶层入口越大，后续越难维护。
+
+![顶层包入口像一个克制的前台](assets/02-package-structure/03-public-api-counter.png)
 
 ## 5. 子包应该放什么
 
@@ -148,6 +154,8 @@ from enterprise_agent.foundation.package_map import get_module_names
 ```
 
 这就是子包入口的价值：对外提供更稳定、更短的导入路径。
+
+![子包入口把长路径折成短桥](assets/02-package-structure/04-subpackage-short-bridge.png)
 
 ## 7. 什么时候使用相对导入
 
@@ -265,4 +273,3 @@ python -m pytest
 - 如何读懂 pytest 的失败信息。
 - 如何把一个需求拆成多个断言。
 - 如何命名单元测试，让测试本身成为文档。
-

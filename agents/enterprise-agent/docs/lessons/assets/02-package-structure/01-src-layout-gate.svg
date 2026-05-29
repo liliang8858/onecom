@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">src layout 像一道安检门</title>
+  <desc id="desc">小黑把测试用例推过 src 安检门，避免代码从当前目录偷跑。</desc>
+  <rect width="1600" height="900" fill="#fff"/>
+  <g fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M130 555 C210 520 300 530 380 560"/>
+    <path d="M145 500 l95 -45 l110 44 l-94 48 z"/>
+    <path d="M240 455 v92"/>
+    <path d="M350 499 v85"/>
+    <path d="M170 605 c60 30 170 28 230 -4"/>
+    <path d="M1170 500 l140 -65 l135 66 l-140 72 z"/>
+    <path d="M1170 500 v120 l135 70 l140 -78 v-111"/>
+    <path d="M1305 573 v116"/>
+    <path d="M610 260 h360 c40 0 72 32 72 72 v310 c0 40 -32 72 -72 72 H610 c-40 0 -72 -32 -72 -72 V332 c0 -40 32 -72 72 -72z"/>
+    <path d="M620 260 c18 55 18 398 0 454"/>
+    <path d="M960 260 c-20 55 -20 398 0 454"/>
+    <path d="M702 332 h176"/>
+    <path d="M690 405 h205"/>
+    <path d="M700 480 h160"/>
+    <path d="M690 555 h220"/>
+    <path d="M398 553 C480 548 512 520 548 488"/>
+    <path d="M1040 486 C1112 528 1134 548 1190 560"/>
+  </g>
+  <g>
+    <path d="M487 502 c-36 -4 -68 22 -72 59 c-4 40 23 74 62 78 c43 5 77 -23 81 -65 c4 -38 -26 -68 -71 -72z" fill="#111"/>
+    <circle cx="475" cy="558" r="8" fill="#fff"/>
+    <circle cx="508" cy="558" r="8" fill="#fff"/>
+    <path d="M466 638 c-10 36 -12 56 -5 74" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M520 636 c18 28 25 50 21 72" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M421 578 C360 566 320 562 286 570" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M553 572 C600 560 626 544 650 515" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="34" fill="#111">
+    <text x="662" y="214">src 是安检门</text>
+    <text x="175" y="430">当前目录</text>
+    <text x="1198" y="420">已安装的包</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="28" fill="#d13b2f">
+    <text x="588" y="760">别让测试偷看旁边文件</text>
+  </g>
+  <g font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="27" fill="#2670b8">
+    <text x="1085" y="660">像真实用户一样 import</text>
+  </g>
+  <g fill="none" stroke="#f08a24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M440 735 C660 805 940 805 1160 720"/>
+    <path d="M1160 720 l-38 -8"/>
+    <path d="M1160 720 l-24 32"/>
+  </g>
+</svg>
+
