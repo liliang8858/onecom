@@ -1,6 +1,6 @@
 # Enterprise Agent — 企业级 AI Agent 课程化工程
 
-> **文档版本**: v1.1 | **更新日期**: 2026-05-29 | **架构阶段**: 课程化实现中
+> **文档版本**: v1.2 | **更新日期**: 2026-05-30 | **架构阶段**: 课程化实现中
 
 ---
 
@@ -31,7 +31,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 当前进度
 
-当前已完成第 03 章：测试驱动的开发节奏。
+当前已完成第 04 章：配置与环境变量基础。
 
 进度记录维护在：
 
@@ -42,6 +42,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | [docs/lessons/01-project-setup.md](docs/lessons/01-project-setup.md) | 第 01 章学习文档 |
 | [docs/lessons/02-package-structure.md](docs/lessons/02-package-structure.md) | 第 02 章学习文档 |
 | [docs/lessons/03-testing-rhythm.md](docs/lessons/03-testing-rhythm.md) | 第 03 章学习文档 |
+| [docs/lessons/04-config-env.md](docs/lessons/04-config-env.md) | 第 04 章学习文档 |
 
 新会话继续推进时，先阅读 `COURSE_PROGRESS.md` 和 `ENGINEERING_PROGRESS.md`，再进入下一章。
 
@@ -73,7 +74,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | 01 | 工程启动与开发环境 | A | 已完成 | `pyproject.toml`、`src/enterprise_agent/`、pytest smoke test |
 | 02 | Python 包结构与导入路径 | A | 已完成 | 包目录、`__init__.py`、模块导入练习 |
 | 03 | 测试驱动的开发节奏 | A | 已完成 | pytest 断言、失败用例、测试命名规范 |
-| 04 | 配置与环境变量基础 | A | 未开始 | `.env.example`、配置对象、默认值 |
+| 04 | 配置与环境变量基础 | A | 已完成 | `.env.example`、配置对象、默认值 |
 | 05 | 日志与错误信息 | A | 未开始 | logging 基础、错误消息约定 |
 | 06 | LLM 调用长什么样 | B | 未开始 | `Message`、`LLMRequest`、`LLMResponse` |
 | 07 | MockLLMClient：不用 API Key 学模型调用 | B | 未开始 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
@@ -168,6 +169,24 @@ python -m pytest
 9 passed
 ```
 
+### 第 04 章：配置与环境变量基础
+
+学习文档：[docs/lessons/04-config-env.md](docs/lessons/04-config-env.md)
+
+已完成内容：
+
+- 新增 `AppConfig`，集中管理当前阶段的运行配置。
+- 新增 `load_app_config()`，支持默认值和环境变量覆盖。
+- 校验运行环境、日志级别、空文本配置和 token 预算。
+- 更新 `.env.example`，说明本地配置项和 `.env` 边界。
+- 新增 `tests/unit/test_config_basics.py`，覆盖配置默认值、覆盖和非法输入。
+
+当前结果：
+
+```text
+17 passed
+```
+
 ---
 
 ## 四阶段演进路线
@@ -231,6 +250,7 @@ python -m pytest
 
 ```text
 enterprise-agent/
+├── .env.example
 ├── pyproject.toml
 ├── src/
 │   └── enterprise_agent/
@@ -239,12 +259,14 @@ enterprise-agent/
 │       └── foundation/
 │           ├── __init__.py
 │           ├── chapter_titles.py
+│           ├── config.py
 │           └── package_map.py
 ├── tests/
 │   └── unit/
 │       ├── test_project_setup.py
 │       ├── test_package_structure.py
-│       └── test_testing_rhythm.py
+│       ├── test_testing_rhythm.py
+│       └── test_config_basics.py
 ├── docs/
 │   ├── AI Agent 企业级开发技术设计文档.md
 │   ├── COURSE_PROGRESS.md
@@ -252,7 +274,8 @@ enterprise-agent/
 │   └── lessons/
 │       ├── 01-project-setup.md
 │       ├── 02-package-structure.md
-│       └── 03-testing-rhythm.md
+│       ├── 03-testing-rhythm.md
+│       └── 04-config-env.md
 └── README.md
 ```
 
@@ -301,6 +324,7 @@ python -m pytest
 | [第 01 章：工程启动与开发环境](docs/lessons/01-project-setup.md) | 当前已完成章节 |
 | [第 02 章：Python 包结构与导入路径](docs/lessons/02-package-structure.md) | 当前已完成章节 |
 | [第 03 章：测试驱动的开发节奏](docs/lessons/03-testing-rhythm.md) | 当前已完成章节 |
+| [第 04 章：配置与环境变量基础](docs/lessons/04-config-env.md) | 当前已完成章节 |
 
 ---
 
