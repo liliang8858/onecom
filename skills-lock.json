@@ -156,6 +156,12 @@
       "sourceType": "github",
       "skillPath": "skills/wechat-article-writer/SKILL.md",
       "computedHash": "685e099afd0564cc46717c9cdc1a4fb857fed8aa6f9797ea5b08c798002df0b3"
+    },
+    "wechat-tech-writer": {
+      "source": "BND-1/wechat_article_skills",
+      "sourceType": "github",
+      "skillPath": "wechat-tech-writer/SKILL.md",
+      "computedHash": "d10d20913307796cbc9a8bcbfac7fa57b2e9daa0556badd1b2cfa36b39ea2d06"
     }
   }
 }
