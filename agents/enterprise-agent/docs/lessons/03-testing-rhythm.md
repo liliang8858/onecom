@@ -1,5 +1,7 @@
 # 第 03 章：测试驱动的开发节奏
 
+![测试节奏封面图](assets/03-testing-rhythm/cover.jpg)
+
 ## 1. 本章交付物
 
 本章会新增一个小函数：
@@ -81,6 +83,8 @@ format_chapter_title(3, "测试驱动的开发节奏")
 | 失败信息 | pytest 给出的定位线索，不是噪音 |
 
 ## 6. TDD 最小循环
+
+![TDD 最小循环插图](assets/03-testing-rhythm/concept.jpg)
 
 TDD 可以先记成：
 
@@ -187,6 +191,8 @@ def format_chapter_title(number: int, title: str) -> str:
 - 最后返回稳定格式。
 
 ## 12. 怎么读 pytest 失败信息
+
+![pytest 失败信息插图](assets/03-testing-rhythm/flow.jpg)
 
 当测试失败时，先看三件事：
 

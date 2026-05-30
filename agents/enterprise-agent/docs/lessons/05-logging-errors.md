@@ -1,5 +1,7 @@
 # 第 05 章：日志与错误信息
 
+![日志与错误封面图](assets/05-logging-errors/cover.jpg)
+
 ## 1. 本章交付物
 
 本章会新增一个日志基础模块：
@@ -59,6 +61,8 @@ AppConfig.log_level -> configure_logging() -> logging.Logger -> StreamHandler ->
 
 ## 4. 关键术语
 
+![日志关键术语插图](assets/05-logging-errors/concept.jpg)
+
 | 术语 | 在本章里的意思 |
 |------|----------------|
 | logger | 日志对象，负责发出日志事件 |
@@ -68,6 +72,8 @@ AppConfig.log_level -> configure_logging() -> logging.Logger -> StreamHandler ->
 | propagation | 日志是否继续传给父 logger |
 
 ## 5. configure_logging
+
+![日志配置流程插图](assets/05-logging-errors/flow.jpg)
 
 核心函数是：
 

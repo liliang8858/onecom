@@ -1,5 +1,7 @@
 # 第 02 章：Python 包结构与导入路径
 
+![包结构封面图](assets/02-package-structure/cover.jpg)
+
 ## 1. 本章交付物
 
 本章结束时，项目会新增一个 `foundation` 子包，并用测试保护导入边界。
@@ -41,6 +43,8 @@ src/
 它的好处是：测试会像真实使用者一样导入包，而不是误导入当前目录中的同名文件。教学项目越早暴露导入路径问题，后面越少返工。
 
 ## 3. 包和模块的边界
+
+![包与模块边界插图](assets/02-package-structure/concept.jpg)
 
 在 Python 里，包含 `__init__.py` 的目录可以作为包使用。
 
@@ -109,6 +113,8 @@ from enterprise_agent import get_project_info
 顶层入口不要急着放很多东西。公开 API 越大，后续重构成本越高。
 
 ## 6. 子包入口
+
+![导入路径流程插图](assets/02-package-structure/flow.jpg)
 
 本章新增：
 

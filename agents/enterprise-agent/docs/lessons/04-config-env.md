@@ -1,5 +1,7 @@
 # 第 04 章：配置与环境变量基础
 
+![配置基础封面图](assets/04-config-env/cover.jpg)
+
 ## 1. 本章交付物
 
 本章会新增一个运行配置模块：
@@ -63,6 +65,8 @@ token_budget = 100000
 
 ## 4. 配置字段
 
+![配置字段关系插图](assets/04-config-env/concept.jpg)
+
 本章配置字段如下：
 
 | 字段 | 默认值 | 环境变量 |
@@ -104,6 +108,8 @@ class AppConfig:
 这能减少一种常见问题：程序运行过程中，某个函数偷偷改了全局配置，导致后续行为不可预测。
 
 ## 7. load_app_config
+
+![配置加载流程插图](assets/04-config-env/flow.jpg)
 
 加载函数是：
 
