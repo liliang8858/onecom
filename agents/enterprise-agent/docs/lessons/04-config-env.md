@@ -1,16 +1,27 @@
 # 第 04 章：配置与环境变量基础
 
-## 1. 本章学习目标
+## 1. 本章交付物
 
-学完本章后，你应该能做到：
+本章会新增一个运行配置模块：
 
-- 解释为什么配置不应该散落在业务代码里。
-- 能区分默认配置、环境变量和运行时配置对象。
-- 能写一个简单、可测试的配置加载函数。
-- 能为非法配置写单元测试。
-- 能读懂 `.env.example` 的作用和边界。
+```text
+src/enterprise_agent/foundation/config.py
+```
 
-本章仍然不调用真实大模型。我们先解决一个更基础的问题：程序如何知道自己运行在哪个环境、使用哪个默认模型、允许消耗多少 token。
+它提供两个公开对象：
+
+```python
+AppConfig
+load_app_config()
+```
+
+本章结束时，项目应该能做到：
+
+- 有一组安全默认配置。
+- 可以用环境变量覆盖默认值。
+- 能在启动阶段拒绝非法配置。
+- 测试不需要修改真实系统环境。
+- `.env.example` 能说明项目需要哪些配置项。
 
 ## 2. 为什么需要配置对象
 
@@ -21,37 +32,28 @@ model = "mock-chat"
 token_budget = 100000
 ```
 
-这样短期看很方便，但项目一旦进入真实环境就会遇到问题：
+这在演示阶段很方便，但真实项目会很快出问题：
 
 - 本地、测试、生产环境需要不同配置。
-- API、日志、预算、模型名称不能到处复制。
-- 错误配置应该在启动时被发现，而不是运行一半才出错。
-- 测试需要替换配置，但不应该污染真实系统环境。
+- 模型名、日志级别、预算不能散落在各处。
+- 错误配置应该尽早暴露。
+- 测试需要构造不同配置，但不能污染真实电脑环境。
 
-所以本章新增一个配置对象：
+配置对象的作用是把这些运行参数集中起来，形成一个清楚、可测试、可复用的入口。
 
-```python
-AppConfig
-```
+## 3. 本章在前四章中的位置
 
-它把当前阶段需要的配置集中起来，让后续章节可以稳定复用。
+第 04 章把前三章的能力合在一起：
 
-## 3. 本章要实现什么
+- 第 01 章：工程能运行。
+- 第 02 章：配置代码放进正确的包。
+- 第 03 章：先用测试描述规则。
 
-新增文件：
+配置模块是前四章的第一次小整合。它虽然不调用模型，但后续 LLM 网关、日志、API 和部署都会依赖它。
 
-```text
-src/enterprise_agent/foundation/config.py
-```
+## 4. 配置字段
 
-新增公开 API：
-
-```python
-AppConfig
-load_app_config()
-```
-
-配置字段包括：
+本章配置字段如下：
 
 | 字段 | 默认值 | 环境变量 |
 |------|--------|----------|
@@ -61,9 +63,9 @@ load_app_config()
 | `default_model` | `mock-chat` | `ENTERPRISE_AGENT_DEFAULT_MODEL` |
 | `token_budget` | `100000` | `ENTERPRISE_AGENT_TOKEN_BUDGET` |
 
-这些字段都很朴素，但已经覆盖了企业 Agent 项目中最常见的配置类型：名称、环境、日志级别、模型选择和预算。
+这些字段覆盖了企业 Agent 项目最常见的运行参数：应用名、环境、日志级别、默认模型和 token 预算。
 
-## 4. 配置对象
+## 5. AppConfig
 
 核心对象是：
 
@@ -77,27 +79,27 @@ class AppConfig:
     token_budget: int = DEFAULT_TOKEN_BUDGET
 ```
 
-这里使用 `frozen=True`，表示配置对象创建后不应该被随意修改。
+`frozen=True` 表示配置对象创建后不应该被修改。
 
-这不是为了炫技，而是为了减少一种常见问题：程序运行过程中，某个函数偷偷改了全局配置，导致后面的行为不可预测。
+这能减少一种常见问题：程序运行过程中，某个函数偷偷改了全局配置，导致后续行为不可预测。
 
-## 5. 从环境变量加载配置
+## 6. load_app_config
 
-本章的加载函数是：
+加载函数是：
 
 ```python
 def load_app_config(environ: Mapping[str, str] | None = None) -> AppConfig:
 ```
 
-它有两个使用方式。
+它支持两种使用方式。
 
-生产代码可以直接读取系统环境变量：
+生产代码直接读真实环境变量：
 
 ```python
 config = load_app_config()
 ```
 
-测试代码可以传入一个字典：
+测试代码传入字典：
 
 ```python
 config = load_app_config(
@@ -108,11 +110,11 @@ config = load_app_config(
 )
 ```
 
-这个设计很重要：测试不需要真的修改电脑上的环境变量，就能验证不同配置场景。
+这个设计让测试保持干净。测试不需要修改操作系统环境变量，也不依赖开发者电脑上的真实配置。
 
-## 6. 默认值
+## 7. 默认值
 
-如果没有传入任何环境变量：
+没有传入环境变量时：
 
 ```python
 config = load_app_config({})
@@ -137,9 +139,9 @@ AppConfig(
 - 不触发外部服务。
 - 后续章节可以平滑替换。
 
-所以默认模型叫 `mock-chat`，它只是后续 Mock LLM 客户端的占位名称。
+`mock-chat` 只是 Mock LLM 客户端的占位名称，不代表已经接入真实模型。
 
-## 7. 环境变量覆盖
+## 8. 环境变量覆盖
 
 当环境变量存在时，它会覆盖默认值：
 
@@ -163,21 +165,26 @@ config.log_level == "DEBUG"
 config.token_budget == 2500
 ```
 
-注意两个细节：
+两个细节需要注意：
 
 - `environment` 会转成小写。
 - `log_level` 会转成大写。
 
-这可以降低配置输入的脆弱性。用户写 `debug` 或 `DEBUG`，程序都能得到稳定的 `DEBUG`。
+这样用户写 `debug` 或 `DEBUG`，程序都能得到稳定的 `DEBUG`。
 
-## 8. 配置校验
+## 9. 配置校验
 
-配置不是“读出来就算成功”。读出来以后还要检查是否合法。
+配置读取后还必须校验。
 
-本章约束如下：
+允许的环境是：
 
 ```python
 ALLOWED_ENVIRONMENTS = ("development", "test", "production")
+```
+
+允许的日志级别是：
+
+```python
 ALLOWED_LOG_LEVELS = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
 ```
 
@@ -205,9 +212,9 @@ load_app_config({"ENTERPRISE_AGENT_TOKEN_BUDGET": "many"})
 ValueError: ENTERPRISE_AGENT_TOKEN_BUDGET must be an integer
 ```
 
-配置校验越靠近启动阶段，系统越容易排查。不要等到 Agent 已经开始执行任务，才发现预算配置写错了。
+配置错误越早暴露，排查成本越低。不要等到 Agent 已经开始执行任务，才发现预算或环境名写错。
 
-## 9. `.env.example` 的作用
+## 10. `.env.example`
 
 本章更新了：
 
@@ -227,15 +234,15 @@ ENTERPRISE_AGENT_TOKEN_BUDGET=100000
 
 `.env.example` 不是秘密文件。它的作用是告诉开发者和部署人员：
 
-- 这个项目需要哪些配置项。
-- 每个配置项长什么样。
+- 项目需要哪些配置项。
+- 每个配置项的名字是什么。
 - 本地实验可以从哪些默认值开始。
 
-真正的 `.env`、API Key、密码和生产密钥不应该提交到仓库。
+真正的 `.env`、API Key、密码和生产密钥不能提交到仓库。
 
 本章代码只读取真实环境变量，不直接解析 `.env` 文件。等后续进入 API 或部署章节，再决定是否引入专门的配置库。
 
-## 10. 本章测试
+## 11. 测试解读
 
 测试文件是：
 
@@ -245,59 +252,22 @@ tests/unit/test_config_basics.py
 
 它覆盖八个场景：
 
-```python
-test_load_app_config_uses_safe_defaults
-```
+- 没有环境变量时使用安全默认值。
+- 环境变量可以覆盖默认值。
+- 文本配置不能为空。
+- 环境名必须在允许范围内。
+- 日志级别必须在允许范围内。
+- token 预算必须是整数。
+- token 预算不能是空字符串。
+- token 预算必须大于 0。
 
-验证没有环境变量时使用安全默认值。
+这些测试共同保护一个目标：配置错误要尽早、清楚、可复现地暴露出来。
 
-```python
-test_load_app_config_reads_environment_overrides
-```
+## 12. 为什么暂时不用 Pydantic Settings
 
-验证环境变量可以覆盖默认值。
+真实项目里，Pydantic Settings 是常见选择。但第 04 章暂时不用它。
 
-```python
-test_load_app_config_rejects_empty_text_value
-```
-
-验证文本配置不能为空。
-
-```python
-test_load_app_config_rejects_unknown_environment
-```
-
-验证环境名必须在允许范围内。
-
-```python
-test_load_app_config_rejects_unknown_log_level
-```
-
-验证日志级别必须在允许范围内。
-
-```python
-test_load_app_config_rejects_non_integer_token_budget
-```
-
-验证 token 预算必须是整数。
-
-```python
-test_load_app_config_rejects_empty_token_budget
-```
-
-验证 token 预算不能是空字符串。
-
-```python
-test_load_app_config_rejects_non_positive_token_budget
-```
-
-验证 token 预算必须大于 0。
-
-## 11. 为什么不直接用 Pydantic Settings
-
-真实项目里，Pydantic Settings 是常见选择。但本课程第 04 章暂时不用它。
-
-原因是本阶段目标不是学习配置框架，而是先理解配置的基本边界：
+原因是本阶段要先理解配置的基本边界：
 
 - 默认值从哪里来。
 - 环境变量如何覆盖默认值。
@@ -307,47 +277,40 @@ test_load_app_config_rejects_non_positive_token_budget
 
 等项目进入 API、部署或更复杂的多环境管理时，再引入配置框架会更自然。
 
-## 12. 本章练习
+## 13. 练习
 
-请完成以下练习：
-
-1. 新增一个配置字段 `request_timeout_seconds`，默认值为 `30`。
+1. 新增配置字段 `request_timeout_seconds`，默认值为 `30`。
 2. 为它设计环境变量名：`ENTERPRISE_AGENT_REQUEST_TIMEOUT_SECONDS`。
 3. 写测试验证默认值。
 4. 写测试验证环境变量可以覆盖默认值。
 5. 写测试验证 `0` 或负数会被拒绝。
 
-练习时不要先改很多代码。先写一个失败测试，再补最少实现。
+练习时先写失败测试，再补最少实现。
 
-## 13. 本章验收标准
+## 14. 验收标准
 
-完成本章后，你需要能独立做到：
+完成本章后，你应该能独立解释：
 
-- 运行 `python -m pytest`。
-- 解释 `AppConfig` 每个字段的用途。
-- 解释 `load_app_config({})` 和 `load_app_config()` 的区别。
-- 解释为什么测试里传字典比直接改系统环境更清楚。
-- 解释 `.env.example` 为什么可以提交，而 `.env` 不应该提交。
+- `AppConfig` 每个字段的用途。
+- `load_app_config({})` 和 `load_app_config()` 的区别。
+- 为什么测试里传字典比直接改系统环境更清楚。
+- `.env.example` 为什么可以提交。
+- `.env` 为什么不应该提交。
 
-当前验收命令：
+验收命令：
 
 ```powershell
 python -m pytest
 ```
 
-应该看到：
+第 04 章完成时应看到：
 
 ```text
 17 passed
 ```
 
-## 14. 下一章预告
+## 15. 下一章
 
 第 05 章会讲日志与错误信息。
 
-你会学习：
-
-- 为什么不要用 `print()` 当正式日志。
-- 如何根据配置设置日志级别。
-- 如何写对人有帮助的错误消息。
-- 如何让测试验证错误信息没有退化。
+你会学习如何根据配置设置日志级别，如何写清楚的错误消息，以及如何用测试防止错误信息退化。

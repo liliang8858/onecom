@@ -111,6 +111,14 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 已完成章节
 
+前四章是一组工程基础课，学习顺序如下：
+
+```text
+01 工程可运行 -> 02 包结构清楚 -> 03 测试节奏稳定 -> 04 配置可管理
+```
+
+这一组章节暂不进入真实模型调用。目标是先建立一个可安装、可导入、可测试、可配置的 Python 工程基线。
+
 ### 第 01 章：工程启动与开发环境
 
 学习文档：[docs/lessons/01-project-setup.md](docs/lessons/01-project-setup.md)
@@ -130,7 +138,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 python -m pytest
 ```
 
-当前结果：
+本章完成时结果：
 
 ```text
 1 passed
@@ -147,7 +155,7 @@ python -m pytest
 - 演示顶层包入口与子包入口的导入边界。
 - 新增 `tests/unit/test_package_structure.py`，验证公开 API、子包导入和模块查找。
 
-当前结果：
+本章完成时结果：
 
 ```text
 4 passed
@@ -163,7 +171,7 @@ python -m pytest
 - 新增 `tests/unit/test_testing_rhythm.py`，覆盖正常格式化、空白清理和异常输入。
 - 演示 `pytest.raises`、断言粒度和测试命名。
 
-当前结果：
+本章完成时结果：
 
 ```text
 9 passed
@@ -181,7 +189,7 @@ python -m pytest
 - 更新 `.env.example`，说明本地配置项和 `.env` 边界。
 - 新增 `tests/unit/test_config_basics.py`，覆盖配置默认值、覆盖和非法输入。
 
-当前结果：
+当前仓库测试结果：
 
 ```text
 17 passed

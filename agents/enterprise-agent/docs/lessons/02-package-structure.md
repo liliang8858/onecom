@@ -1,20 +1,20 @@
 # 第 02 章：Python 包结构与导入路径
 
-## 1. 本章学习目标
+## 1. 本章交付物
 
-学完本章后，你应该能做到：
+本章结束时，项目会新增一个 `foundation` 子包，并用测试保护导入边界。
 
-- 解释为什么源码放在 `src/enterprise_agent/` 下。
-- 解释 `__init__.py` 的作用。
-- 区分“包入口导入”和“子模块导入”。
-- 知道什么内容适合放进包入口公开，什么内容应该留在子模块里。
-- 能为一个新子包添加代码和测试。
+你需要理解三件事：
 
-本章仍然不调用大模型。我们先把 Python 包结构讲清楚，因为后续 LLM、Agent、Tool、RAG 和记忆系统都会依赖这个结构。
+- 源码为什么放在 `src/enterprise_agent/`。
+- 顶层包入口应该公开什么。
+- 子包入口如何提供稳定的短导入路径。
 
-## 2. 为什么使用 src 布局
+本章仍然不写大模型逻辑。包结构如果不清楚，后面的 LLM、Agent、工具、RAG 和记忆模块都会变得难以维护。
 
-当前源码目录是：
+## 2. 为什么使用 src layout
+
+当前源码结构是：
 
 ```text
 src/
@@ -28,13 +28,11 @@ src/
 
 这叫 `src layout`。
 
-它的好处是：测试必须像真实用户一样导入已安装的包，而不是误打误撞导入当前目录里的某个同名文件。对教学项目来说，这能让学员更早暴露导入路径问题。
+它的好处是：测试会像真实使用者一样导入包，而不是误导入当前目录中的同名文件。教学项目越早暴露导入路径问题，后面越少返工。
 
-![src layout 像一道安检门](assets/02-package-structure/01-src-layout-gate.png)
+## 3. 包和模块的边界
 
-## 3. 什么是包
-
-在 Python 里，一个目录只要包含 `__init__.py`，就可以被当成包使用。
+在 Python 里，包含 `__init__.py` 的目录可以作为包使用。
 
 例如：
 
@@ -42,7 +40,7 @@ src/
 src/enterprise_agent/__init__.py
 ```
 
-让我们可以这样导入：
+让外部可以导入：
 
 ```python
 import enterprise_agent
@@ -54,15 +52,15 @@ import enterprise_agent
 src/enterprise_agent/foundation/__init__.py
 ```
 
-让我们可以这样导入：
+让外部可以导入：
 
 ```python
 from enterprise_agent import foundation
 ```
 
-![__init__.py 是包的钥匙](assets/02-package-structure/02-init-key-door.png)
+`__init__.py` 不只是占位文件。它也是这个包对外公开内容的入口。
 
-## 4. 包入口应该放什么
+## 4. 顶层包入口
 
 打开：
 
@@ -78,7 +76,7 @@ from .project import ProjectInfo, get_project_info
 __all__ = ["ProjectInfo", "get_project_info"]
 ```
 
-这表示顶层包只公开第一章需要的最小 API：
+这表示顶层包只公开两个对象：
 
 - `ProjectInfo`
 - `get_project_info`
@@ -89,27 +87,55 @@ __all__ = ["ProjectInfo", "get_project_info"]
 from enterprise_agent import get_project_info
 ```
 
-不要把所有内部模块都塞进顶层入口。顶层入口越大，后续越难维护。
+顶层入口不要急着放很多东西。公开 API 越大，后续重构成本越高。
 
-![顶层包入口像一个克制的前台](assets/02-package-structure/03-public-api-counter.png)
+## 5. 子包入口
 
-## 5. 子包应该放什么
-
-本章新增了：
+本章新增：
 
 ```text
 src/enterprise_agent/foundation/
 ```
 
-这个子包用于放工程基础阶段的教学辅助代码。
+它用于放工程基础阶段的辅助代码。
 
-其中：
+打开：
 
 ```text
-package_map.py
+src/enterprise_agent/foundation/__init__.py
 ```
 
-定义了一个很小的课程模块地图：
+核心代码是：
+
+```python
+from .package_map import CORE_MODULES, ModuleInfo, find_module, get_module_names
+
+__all__ = ["CORE_MODULES", "ModuleInfo", "find_module", "get_module_names"]
+```
+
+这样外部可以写：
+
+```python
+from enterprise_agent.foundation import get_module_names
+```
+
+而不需要写：
+
+```python
+from enterprise_agent.foundation.package_map import get_module_names
+```
+
+子包入口的价值是给外部一个稳定、简短的访问路径。内部文件以后可以调整，外部导入方式尽量不变。
+
+## 6. ModuleInfo 是什么
+
+打开：
+
+```text
+src/enterprise_agent/foundation/package_map.py
+```
+
+核心对象是：
 
 ```python
 @dataclass(frozen=True)
@@ -119,124 +145,73 @@ class ModuleInfo:
     first_chapter: int
 ```
 
-它描述一个模块：
+它描述课程中的一个模块：
 
-- 模块名是什么
-- 模块负责什么
-- 从第几章开始出现
+- `name`：模块名。
+- `purpose`：模块负责什么。
+- `first_chapter`：从第几章开始出现。
 
-## 6. 子包入口的作用
+这不是业务功能，而是一个小而完整的教学例子。它能同时练习 dataclass、tuple、查找函数、子包导出和单元测试。
 
-打开：
+## 7. 相对导入
 
-```text
-src/enterprise_agent/foundation/__init__.py
-```
-
-你会看到：
-
-```python
-from .package_map import CORE_MODULES, ModuleInfo, find_module, get_module_names
-
-__all__ = ["CORE_MODULES", "ModuleInfo", "find_module", "get_module_names"]
-```
-
-这表示使用者可以这样导入：
-
-```python
-from enterprise_agent.foundation import get_module_names
-```
-
-而不需要这样写：
-
-```python
-from enterprise_agent.foundation.package_map import get_module_names
-```
-
-这就是子包入口的价值：对外提供更稳定、更短的导入路径。
-
-![子包入口把长路径折成短桥](assets/02-package-structure/04-subpackage-short-bridge.png)
-
-## 7. 什么时候使用相对导入
-
-在包内部，推荐使用相对导入。
-
-例如：
+在包内部，推荐使用相对导入：
 
 ```python
 from .package_map import get_module_names
 ```
 
-这里的 `.` 表示“当前包”。
+`.` 表示当前包。
 
-如果在 `enterprise_agent/foundation/__init__.py` 中写绝对导入，也可以工作：
+也可以写绝对导入：
 
 ```python
 from enterprise_agent.foundation.package_map import get_module_names
 ```
 
-但在包内部，相对导入更简洁，也更能表达“这是同一个包里的模块”。
+但在包内部，相对导入更短，也更清楚地表达“这是同一包里的模块”。
 
-## 8. 本章测试
+## 8. 测试解读
 
-本章新增：
+本章测试文件是：
 
 ```text
 tests/unit/test_package_structure.py
 ```
 
-测试分三类：
+它保护三类边界。
 
-第一类：验证顶层包入口只公开当前需要的 API。
+第一类：顶层包入口只公开当前需要的 API。
 
 ```python
 assert enterprise_agent.__all__ == ["ProjectInfo", "get_project_info"]
 ```
 
-第二类：验证子包能正常导入课程模块地图。
+第二类：子包入口可以正常导入模块地图。
 
 ```python
 assert get_module_names() == ("foundation", "llm", "agents", "tools")
 ```
 
-第三类：验证查找函数能处理存在和不存在的模块。
+第三类：查找函数能处理存在和不存在的模块。
 
 ```python
 assert find_module("missing") is None
 ```
 
-## 9. 常见问题
+这些测试不是为了让覆盖率好看，而是为了防止导入边界在后续章节中被悄悄破坏。
 
-### 9.1 为什么不把 foundation 也放到顶层 __all__
+## 9. 设计规则
 
-因为顶层 API 要克制。
+新增模块时，先问三个问题：
 
-`enterprise_agent` 是整个包的入口，只应该放最稳定、最常用的对象。`foundation` 是一个子包，使用者可以显式导入：
+- 这个对象是不是外部经常需要？
+- 它是不是足够稳定？
+- 放到顶层入口后，会不会让包入口变得混乱？
 
-```python
-from enterprise_agent.foundation import get_module_names
-```
+如果答案不确定，就先留在子包里。公开 API 应该慢一点扩张。
 
-这样边界更清楚。
-
-### 9.2 为什么测试 __all__
-
-`__all__` 是公开 API 清单。测试它可以提醒我们：不要无意中把内部对象暴露给学员或外部使用者。
-
-### 9.3 为什么现在就写 ModuleInfo
-
-它不是业务功能，而是教学用例。它足够小，但能同时讲清楚：
-
-- dataclass
-- 子模块
-- 子包入口
-- tuple 返回值
-- `None` 的处理
-- 单元测试
-
-## 10. 本章练习
-
-请完成以下练习：
+## 10. 练习
 
 1. 在 `CORE_MODULES` 中新增一个模块：`api`。
 2. 设置它的 `first_chapter` 为 `31`。
@@ -244,15 +219,16 @@ from enterprise_agent.foundation import get_module_names
 4. 写一个测试，断言 `find_module("api")` 能返回 `ModuleInfo`。
 5. 再写一个测试，断言 `find_module("unknown") is None`。
 
-## 11. 本章验收标准
+练习目标是熟悉“先定义边界，再用测试保护边界”。
 
-完成本章后，你需要能独立解释：
+## 11. 验收标准
 
-- `src/enterprise_agent/` 是什么。
-- `enterprise_agent/__init__.py` 做什么。
-- `enterprise_agent/foundation/__init__.py` 做什么。
-- 什么是顶层公开 API。
-- 为什么子包可以有自己的公开 API。
+完成本章后，你应该能独立解释：
+
+- 什么是 `src layout`。
+- `enterprise_agent/__init__.py` 负责什么。
+- `enterprise_agent/foundation/__init__.py` 负责什么。
+- 为什么顶层公开 API 要克制。
 - 为什么测试要覆盖导入路径。
 
 验收命令：
@@ -261,15 +237,8 @@ from enterprise_agent.foundation import get_module_names
 python -m pytest
 ```
 
-应该看到所有测试通过。
-
-## 12. 下一章预告
+## 12. 下一章
 
 第 03 章会讲测试驱动的开发节奏。
 
-你会学习：
-
-- 如何先写失败测试。
-- 如何读懂 pytest 的失败信息。
-- 如何把一个需求拆成多个断言。
-- 如何命名单元测试，让测试本身成为文档。
+你会学习如何先写失败测试，如何拆分断言，以及如何从 pytest 的失败信息里定位问题。

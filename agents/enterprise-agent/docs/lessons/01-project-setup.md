@@ -1,56 +1,61 @@
 # 第 01 章：工程启动与开发环境
 
-## 1. 本章学习目标
+## 1. 本章交付物
 
-学完本章后，你应该能做到：
+本章结束时，仓库应该具备一个可继续扩展的 Python 工程基线：
 
-- 知道这个项目要实现什么。
-- 知道企业级 Agent 工程为什么要先搭项目基线。
-- 能安装开发依赖。
-- 能运行单元测试。
-- 能读懂当前最小代码结构。
-- 能根据测试结果判断项目是否处于可继续开发状态。
+- 项目可以被安装。
+- 包 `enterprise_agent` 可以被导入。
+- 测试命令可以稳定运行。
+- 最小源码和最小测试已经建立。
 
-本章不会调用真实大模型，也不会实现 Agent 推理逻辑。第一步只做一件事：让工程可以被安装、被导入、被测试。
+本章不写 Agent，不调用模型，也不接入任何外部服务。企业级 Agent 的第一步不是“让模型说话”，而是让工程先站稳。
 
-![第一章先打工程地基](assets/01-project-setup/01-build-baseline.png)
+## 2. 为什么先做工程基线
 
-## 2. 你正在做的项目是什么
+直接调用一次大模型很容易，但那只是演示。企业级工程需要长期迭代，需要多人协作，也需要能够判断每次修改有没有破坏旧能力。
 
-本项目叫 `enterprise-agent`，目标是一步步实现一个企业级 AI Agent 工程。
+如果没有工程基线，后续会出现三个问题：
 
-它最终会包含：
+- 代码散落成脚本，无法形成稳定包结构。
+- 修改后只能手工试，不能自动验证。
+- 每个人的运行方式不同，环境问题会反复出现。
 
-- 统一 LLM 网关：集中管理模型调用。
-- Agent 核心循环：让 Agent 能思考、调用工具、观察结果。
-- 企业工具系统：让工具有统一的安全、超时、限流和错误处理。
-- LangGraph 编排：支持复杂流程、分支、重试和人工审批。
-- RAG 系统：让 Agent 能检索企业知识库。
-- 记忆系统：让 Agent 能管理短期和长期上下文。
-- API 与生产化能力：服务接口、监控、评估、安全和部署。
+本章先建立一个最小闭环：
 
-这些内容会分章节实现。本章只建立工程地基。
+```text
+安装项目 -> 导入包 -> 调用函数 -> 运行测试
+```
 
-## 3. 为什么第一章不直接写 Agent
+后面的 LLM、Agent、工具、RAG 和记忆系统，都会接在这个闭环上。
 
-很多初学项目会直接从“调用一次大模型”开始。但企业级工程不能这样开始。
+## 3. 前四章路线
 
-原因有三个：
+前四章是一组工程基础课：
 
-1. 没有测试，后面每次修改都不知道有没有破坏旧功能。
-2. 没有标准包结构，代码很快会散落成脚本。
-3. 没有稳定的开发命令，学员之间的环境问题会越来越多。
+```text
+01 工程可运行 -> 02 包结构清楚 -> 03 测试节奏稳定 -> 04 配置可管理
+```
 
-所以第一章先建立最小工程基线：
+第 01 章只解决“能不能跑”。这个问题不解决，后面所有设计都没有落点。
 
-- `pyproject.toml`：告诉 Python 这个项目如何安装、如何测试。
-- `src/enterprise_agent/`：正式源码包。
-- `tests/`：测试目录。
-- `ProjectInfo`：一个很小的对象，用来验证包能否正常导入。
+## 4. 当前项目目标
 
-## 4. 当前目录结构
+`enterprise-agent` 要逐步实现一个企业级 AI Agent 工程。最终会覆盖：
 
-本章完成后，关键目录如下：
+- 统一 LLM 网关。
+- Agent 核心循环。
+- 企业工具系统。
+- LangGraph 编排。
+- RAG 知识检索。
+- 短期和长期记忆。
+- API、监控、评估、安全和部署。
+
+本章只做底层准备，不提前进入这些复杂模块。
+
+## 5. 目录结构
+
+本章完成后，关键结构是：
 
 ```text
 enterprise-agent/
@@ -59,21 +64,14 @@ enterprise-agent/
 │   └── enterprise_agent/
 │       ├── __init__.py
 │       └── project.py
-├── tests/
-│   └── unit/
-│       └── test_project_setup.py
-└── docs/
-    ├── COURSE_PROGRESS.md
-    ├── ENGINEERING_PROGRESS.md
-    └── lessons/
-        └── 01-project-setup.md
+└── tests/
+    └── unit/
+        └── test_project_setup.py
 ```
 
-先记住一个规则：后续正式代码都放在 `src/enterprise_agent/` 下面。
+记住一个规则：正式源码放在 `src/enterprise_agent/` 下，测试放在 `tests/` 下。
 
-![最小目录骨架](assets/01-project-setup/02-minimal-shelf.png)
-
-## 5. 安装开发环境
+## 6. 安装开发环境
 
 进入项目目录：
 
@@ -81,7 +79,7 @@ enterprise-agent/
 cd E:\onecom\agents\enterprise-agent
 ```
 
-建议创建虚拟环境：
+创建虚拟环境：
 
 ```powershell
 python -m venv .venv
@@ -99,27 +97,25 @@ python -m venv .venv
 python -m pip install -e ".[dev]"
 ```
 
-这里的 `-e` 表示 editable install。它的意思是：你修改 `src/` 下的代码后，不需要重新安装包，测试会直接读取最新代码。
+`-e` 表示 editable install。修改 `src/` 下的代码后，不需要重新安装包，测试会直接读取最新代码。
 
-![editable install 是一根活线](assets/01-project-setup/03-editable-wire.png)
+## 7. 运行测试
 
-## 6. 运行测试
-
-在 `enterprise-agent` 目录下运行：
+在项目目录下运行：
 
 ```powershell
 python -m pytest
 ```
 
-如果测试通过，说明三件事是正常的：
+如果测试通过，说明三件事成立：
 
 - Python 能找到 `enterprise_agent` 包。
-- `pyproject.toml` 的测试配置生效。
-- 当前最小工程结构没有问题。
+- `pyproject.toml` 中的测试配置生效。
+- 当前最小工程结构可用。
 
-![pytest 是第一盏验收灯](assets/01-project-setup/04-pytest-lantern.png)
+以后每章都会回到这个命令。它是判断仓库是否还能继续开发的最低标准。
 
-## 7. 第一段代码：ProjectInfo
+## 8. 代码解读：ProjectInfo
 
 打开：
 
@@ -127,7 +123,7 @@ python -m pytest
 src/enterprise_agent/project.py
 ```
 
-你会看到：
+核心代码是：
 
 ```python
 from dataclasses import dataclass
@@ -140,11 +136,11 @@ class ProjectInfo:
     stage: str
 ```
 
-这里用了 `dataclass`。它适合表达简单数据对象。
+`ProjectInfo` 是项目元信息对象。它现在很小，只用于验证包导入和函数调用是否正常。
 
-`frozen=True` 的意思是对象创建后不能被修改。对项目元信息来说，这是合理的，因为它不应该在运行中被随便改掉。
+`frozen=True` 表示对象创建后不能被修改。元信息应该稳定，不应该在运行过程中被随意改掉。
 
-## 8. 第一条测试
+## 9. 测试解读
 
 打开：
 
@@ -152,7 +148,7 @@ class ProjectInfo:
 tests/unit/test_project_setup.py
 ```
 
-测试内容是：
+核心测试是：
 
 ```python
 from enterprise_agent import get_project_info
@@ -166,19 +162,19 @@ def test_project_info_exposes_first_chapter_stage():
     assert info.stage == "chapter-01-project-setup"
 ```
 
-这条测试很小，但它有明确价值：
+这条测试验证三件事：
 
-- 验证包能导入。
-- 验证函数能调用。
-- 验证返回值是预期结果。
+- 顶层包可以导入 `get_project_info`。
+- 函数可以被调用。
+- 返回值符合预期。
 
-后续每一章都要保持这个习惯：实现一个能力，就写一个能验证它的测试。
+测试很小，但它已经形成了工程闭环。
 
-## 9. 常见问题
+## 10. 常见问题
 
-### 9.1 找不到 pytest
+### 10.1 找不到 pytest
 
-如果出现 `No module named pytest`，通常是还没有安装开发依赖。
+如果出现 `No module named pytest`，通常是没有安装开发依赖。
 
 重新执行：
 
@@ -186,14 +182,21 @@ def test_project_info_exposes_first_chapter_stage():
 python -m pip install -e ".[dev]"
 ```
 
-### 9.2 找不到 enterprise_agent
+### 10.2 找不到 enterprise_agent
 
-如果出现 `No module named enterprise_agent`，检查两件事：
+先确认当前目录是：
 
-- 当前目录是否是 `E:\onecom\agents\enterprise-agent`。
-- 是否通过 `python -m pytest` 运行测试。
+```text
+E:\onecom\agents\enterprise-agent
+```
 
-本项目已经在 `pyproject.toml` 中配置了：
+再确认你使用的是：
+
+```powershell
+python -m pytest
+```
+
+本项目在 `pyproject.toml` 中配置了：
 
 ```toml
 pythonpath = ["src"]
@@ -201,49 +204,27 @@ pythonpath = ["src"]
 
 这会让 pytest 从 `src/` 下查找源码包。
 
-### 9.3 为什么只保留 src/enterprise_agent
+## 11. 练习
 
-本课程从第一章开始统一使用正式包目录：
-
-```text
-src/enterprise_agent/
-```
-
-旧的 `src/agents/` 草稿目录已经清理。这样学员只需要记住一个源码入口，后续新增 LLM、Agent、工具、RAG 和记忆模块都会放在 `src/enterprise_agent/` 下。
-
-## 10. 本章练习
-
-请完成以下练习：
-
-1. 修改 `ProjectInfo.stage` 的返回值，然后运行测试，观察失败信息。
-2. 把返回值改回 `chapter-01-project-setup`，再次运行测试，确认通过。
-3. 在 `ProjectInfo` 中新增字段 `description`。
-4. 更新 `get_project_info()`，给 `description` 一个简短说明。
+1. 修改 `ProjectInfo.stage` 的返回值，运行测试，观察失败信息。
+2. 把返回值改回 `chapter-01-project-setup`，再次运行测试。
+3. 给 `ProjectInfo` 新增 `description` 字段。
+4. 更新 `get_project_info()`，返回一个简短说明。
 5. 更新测试，断言 `description` 不为空。
 
-练习的目的不是增加功能，而是让你熟悉“改代码 → 跑测试 → 根据结果修正”的基本节奏。
+练习目标不是增加业务功能，而是熟悉“改代码 -> 跑测试 -> 根据结果修正”的节奏。
 
-## 11. 本章验收标准
+## 12. 验收标准
 
-完成本章后，你需要能独立完成：
+完成本章后，你应该能独立解释：
 
-- 进入项目目录。
-- 安装开发依赖。
-- 运行 `python -m pytest`。
-- 解释 `pyproject.toml` 的作用。
-- 解释 `src/enterprise_agent/` 的作用。
-- 解释为什么第一章只写一个很小的测试。
+- `pyproject.toml` 在这里负责什么。
+- 为什么源码放在 `src/enterprise_agent/` 下。
+- 为什么第一章只写一个很小的对象和测试。
+- `python -m pytest` 通过代表什么。
 
-## 12. 下一章预告
+## 13. 下一章
 
 第 02 章会讲 Python 包结构与导入路径。
 
-你会学习：
-
-- 为什么源码放在 `src/enterprise_agent/` 下。
-- `__init__.py` 有什么作用。
-- 什么时候从包入口导出函数或类。
-- 测试里为什么可以直接 `from enterprise_agent import get_project_info`。
-- 后续新增 `llm`、`agents`、`tools` 模块时，应该如何组织导入关系。
-
-统一 LLM 网关会在第 06 章开始实现。这样你会先掌握 Python 工程结构，再进入模型调用。
+你会学习 `__init__.py`、顶层包入口、子包入口，以及为什么公开 API 要克制。
