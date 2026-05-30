@@ -31,7 +31,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 当前进度
 
-当前已完成第 04 章：配置与环境变量基础。
+当前已完成第 05 章：日志与错误信息。
 
 进度记录维护在：
 
@@ -43,6 +43,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | [docs/lessons/02-package-structure.md](docs/lessons/02-package-structure.md) | 第 02 章学习文档 |
 | [docs/lessons/03-testing-rhythm.md](docs/lessons/03-testing-rhythm.md) | 第 03 章学习文档 |
 | [docs/lessons/04-config-env.md](docs/lessons/04-config-env.md) | 第 04 章学习文档 |
+| [docs/lessons/05-logging-errors.md](docs/lessons/05-logging-errors.md) | 第 05 章学习文档 |
 
 新会话继续推进时，先阅读 `COURSE_PROGRESS.md` 和 `ENGINEERING_PROGRESS.md`，再进入下一章。
 
@@ -75,7 +76,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | 02 | Python 包结构与导入路径 | A | 已完成 | 包目录、`__init__.py`、模块导入练习 |
 | 03 | 测试驱动的开发节奏 | A | 已完成 | pytest 断言、失败用例、测试命名规范 |
 | 04 | 配置与环境变量基础 | A | 已完成 | `.env.example`、配置对象、默认值 |
-| 05 | 日志与错误信息 | A | 未开始 | logging 基础、错误消息约定 |
+| 05 | 日志与错误信息 | A | 已完成 | `configure_logging()`、错误消息约定 |
 | 06 | LLM 调用长什么样 | B | 未开始 | `Message`、`LLMRequest`、`LLMResponse` |
 | 07 | MockLLMClient：不用 API Key 学模型调用 | B | 未开始 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
 | 08 | 真实模型客户端边界 | B | 未开始 | OpenAI-compatible client 接口占位、超时、重试 |
@@ -189,10 +190,20 @@ python -m pytest
 - 更新 `.env.example`，说明本地配置项和 `.env` 边界。
 - 新增 `tests/unit/test_config_basics.py`，覆盖配置默认值、覆盖和非法输入。
 
+### 第 05 章：日志与错误信息
+
+学习文档：[docs/lessons/05-logging-errors.md](docs/lessons/05-logging-errors.md)
+
+已完成内容：
+
+- 新增 `configure_logging()`，根据 `AppConfig.log_level` 配置项目 logger。
+- 新增 `format_error_message()`，统一短错误消息格式。
+- 新增 `tests/unit/test_logging_basics.py`，覆盖日志级别、handler 替换、propagation 和错误消息。
+
 当前仓库测试结果：
 
 ```text
-17 passed
+23 passed
 ```
 
 ---
@@ -268,13 +279,15 @@ enterprise-agent/
 │           ├── __init__.py
 │           ├── chapter_titles.py
 │           ├── config.py
+│           ├── logging.py
 │           └── package_map.py
 ├── tests/
 │   └── unit/
 │       ├── test_project_setup.py
 │       ├── test_package_structure.py
 │       ├── test_testing_rhythm.py
-│       └── test_config_basics.py
+│       ├── test_config_basics.py
+│       └── test_logging_basics.py
 ├── docs/
 │   ├── AI Agent 企业级开发技术设计文档.md
 │   ├── COURSE_PROGRESS.md
@@ -283,7 +296,8 @@ enterprise-agent/
 │       ├── 01-project-setup.md
 │       ├── 02-package-structure.md
 │       ├── 03-testing-rhythm.md
-│       └── 04-config-env.md
+│       ├── 04-config-env.md
+│       └── 05-logging-errors.md
 └── README.md
 ```
 
@@ -333,6 +347,7 @@ python -m pytest
 | [第 02 章：Python 包结构与导入路径](docs/lessons/02-package-structure.md) | 当前已完成章节 |
 | [第 03 章：测试驱动的开发节奏](docs/lessons/03-testing-rhythm.md) | 当前已完成章节 |
 | [第 04 章：配置与环境变量基础](docs/lessons/04-config-env.md) | 当前已完成章节 |
+| [第 05 章：日志与错误信息](docs/lessons/05-logging-errors.md) | 当前已完成章节 |
 
 ---
 

@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-项目已完成课程化实现的第 04 章：配置与环境变量基础。
+项目已完成课程化实现的第 05 章：日志与错误信息。
 
 ## 已完成
 
@@ -30,6 +30,10 @@
 - 更新 `.env.example`，列出第 04 章配置项并说明 `.env` 边界。
 - 新增 `tests/unit/test_config_basics.py`，覆盖配置默认值、环境变量覆盖、空值、枚举错误和 token 预算错误。
 - 新增第 04 章学习文档 `docs/lessons/04-config-env.md`。
+- 新增 `src/enterprise_agent/foundation/logging.py`，实现 `configure_logging()` 和 `format_error_message()`。
+- 更新 `src/enterprise_agent/foundation/__init__.py`，导出日志配置和错误消息 helper。
+- 新增 `tests/unit/test_logging_basics.py`，覆盖日志级别、handler 替换、propagation 和错误消息格式。
+- 新增第 05 章学习文档 `docs/lessons/05-logging-errors.md`。
 
 ## 现有遗留状态
 
@@ -48,14 +52,14 @@ python -m pytest
 当前结果：
 
 ```text
-17 passed
+23 passed
 ```
 
 ## 下一步工程任务
 
-第 05 章实现日志与错误信息基础：
+第 06 章实现 LLM 调用基础数据结构：
 
-- 新增日志配置函数，建议放在 `src/enterprise_agent/foundation/logging.py` 或同阶段合适模块。
-- 使用 `AppConfig.log_level` 控制日志级别。
-- 保持错误消息短、具体、可测试。
-- 新增单元测试覆盖日志级别应用和非法输入提示。
+- 新增 LLM 基础子包或合适模块，例如 `src/enterprise_agent/llm/`。
+- 定义 `Message`、`LLMRequest`、`LLMResponse` 等数据对象。
+- 明确角色、prompt、模型名、token 预算等字段边界。
+- 新增单元测试覆盖默认值、非法角色和请求结构。

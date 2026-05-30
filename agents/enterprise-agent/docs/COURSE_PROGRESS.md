@@ -33,7 +33,7 @@
 | 02 | Python 包结构与导入路径 | A | 已完成 | 包目录、`__init__.py`、模块导入练习 |
 | 03 | 测试驱动的开发节奏 | A | 已完成 | pytest 断言、失败用例、测试命名规范 |
 | 04 | 配置与环境变量基础 | A | 已完成 | `.env.example`、`AppConfig`、默认值、环境变量覆盖 |
-| 05 | 日志与错误信息 | A | 未开始 | logging 基础、错误消息约定 |
+| 05 | 日志与错误信息 | A | 已完成 | `configure_logging()`、`format_error_message()`、日志级别和错误消息测试 |
 | 06 | LLM 调用长什么样 | B | 未开始 | `Message`、`LLMRequest`、`LLMResponse` |
 | 07 | MockLLMClient：不用 API Key 学模型调用 | B | 未开始 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
 | 08 | 真实模型客户端边界 | B | 未开始 | OpenAI-compatible client 接口占位、超时、重试 |
@@ -67,17 +67,17 @@
 
 ## 当前学习进度
 
-- 当前章节：第 04 章，配置与环境变量基础，已完成。
-- 当前学习文档：`docs/lessons/04-config-env.md`。
-- 学员完成本章后，应能解释默认值、环境变量覆盖、配置对象、`.env.example` 和非法配置测试。
+- 当前章节：第 05 章，日志与错误信息，已完成。
+- 当前学习文档：`docs/lessons/05-logging-errors.md`。
+- 学员完成本章后，应能解释 logger、handler、formatter、日志级别、propagation 和可测试错误消息。
 
 ## 下一步
 
-下一章进入第 05 章：日志与错误信息。
+下一章进入第 06 章：LLM 调用长什么样。
 
-第 05 章建议交付：
+第 06 章建议交付：
 
-- 一个小型日志配置函数，例如 `configure_logging(config: AppConfig)`。
-- 使用 `AppConfig.log_level` 控制日志级别。
-- 统一错误消息风格，避免只抛出含糊异常。
-- 编写单元测试覆盖日志级别解析和错误消息。
+- 定义 `Message`、`LLMRequest`、`LLMResponse` 等基础数据对象。
+- 先用数据结构讲清楚模型调用边界，不接入真实 API。
+- 为请求、响应和消息角色写单元测试。
+- 继续保持错误消息短、具体、可测试。
