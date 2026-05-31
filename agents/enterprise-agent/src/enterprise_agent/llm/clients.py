@@ -112,7 +112,8 @@ class OpenAICompatibleLLMClient(BaseLLMClient):
         }
 
         last_error: Exception | None = None
-        for _ in range(self.config.max_retries + 1):
+        attempts = self.config.max_retries + 1
+        for _ in range(attempts):
             try:
                 raw_response = await self.transport.post_json(
                     url=self.config.url,
@@ -120,11 +121,15 @@ class OpenAICompatibleLLMClient(BaseLLMClient):
                     payload=payload,
                     timeout_seconds=self.config.timeout_seconds,
                 )
-                return _parse_openai_compatible_response(raw_response, fallback_model=request.model)
-            except LLMTransportError as error:
-                last_error = error
+            except (LLMTransportError, TimeoutError, ConnectionError) as error:
+                last_error = _normalize_transport_error(error)
+                continue
 
-        raise LLMTransportError(f"LLM transport failed after retries: {last_error}") from last_error
+            return _parse_openai_compatible_response(raw_response, fallback_model=request.model)
+
+        raise LLMTransportError(
+            f"LLM transport failed after {attempts} attempt(s): {last_error}"
+        ) from last_error
 
 
 @dataclass
@@ -177,6 +182,12 @@ def _read_required_text(field: str, value: str) -> str:
     if not clean_value:
         raise ValueError(format_error_message(field, "must not be empty"))
     return clean_value
+
+
+def _normalize_transport_error(error: Exception) -> LLMTransportError:
+    if isinstance(error, LLMTransportError):
+        return error
+    return LLMTransportError(str(error) or error.__class__.__name__)
 
 
 def _build_openai_compatible_payload(request: LLMRequest) -> dict[str, Any]:

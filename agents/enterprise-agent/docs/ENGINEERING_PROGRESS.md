@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-项目已完成课程化实现的第 07 章：MockLLMClient：不用 API Key 学模型调用。
+项目已完成课程化实现的第 09 章：多模型路由入门。
 
 ## 已完成
 
@@ -52,13 +52,29 @@
 - 新增第 07 章学习文档 `docs/lessons/07-mock-llm-client.md`。
 - 新增第 07 章高密度教程图片资产 `docs/lessons/assets/07-mock-llm-client/`。
 - 新增 `scripts/generate_lesson07_assets.py`，复用第 06 章图表组件生成稳定中文教程图。
+- 扩展 `src/enterprise_agent/llm/clients.py`，新增 `OpenAICompatibleClientConfig`、`OpenAICompatibleTransport`、`OpenAICompatibleLLMClient`、`LLMClientError`、`LLMTransportError` 和 `LLMProviderError`。
+- `OpenAICompatibleLLMClient` 通过可注入 transport 构造 OpenAI-compatible payload、headers 和 timeout，不直接依赖真实 SDK 或 HTTP 库。
+- 真实客户端边界将供应商 `choices`、`usage` 和 `id` 归一化为 `LLMResponse`。
+- 传输层 `TimeoutError`、`ConnectionError` 和 `LLMTransportError` 会按 `max_retries` 重试，供应商结构错误归一化为 `LLMProviderError` 并快速失败。
+- 新增 `tests/unit/test_openai_compatible_client.py`，用 `FakeTransport` 覆盖配置归一化、payload、headers、重试、错误归一和响应解析。
+- 新增第 08 章学习文档 `docs/lessons/08-real-client-boundary.md`。
+- 新增第 08 章高密度教程图片资产 `docs/lessons/assets/08-real-client-boundary/`。
+- 新增 `scripts/generate_lesson08_assets.py`，生成真实客户端边界、transport、重试和测试矩阵图片。
+- 新增 `src/enterprise_agent/llm/router.py`，实现 `DEFAULT_LLM_TASK_TYPE`、`LLMRoute` 和 `LLMRouter`。
+- `LLMRoute` 绑定目标模型和 `BaseLLMClient`；`LLMRouter` 读取 `metadata["task_type"]`，选择 route，改写 request model 后调用目标客户端。
+- `LLMRouter` 自身实现 `BaseLLMClient`，允许上层继续只依赖统一客户端边界。
+- 更新 `src/enterprise_agent/llm/__init__.py`，导出路由对象。
+- 新增 `tests/unit/test_llm_router.py`，覆盖默认路由、任务路由、请求设置保留、未知任务 fallback、路由配置校验和非法请求。
+- 新增第 09 章学习文档 `docs/lessons/09-llm-router.md`。
+- 新增第 09 章高密度教程图片资产 `docs/lessons/assets/09-llm-router/`。
+- 新增 `scripts/generate_lesson09_assets.py`，生成多模型路由、route 契约和测试矩阵图片。
 
 ## 现有遗留状态
 
 - 第一章工程入口统一为 `src/enterprise_agent/`。
 - `evaluation/`、`k8s/`、`monitoring/`、`prompts/`、`tests/integration/`、`tests/e2e/` 等目录暂不创建，后续章节需要时再按课程进度创建。
-- LLM 网关边界已从第 06 章开始建立。本阶段只保留 `mock-chat` 作为默认模型名称，不接入真实 API。
-- 第 07 章只实现 Mock 客户端，不实现真实 SDK、真实 API Key、供应商鉴权、超时重试、限流和成本计算。
+- LLM 网关边界已从第 06 章开始建立。第 08 章只实现 OpenAI-compatible 客户端边界和可注入 transport，不实现真实 HTTP transport。
+- 第 09 章只实现显式 `task_type` 路由，不实现智能路由、动态权重、健康检查、限流切换和成本最优选择。
 - 配置加载函数读取系统环境变量或测试传入的 mapping，不直接解析 `.env` 文件。
 
 ## 当前验证命令
@@ -71,14 +87,14 @@ python -m pytest
 当前结果：
 
 ```text
-36 passed
+48 passed
 ```
 
 ## 下一步工程任务
 
-第 08 章实现真实模型客户端边界：
+第 10 章实现 Token 与成本统计：
 
-- 设计 OpenAI-compatible 客户端边界或同等真实客户端占位。
-- 引入可注入 transport / fake transport，先测试边界，不依赖真实 API Key。
-- 明确超时配置、重试次数、供应商错误归一化和响应解析。
-- 保持输出统一为 `LLMResponse`，避免业务层依赖供应商原始 JSON。
+- 定义 token 估算边界，先用简单可解释的估算方式，不接真实 tokenizer。
+- 定义调用成本对象，读取 `LLMResponse.input_tokens`、`output_tokens` 和模型单价。
+- 定义预算限制对象，覆盖单次调用预算和累计预算。
+- 为成本统计与预算失败路径写单元测试，为后续路由成本策略打基础。

@@ -36,8 +36,8 @@
 | 05 | 日志与错误信息 | A | 已完成 | `configure_logging()`、`format_error_message()`、日志级别和错误消息测试 |
 | 06 | LLM 调用长什么样 | B | 已完成 | `Message`、`LLMRequest`、`LLMResponse`、provider-neutral payload、token usage |
 | 07 | MockLLMClient：不用 API Key 学模型调用 | B | 已完成 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
-| 08 | 真实模型客户端边界 | B | 未开始 | OpenAI-compatible client 接口占位、超时、重试 |
-| 09 | 多模型路由入门 | B | 未开始 | `LLMRouter`、任务类型、模型选择 |
+| 08 | 真实模型客户端边界 | B | 已完成 | `OpenAICompatibleLLMClient`、transport 边界、超时、重试、错误归一 |
+| 09 | 多模型路由入门 | B | 已完成 | `LLMRoute`、`LLMRouter`、任务类型、模型选择 |
 | 10 | Token 与成本统计 | B | 未开始 | token 估算、调用成本、预算限制 |
 | 11 | Prompt 模板基础 | B | 未开始 | prompt 文件、变量渲染、版本字段 |
 | 12 | 结构化输出与 JSON 校验 | B | 未开始 | Pydantic schema、解析失败处理 |
@@ -67,17 +67,17 @@
 
 ## 当前学习进度
 
-- 当前章节：第 07 章，MockLLMClient：不用 API Key 学模型调用，已完成。
-- 当前学习文档：`docs/lessons/07-mock-llm-client.md`。
-- 学员完成本章后，应能解释 `BaseLLMClient`、`MockLLMClient`、异步客户端边界、稳定 Mock 响应、调用历史和为什么 Mock 不接真实 API。
+- 当前章节：第 09 章，多模型路由入门，已完成。
+- 当前学习文档：`docs/lessons/09-llm-router.md`。
+- 学员完成本章后，应能解释 `LLMRoute`、`LLMRouter`、`task_type`、默认路由、任务路由和为什么路由层只改写 model。
 
 ## 下一步
 
-下一章进入第 08 章：真实模型客户端边界。
+下一章进入第 10 章：Token 与成本统计。
 
-第 08 章建议交付：
+第 10 章建议交付：
 
-- 定义真实客户端边界对象，例如 `OpenAICompatibleLLMClient` 或同等占位实现。
-- 设计请求超时、重试次数和供应商错误归一化，不直接在业务层处理 SDK 细节。
-- 保持所有真实调用输出归一化为 `LLMResponse`。
-- 先用可注入 transport / fake transport 测试真实客户端边界，不要求真实 API Key。
+- 定义简单 token 估算函数或对象，不接真实 tokenizer。
+- 设计一次调用的成本记录对象，读取 `LLMResponse.usage()`。
+- 引入预算限制边界，先覆盖单次调用预算和累计预算。
+- 为成本统计写单元测试，避免第 09 章路由后无法解释不同模型的成本差异。

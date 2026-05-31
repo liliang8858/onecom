@@ -31,7 +31,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 当前进度
 
-当前已完成第 07 章：MockLLMClient：不用 API Key 学模型调用。
+当前已完成第 09 章：多模型路由入门。
 
 进度记录维护在：
 
@@ -46,6 +46,8 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | [docs/lessons/05-logging-errors.md](docs/lessons/05-logging-errors.md) | 第 05 章学习文档 |
 | [docs/lessons/06-llm-call-shape.md](docs/lessons/06-llm-call-shape.md) | 第 06 章学习文档 |
 | [docs/lessons/07-mock-llm-client.md](docs/lessons/07-mock-llm-client.md) | 第 07 章学习文档 |
+| [docs/lessons/08-real-client-boundary.md](docs/lessons/08-real-client-boundary.md) | 第 08 章学习文档 |
+| [docs/lessons/09-llm-router.md](docs/lessons/09-llm-router.md) | 第 09 章学习文档 |
 
 新会话继续推进时，先阅读 `COURSE_PROGRESS.md` 和 `ENGINEERING_PROGRESS.md`，再进入下一章。
 
@@ -81,8 +83,8 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | 05 | 日志与错误信息 | A | 已完成 | `configure_logging()`、错误消息约定 |
 | 06 | LLM 调用长什么样 | B | 已完成 | `Message`、`LLMRequest`、`LLMResponse` |
 | 07 | MockLLMClient：不用 API Key 学模型调用 | B | 已完成 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
-| 08 | 真实模型客户端边界 | B | 未开始 | OpenAI-compatible client 接口占位、超时、重试 |
-| 09 | 多模型路由入门 | B | 未开始 | `LLMRouter`、任务类型、模型选择 |
+| 08 | 真实模型客户端边界 | B | 已完成 | OpenAI-compatible client 接口占位、超时、重试 |
+| 09 | 多模型路由入门 | B | 已完成 | `LLMRouter`、任务类型、模型选择 |
 | 10 | Token 与成本统计 | B | 未开始 | token 估算、调用成本、预算限制 |
 | 11 | Prompt 模板基础 | B | 未开始 | prompt 文件、变量渲染、版本字段 |
 | 12 | 结构化输出与 JSON 校验 | B | 未开始 | Pydantic schema、解析失败处理 |
@@ -205,7 +207,7 @@ python -m pytest
 当前仓库测试结果：
 
 ```text
-36 passed
+48 passed
 ```
 
 ### 第 06 章：LLM 调用长什么样
@@ -234,6 +236,34 @@ python -m pytest
 - Mock 客户端记录调用历史，并以只读 tuple 暴露给测试。
 - 新增 `tests/unit/test_mock_llm_client.py`，覆盖抽象边界、稳定响应、调用历史、raw id 和失败配置。
 - 新增第 07 章高密度教程插图资产和稳定生成脚本。
+
+### 第 08 章：真实模型客户端边界
+
+学习文档：[docs/lessons/08-real-client-boundary.md](docs/lessons/08-real-client-boundary.md)
+
+已完成内容：
+
+- 新增 `OpenAICompatibleClientConfig`，集中管理 base URL、API Key、endpoint、timeout 和 retry budget。
+- 新增 `OpenAICompatibleTransport`，把真实 HTTP/SDK 调用隔离到可替换 transport 后面。
+- 新增 `OpenAICompatibleLLMClient`，构造 OpenAI-compatible payload、headers 和 timeout。
+- 将供应商 `choices`、`usage`、`id` 归一化为 `LLMResponse`。
+- 新增 `LLMClientError`、`LLMTransportError`、`LLMProviderError`，区分传输错误和供应商结构错误。
+- 新增 `tests/unit/test_openai_compatible_client.py`，使用 FakeTransport 覆盖请求构造、响应解析、重试和失败路径。
+- 新增第 08 章高密度教程插图资产和稳定生成脚本。
+
+### 第 09 章：多模型路由入门
+
+学习文档：[docs/lessons/09-llm-router.md](docs/lessons/09-llm-router.md)
+
+已完成内容：
+
+- 新增 `src/enterprise_agent/llm/router.py`，实现 `DEFAULT_LLM_TASK_TYPE`、`LLMRoute` 和 `LLMRouter`。
+- `LLMRoute` 绑定目标模型和 `BaseLLMClient`。
+- `LLMRouter` 读取 `request.metadata["task_type"]`，选择任务 route 或默认 route。
+- 路由器只改写请求 `model`，保留 messages、temperature、max_output_tokens 和 metadata。
+- `LLMRouter` 本身实现 `BaseLLMClient`，上层仍可只依赖统一客户端边界。
+- 新增 `tests/unit/test_llm_router.py`，覆盖默认路由、任务路由、未知任务 fallback、请求设置保留和非法配置。
+- 新增第 09 章高密度教程插图资产和稳定生成脚本。
 
 ---
 
@@ -313,7 +343,8 @@ enterprise-agent/
 │       └── llm/
 │           ├── __init__.py
 │           ├── clients.py
-│           └── messages.py
+│           ├── messages.py
+│           └── router.py
 ├── tests/
 │   └── unit/
 │       ├── test_project_setup.py
@@ -322,7 +353,9 @@ enterprise-agent/
 │       ├── test_config_basics.py
 │       ├── test_logging_basics.py
 │       ├── test_llm_messages.py
-│       └── test_mock_llm_client.py
+│       ├── test_mock_llm_client.py
+│       ├── test_openai_compatible_client.py
+│       └── test_llm_router.py
 ├── docs/
 │   ├── AI Agent 企业级开发技术设计文档.md
 │   ├── COURSE_PROGRESS.md
@@ -334,10 +367,14 @@ enterprise-agent/
 │       ├── 04-config-env.md
 │       ├── 05-logging-errors.md
 │       ├── 06-llm-call-shape.md
-│       └── 07-mock-llm-client.md
+│       ├── 07-mock-llm-client.md
+│       ├── 08-real-client-boundary.md
+│       └── 09-llm-router.md
 ├── scripts/
 │   ├── generate_lesson06_assets.py
-│   └── generate_lesson07_assets.py
+│   ├── generate_lesson07_assets.py
+│   ├── generate_lesson08_assets.py
+│   └── generate_lesson09_assets.py
 └── README.md
 ```
 
@@ -390,6 +427,8 @@ python -m pytest
 | [第 05 章：日志与错误信息](docs/lessons/05-logging-errors.md) | 当前已完成章节 |
 | [第 06 章：LLM 调用长什么样](docs/lessons/06-llm-call-shape.md) | 当前已完成章节 |
 | [第 07 章：MockLLMClient：不用 API Key 学模型调用](docs/lessons/07-mock-llm-client.md) | 当前已完成章节 |
+| [第 08 章：真实模型客户端边界](docs/lessons/08-real-client-boundary.md) | 当前已完成章节 |
+| [第 09 章：多模型路由入门](docs/lessons/09-llm-router.md) | 当前已完成章节 |
 
 ---
 
