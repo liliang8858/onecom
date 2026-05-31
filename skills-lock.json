@@ -151,6 +151,12 @@
       "skillPath": "skills/personal/edit-article/SKILL.md",
       "computedHash": "6d29872a4015fcbb4879fe1bddf1919995c477dcf7248885efb85722f50e6c4d"
     },
+    "guizang-ppt-skill": {
+      "source": "op7418/guizang-ppt-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "b56f400b1d9daa263b67a9b915da350113ef166ea44436184d2f2371fed14b92"
+    },
     "wechat-article-writer": {
       "source": "iamzhihuix/happy-claude-skills",
       "sourceType": "github",
