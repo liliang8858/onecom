@@ -31,7 +31,7 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 ## 当前进度
 
-当前已完成第 05 章：日志与错误信息。
+当前已完成第 07 章：MockLLMClient：不用 API Key 学模型调用。
 
 进度记录维护在：
 
@@ -44,6 +44,8 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | [docs/lessons/03-testing-rhythm.md](docs/lessons/03-testing-rhythm.md) | 第 03 章学习文档 |
 | [docs/lessons/04-config-env.md](docs/lessons/04-config-env.md) | 第 04 章学习文档 |
 | [docs/lessons/05-logging-errors.md](docs/lessons/05-logging-errors.md) | 第 05 章学习文档 |
+| [docs/lessons/06-llm-call-shape.md](docs/lessons/06-llm-call-shape.md) | 第 06 章学习文档 |
+| [docs/lessons/07-mock-llm-client.md](docs/lessons/07-mock-llm-client.md) | 第 07 章学习文档 |
 
 新会话继续推进时，先阅读 `COURSE_PROGRESS.md` 和 `ENGINEERING_PROGRESS.md`，再进入下一章。
 
@@ -62,8 +64,8 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 
 | 阶段 | 名称 | 目标 | 状态 |
 |------|------|------|------|
-| A | 工程基础与学习方法 | 建立可安装、可测试、可继续扩展的工程基线 | 进行中 |
-| B | LLM 调用与 Prompt 基础 | 学会封装模型调用、管理消息、控制成本和输出格式 | 未开始 |
+| A | 工程基础与学习方法 | 建立可安装、可测试、可继续扩展的工程基线 | 已完成 |
+| B | LLM 调用与 Prompt 基础 | 学会封装模型调用、管理消息、控制成本和输出格式 | 进行中 |
 | C | 单 Agent 核心能力 | 实现 ReAct 循环、工具调用、错误处理和简单任务执行 | 未开始 |
 | D | 知识、记忆与上下文 | 实现文档检索、RAG、短期记忆和上下文预算 | 未开始 |
 | E | 企业化编排与生产落地 | 引入 LangGraph、API、评估、监控、安全和部署 | 未开始 |
@@ -77,8 +79,8 @@ Enterprise Agent 是一个 **企业级 AI Agent 系统课程化工程项目**。
 | 03 | 测试驱动的开发节奏 | A | 已完成 | pytest 断言、失败用例、测试命名规范 |
 | 04 | 配置与环境变量基础 | A | 已完成 | `.env.example`、配置对象、默认值 |
 | 05 | 日志与错误信息 | A | 已完成 | `configure_logging()`、错误消息约定 |
-| 06 | LLM 调用长什么样 | B | 未开始 | `Message`、`LLMRequest`、`LLMResponse` |
-| 07 | MockLLMClient：不用 API Key 学模型调用 | B | 未开始 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
+| 06 | LLM 调用长什么样 | B | 已完成 | `Message`、`LLMRequest`、`LLMResponse` |
+| 07 | MockLLMClient：不用 API Key 学模型调用 | B | 已完成 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
 | 08 | 真实模型客户端边界 | B | 未开始 | OpenAI-compatible client 接口占位、超时、重试 |
 | 09 | 多模型路由入门 | B | 未开始 | `LLMRouter`、任务类型、模型选择 |
 | 10 | Token 与成本统计 | B | 未开始 | token 估算、调用成本、预算限制 |
@@ -203,8 +205,35 @@ python -m pytest
 当前仓库测试结果：
 
 ```text
-23 passed
+36 passed
 ```
+
+### 第 06 章：LLM 调用长什么样
+
+学习文档：[docs/lessons/06-llm-call-shape.md](docs/lessons/06-llm-call-shape.md)
+
+已完成内容：
+
+- 新增 `src/enterprise_agent/llm/` 子包，建立 LLM 调用边界。
+- 新增 `Message`，定义 `system`、`user`、`assistant`、`tool` 四类消息角色。
+- 新增 `LLMRequest`，统一模型名、消息数组、temperature、输出上限和 metadata。
+- 新增 `LLMResponse`，统一模型回答、token 用量、结束原因和供应商原始 id。
+- 新增 `to_dict()`、`to_payload()`、`prompt_text`、`usage()` 等后续客户端可复用的边界方法。
+- 新增 `tests/unit/test_llm_messages.py`，覆盖消息、请求和响应的数据契约。
+- 新增第 06 章高密度教程插图资产和稳定生成脚本。
+
+### 第 07 章：MockLLMClient：不用 API Key 学模型调用
+
+学习文档：[docs/lessons/07-mock-llm-client.md](docs/lessons/07-mock-llm-client.md)
+
+已完成内容：
+
+- 新增 `BaseLLMClient`，定义统一异步客户端边界 `complete(request)`。
+- 新增 `MockLLMClient`，在无网络、无 API Key 的情况下返回稳定 `LLMResponse`。
+- Mock 响应包含固定 assistant 文本、固定 token usage、`finish_reason` 和递增 `raw_id`。
+- Mock 客户端记录调用历史，并以只读 tuple 暴露给测试。
+- 新增 `tests/unit/test_mock_llm_client.py`，覆盖抽象边界、稳定响应、调用历史、raw id 和失败配置。
+- 新增第 07 章高密度教程插图资产和稳定生成脚本。
 
 ---
 
@@ -275,19 +304,25 @@ enterprise-agent/
 │   └── enterprise_agent/
 │       ├── __init__.py
 │       ├── project.py
-│       └── foundation/
+│       ├── foundation/
+│       │   ├── __init__.py
+│       │   ├── chapter_titles.py
+│       │   ├── config.py
+│       │   ├── logging.py
+│       │   └── package_map.py
+│       └── llm/
 │           ├── __init__.py
-│           ├── chapter_titles.py
-│           ├── config.py
-│           ├── logging.py
-│           └── package_map.py
+│           ├── clients.py
+│           └── messages.py
 ├── tests/
 │   └── unit/
 │       ├── test_project_setup.py
 │       ├── test_package_structure.py
 │       ├── test_testing_rhythm.py
 │       ├── test_config_basics.py
-│       └── test_logging_basics.py
+│       ├── test_logging_basics.py
+│       ├── test_llm_messages.py
+│       └── test_mock_llm_client.py
 ├── docs/
 │   ├── AI Agent 企业级开发技术设计文档.md
 │   ├── COURSE_PROGRESS.md
@@ -297,7 +332,12 @@ enterprise-agent/
 │       ├── 02-package-structure.md
 │       ├── 03-testing-rhythm.md
 │       ├── 04-config-env.md
-│       └── 05-logging-errors.md
+│       ├── 05-logging-errors.md
+│       ├── 06-llm-call-shape.md
+│       └── 07-mock-llm-client.md
+├── scripts/
+│   ├── generate_lesson06_assets.py
+│   └── generate_lesson07_assets.py
 └── README.md
 ```
 
@@ -348,6 +388,8 @@ python -m pytest
 | [第 03 章：测试驱动的开发节奏](docs/lessons/03-testing-rhythm.md) | 当前已完成章节 |
 | [第 04 章：配置与环境变量基础](docs/lessons/04-config-env.md) | 当前已完成章节 |
 | [第 05 章：日志与错误信息](docs/lessons/05-logging-errors.md) | 当前已完成章节 |
+| [第 06 章：LLM 调用长什么样](docs/lessons/06-llm-call-shape.md) | 当前已完成章节 |
+| [第 07 章：MockLLMClient：不用 API Key 学模型调用](docs/lessons/07-mock-llm-client.md) | 当前已完成章节 |
 
 ---
 

@@ -19,8 +19,8 @@
 
 | 阶段 | 名称 | 目标 | 状态 |
 |------|------|------|------|
-| A | 工程基础与学习方法 | 建立可安装、可测试、可继续扩展的工程基线 | 进行中 |
-| B | LLM 调用与 Prompt 基础 | 学会封装模型调用、管理消息、控制成本和输出格式 | 未开始 |
+| A | 工程基础与学习方法 | 建立可安装、可测试、可继续扩展的工程基线 | 已完成 |
+| B | LLM 调用与 Prompt 基础 | 学会封装模型调用、管理消息、控制成本和输出格式 | 进行中 |
 | C | 单 Agent 核心能力 | 实现 ReAct 循环、工具调用、错误处理和简单任务执行 | 未开始 |
 | D | 知识、记忆与上下文 | 实现文档检索、RAG、短期记忆和上下文预算 | 未开始 |
 | E | 企业化编排与生产落地 | 引入 LangGraph、API、评估、监控、安全和部署 | 未开始 |
@@ -34,8 +34,8 @@
 | 03 | 测试驱动的开发节奏 | A | 已完成 | pytest 断言、失败用例、测试命名规范 |
 | 04 | 配置与环境变量基础 | A | 已完成 | `.env.example`、`AppConfig`、默认值、环境变量覆盖 |
 | 05 | 日志与错误信息 | A | 已完成 | `configure_logging()`、`format_error_message()`、日志级别和错误消息测试 |
-| 06 | LLM 调用长什么样 | B | 未开始 | `Message`、`LLMRequest`、`LLMResponse` |
-| 07 | MockLLMClient：不用 API Key 学模型调用 | B | 未开始 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
+| 06 | LLM 调用长什么样 | B | 已完成 | `Message`、`LLMRequest`、`LLMResponse`、provider-neutral payload、token usage |
+| 07 | MockLLMClient：不用 API Key 学模型调用 | B | 已完成 | `BaseLLMClient`、`MockLLMClient`、异步测试 |
 | 08 | 真实模型客户端边界 | B | 未开始 | OpenAI-compatible client 接口占位、超时、重试 |
 | 09 | 多模型路由入门 | B | 未开始 | `LLMRouter`、任务类型、模型选择 |
 | 10 | Token 与成本统计 | B | 未开始 | token 估算、调用成本、预算限制 |
@@ -67,17 +67,17 @@
 
 ## 当前学习进度
 
-- 当前章节：第 05 章，日志与错误信息，已完成。
-- 当前学习文档：`docs/lessons/05-logging-errors.md`。
-- 学员完成本章后，应能解释 logger、handler、formatter、日志级别、propagation 和可测试错误消息。
+- 当前章节：第 07 章，MockLLMClient：不用 API Key 学模型调用，已完成。
+- 当前学习文档：`docs/lessons/07-mock-llm-client.md`。
+- 学员完成本章后，应能解释 `BaseLLMClient`、`MockLLMClient`、异步客户端边界、稳定 Mock 响应、调用历史和为什么 Mock 不接真实 API。
 
 ## 下一步
 
-下一章进入第 06 章：LLM 调用长什么样。
+下一章进入第 08 章：真实模型客户端边界。
 
-第 06 章建议交付：
+第 08 章建议交付：
 
-- 定义 `Message`、`LLMRequest`、`LLMResponse` 等基础数据对象。
-- 先用数据结构讲清楚模型调用边界，不接入真实 API。
-- 为请求、响应和消息角色写单元测试。
-- 继续保持错误消息短、具体、可测试。
+- 定义真实客户端边界对象，例如 `OpenAICompatibleLLMClient` 或同等占位实现。
+- 设计请求超时、重试次数和供应商错误归一化，不直接在业务层处理 SDK 细节。
+- 保持所有真实调用输出归一化为 `LLMResponse`。
+- 先用可注入 transport / fake transport 测试真实客户端边界，不要求真实 API Key。
