@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enterprise Agent 阶段性总结：第 1 到第 9 章</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;700;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a1f3d;
+      --ink-rgb: 10, 31, 61;
+      --paper: #f1f3f5;
+      --paper-rgb: 241, 243, 245;
+      --paper-tint: #e4e8ec;
+      --ink-tint: #152a4a;
+      --accent: #b2894f;
+      --accent-2: #5f778e;
+      --serif-zh: "Noto Serif SC", source-han-serif-sc, serif;
+      --sans-zh: "Noto Sans SC", source-han-sans-sc, sans-serif;
+      --serif-en: "Playfair Display", Georgia, serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans-zh);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    canvas.bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; }
+    #deck {
+      position: fixed;
+      inset: 0;
+      height: 100vh;
+      display: flex;
+      flex-wrap: nowrap;
+      z-index: 10;
+      transition: transform .78s cubic-bezier(.77,0,.175,1);
+      will-change: transform;
+    }
+    .slide {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      flex: 0 0 100vw;
+      padding: 5.8vh 6vw 8.5vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,.028) 1px, transparent 1px);
+      background-size: 5.6vw 5.6vw;
+      opacity: .55;
+      pointer-events: none;
+    }
+    .slide.light {
+      color: var(--ink);
+      background: rgba(var(--paper-rgb), .88);
+      backdrop-filter: blur(3px);
+    }
+    .slide.dark {
+      color: var(--paper);
+      background: rgba(var(--ink-rgb), .82);
+      backdrop-filter: blur(3px);
+    }
+    .slide.hero.light { background: rgba(var(--paper-rgb), .30); }
+    .slide.hero.dark { background: rgba(var(--ink-rgb), .35); }
+    .slide.hero::before { opacity: .28; }
+    .chrome, .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      opacity: .66;
+      flex: 0 0 auto;
+    }
+    .foot { margin-top: auto; align-items: flex-end; opacity: .54; }
+    .frame {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.6rem;
+      padding: 3.2vh 0 2vh;
+    }
+    .kicker {
+      font-family: var(--mono);
+      font-size: .82rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    h1, h2, h3, p { margin: 0; }
+    .h-hero {
+      font-family: var(--serif-zh);
+      font-size: 5.7rem;
+      line-height: 1.04;
+      font-weight: 900;
+      letter-spacing: 0;
+      max-width: 86vw;
+    }
+    .h-xl {
+      font-family: var(--serif-zh);
+      font-size: 3.75rem;
+      line-height: 1.16;
+      font-weight: 800;
+      letter-spacing: 0;
+      max-width: 84vw;
+    }
+    .h-md {
+      font-family: var(--serif-zh);
+      font-size: 2rem;
+      line-height: 1.32;
+      font-weight: 700;
+    }
+    .lead {
+      font-family: var(--serif-zh);
+      font-size: 1.48rem;
+      line-height: 1.68;
+      max-width: 68vw;
+      opacity: .84;
+    }
+    .body {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      opacity: .82;
+      max-width: 60vw;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem 1.1rem;
+      align-items: baseline;
+      font-family: var(--mono);
+      font-size: .82rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .62;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.4vw; align-items: stretch; }
+    .grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.2vw 3vw; align-items: stretch; }
+    .grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2vw 3vw; align-items: stretch; }
+    .text-stack { display: flex; flex-direction: column; gap: 1.15rem; }
+    .panel {
+      border-top: 1px solid currentColor;
+      padding-top: 1.15rem;
+      min-width: 0;
+    }
+    .panel .label {
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      opacity: .58;
+      margin-bottom: .7rem;
+    }
+    .panel .title {
+      font-family: var(--serif-zh);
+      font-size: 1.55rem;
+      line-height: 1.28;
+      font-weight: 700;
+      margin-bottom: .55rem;
+    }
+    .panel .desc {
+      font-size: .98rem;
+      line-height: 1.58;
+      opacity: .76;
+    }
+    .stat {
+      border-top: 1px solid currentColor;
+      padding-top: 1rem;
+    }
+    .stat .num {
+      font-family: var(--serif-en);
+      font-size: 4.4rem;
+      line-height: .95;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+    .stat .unit {
+      font-family: var(--serif-zh);
+      font-size: 1.3rem;
+      font-weight: 500;
+      opacity: .74;
+      margin-left: .2rem;
+    }
+    .stat .note {
+      margin-top: .7rem;
+      font-size: .96rem;
+      line-height: 1.55;
+      opacity: .75;
+    }
+    .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.3vw; margin-top: 1.2rem; }
+    .pipeline[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+    .pipeline[data-cols="6"] { grid-template-columns: repeat(6, 1fr); }
+    .step { border-top: 1px solid currentColor; padding-top: .9rem; }
+    .step .nb { font-family: var(--serif-en); font-style: italic; opacity: .48; margin-bottom: .35rem; }
+    .step .st { font-weight: 800; font-size: 1.06rem; line-height: 1.22; }
+    .step .sd { margin-top: .45rem; font-size: .86rem; line-height: 1.46; opacity: .74; }
+    .callout {
+      border-left: 3px solid currentColor;
+      padding: 1.1rem 1.3rem;
+      background: rgba(127,127,127,.08);
+      font-family: var(--serif-zh);
+      font-size: 1.2rem;
+      line-height: 1.55;
+    }
+    .quote {
+      font-family: var(--serif-zh);
+      font-size: 4.2rem;
+      line-height: 1.18;
+      font-weight: 800;
+      max-width: 78vw;
+    }
+    figure { margin: 0; min-width: 0; }
+    .frame-img {
+      overflow: hidden;
+      border-radius: 4px;
+      border: 1px solid rgba(127,127,127,.26);
+      background: rgba(0,0,0,.06);
+    }
+    .frame-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    figcaption, .caption {
+      margin-top: .55rem;
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      opacity: .62;
+    }
+    ul.clean {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: .78rem;
+      font-size: 1rem;
+      line-height: 1.55;
+      opacity: .8;
+    }
+    ul.clean li { border-top: 1px solid rgba(127,127,127,.26); padding-top: .7rem; }
+    code {
+      font-family: var(--mono);
+      font-size: .9em;
+      background: rgba(127,127,127,.13);
+      padding: .05rem .34rem;
+      border-radius: 4px;
+    }
+    .small { font-size: .9rem; line-height: 1.55; opacity: .72; }
+    .wide { max-width: 78vw; }
+    .tight { max-width: 52vw; }
+    .accent { color: var(--accent); }
+    .index {
+      position: absolute;
+      right: 5.8vw;
+      bottom: 9.5vh;
+      font-family: var(--serif-en);
+      font-size: 13rem;
+      line-height: .8;
+      font-weight: 800;
+      opacity: .055;
+      pointer-events: none;
+    }
+    #nav {
+      position: fixed;
+      left: 50%;
+      bottom: 2.2vh;
+      transform: translateX(-50%);
+      z-index: 30;
+      display: flex;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+      max-width: 76vw;
+      overflow: hidden;
+    }
+    #nav button {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      border: 0;
+      padding: 0;
+      background: rgba(255,255,255,.34);
+      cursor: pointer;
+    }
+    #nav button.active { width: 22px; background: rgba(255,255,255,.92); }
+    .light + #nav button { background: rgba(0,0,0,.25); }
+    @media (max-width: 900px) {
+      .slide { padding: 4.8vh 5vw 8vh; }
+      .h-hero { font-size: 3.5rem; }
+      .h-xl { font-size: 2.55rem; }
+      .lead { font-size: 1.15rem; max-width: 88vw; }
+      .quote { font-size: 2.4rem; }
+      .grid-2, .grid-3, .grid-4, .grid-6, .pipeline, .pipeline[data-cols="4"], .pipeline[data-cols="6"] { grid-template-columns: 1fr; }
+      .frame-img { max-height: 34vh; }
+      .index { font-size: 7rem; }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="bg" id="bg"></canvas>
+  <main id="deck">
+
+    <section class="slide hero dark">
+      <div class="chrome"><div>Enterprise Agent Course</div><div>Vol. 01 / 1-9</div></div>
+      <div class="frame">
+        <div class="kicker">阶段性总结</div>
+        <h1 class="h-hero">企业级 AI Agent<br>从工程基线到多模型路由</h1>
+        <p class="lead">面向学员的 2 小时复盘课。把第 1 到第 9 章串成一条工程主线：先让项目站稳，再让 LLM 调用被边界、测试和路由接管。</p>
+        <div class="meta-row"><span>Chapters 01-09</span><span>/</span><span>Foundation + LLM Boundary</span><span>/</span><span>2026.05</span></div>
+      </div>
+      <div class="foot"><div>Enterprise Agent 万能模板</div><div>Page 01 / 50</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Course Map</div><div>02 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Two Hours</div>
+        <h2 class="h-xl">这不是九章重讲，而是一次系统复盘。</h2>
+        <div class="grid-4">
+          <div class="stat"><div class="num">25<span class="unit">min</span></div><div class="note">工程基线：项目、包结构、测试节奏。</div></div>
+          <div class="stat"><div class="num">30<span class="unit">min</span></div><div class="note">运行基础：配置、环境变量、日志和错误。</div></div>
+          <div class="stat"><div class="num">45<span class="unit">min</span></div><div class="note">LLM 边界：消息、请求、响应、Mock、真实客户端。</div></div>
+          <div class="stat"><div class="num">20<span class="unit">min</span></div><div class="note">多模型路由：任务类型、默认路由、测试矩阵和下一步。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>建议节奏：讲解 90 分钟，穿插讨论 30 分钟</div><div>Agenda</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Learner Promise</div><div>03 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">End State</div>
+          <h2 class="h-xl">学完第 9 章，学员应该能解释一个最小 LLM 网关。</h2>
+          <p class="lead">这个网关暂时不追求智能，但每一层都可替换、可测试、可追踪。</p>
+        </div>
+        <div class="text-stack">
+          <div class="panel"><div class="label">Explain</div><div class="title">为什么先做工程基础</div><div class="desc">没有可安装、可测试、可配置的项目，Agent 逻辑只会变成脚本堆叠。</div></div>
+          <div class="panel"><div class="label">Build</div><div class="title">如何定义 LLM 调用边界</div><div class="desc">Message、LLMRequest、LLMResponse 让模型调用从 dict 变成受约束的对象。</div></div>
+          <div class="panel"><div class="label">Route</div><div class="title">如何按任务选择模型</div><div class="desc">LLMRouter 把上层调用者和具体模型客户端解耦。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>学习目标</div><div>Outcome</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Nine Chapters</div><div>04 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Progression</div>
+        <h2 class="h-xl">1 到 9 章，是从“能运行”走向“能替换”。</h2>
+        <div class="pipeline" data-cols="6">
+          <div class="step"><div class="nb">01</div><div class="st">Project</div><div class="sd">工程启动与开发环境。</div></div>
+          <div class="step"><div class="nb">02</div><div class="st">Package</div><div class="sd">src layout 与公开入口。</div></div>
+          <div class="step"><div class="nb">03</div><div class="st">Testing</div><div class="sd">小步测试驱动。</div></div>
+          <div class="step"><div class="nb">04</div><div class="st">Config</div><div class="sd">运行配置与环境变量。</div></div>
+          <div class="step"><div class="nb">05</div><div class="st">Logging</div><div class="sd">日志和错误消息。</div></div>
+          <div class="step"><div class="nb">06</div><div class="st">Shape</div><div class="sd">LLM 调用对象。</div></div>
+        </div>
+        <div class="pipeline" data-cols="4">
+          <div class="step"><div class="nb">07</div><div class="st">Mock</div><div class="sd">无 API Key 的模型客户端。</div></div>
+          <div class="step"><div class="nb">08</div><div class="st">Real Client</div><div class="sd">OpenAI-compatible 边界。</div></div>
+          <div class="step"><div class="nb">09</div><div class="st">Router</div><div class="sd">多模型路由入门。</div></div>
+          <div class="step"><div class="nb">10</div><div class="st">Next</div><div class="sd">Token 与成本统计。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>课程进度来自 docs/COURSE_PROGRESS.md</div><div>Map</div></div>
+    </section>
+
+    <section class="slide hero light">
+      <div class="chrome"><div>Act I</div><div>05 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">工程基础</div>
+        <h1 class="h-hero">先让项目站稳。</h1>
+        <p class="lead tight">前五章不急着写 Agent。它们训练的是企业级项目的底层肌肉：安装、导入、测试、配置、日志。</p>
+      </div>
+      <div class="foot"><div>Chapters 01-05</div><div>Foundation</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 01</div><div>06 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Project Setup</div>
+          <h2 class="h-xl">第 1 章只做一件事：建立可继续扩展的 Python 工程基线。</h2>
+          <p class="lead">不写 Agent，不调用模型，不接服务。先证明项目能被安装、导入和测试。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/01-project-setup-cover.jpg" alt="第 1 章工程启动封面"></div>
+          <figcaption>01 Project Setup / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：pyproject.toml / src 包 / pytest smoke test</div><div>01</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 01</div><div>07 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/01-project-setup-flow.jpg" alt="工程启动流程"></div>
+          <figcaption>Install / Import / Test</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Minimum Loop</div>
+          <h2 class="h-xl">最小闭环不是功能，是反馈。</h2>
+          <ul class="clean">
+            <li><code>pyproject.toml</code> 定义包、依赖和 pytest 配置。</li>
+            <li><code>src/enterprise_agent</code> 成为正式实现入口。</li>
+            <li><code>ProjectInfo</code> 和 smoke test 证明测试环境能导入项目。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>项目基线的价值：所有后续章节都能在同一反馈回路内迭代</div><div>Feedback</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 01</div><div>08 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Teaching Point</div>
+        <h2 class="h-xl">第 1 章的判断标准：不要看代码多不多，看它能否被验证。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Object</div><div class="title"><code>ProjectInfo</code></div><div class="desc">用最小对象承载项目名称、版本和课程阶段。</div></div>
+          <div class="panel"><div class="label">Command</div><div class="title"><code>python -m pytest</code></div><div class="desc">把运行方式固定下来，减少“我这里可以”的噪音。</div></div>
+          <div class="panel"><div class="label">Boundary</div><div class="title">不提前创建大目录</div><div class="desc">evaluation、monitoring、RAG 等目录等章节需要时再出现。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>开局要克制，工程才会清楚</div><div>Baseline</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 02</div><div>09 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Package Structure</div>
+          <h2 class="h-xl">第 2 章把“文件夹”升级成“包边界”。</h2>
+          <p class="lead">包结构不是整理癖。它决定后面的 LLM、Agent、工具、RAG 和记忆模块能不能独立演进。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/02-package-structure-cover.jpg" alt="Python 包结构封面"></div>
+          <figcaption>02 Package Structure / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：foundation 子包和导入边界测试</div><div>02</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 02</div><div>10 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/02-package-structure-flow.jpg" alt="包结构流程"></div>
+          <figcaption>src Layout / Public API / Import Tests</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Public Surface</div>
+          <h2 class="h-xl">公开入口要小，内部结构才能变。</h2>
+          <ul class="clean">
+            <li><code>enterprise_agent.__init__</code> 暴露顶层能力。</li>
+            <li><code>foundation.__init__</code> 暴露基础模块能力。</li>
+            <li>测试保护“应该从哪里导入”，而不是保护文件摆放习惯。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>工程规则：导入路径就是长期契约</div><div>API Surface</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 02</div><div>11 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Design Rules</div>
+        <h2 class="h-xl">包结构的三条课堂规则。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Rule 01</div><div class="title">外部调用顶层入口</div><div class="desc">学员优先从包入口理解能力，而不是跳进内部文件。</div></div>
+          <div class="panel"><div class="label">Rule 02</div><div class="title">子包入口表达边界</div><div class="desc"><code>foundation</code> 是基础设施教学区，不混入 LLM 逻辑。</div></div>
+          <div class="panel"><div class="label">Rule 03</div><div class="title">测试写契约</div><div class="desc">测试应该说明调用者可以依赖什么，而不是复制实现细节。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>第 2 章是后续模块化的前提</div><div>Rules</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 03</div><div>12 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Testing Rhythm</div>
+          <h2 class="h-xl">第 3 章训练的是节奏，不是 pytest 语法。</h2>
+          <p class="lead">用一个很小的标题格式化函数，练习从行为、失败、实现到重构的最小循环。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/03-testing-rhythm-cover.jpg" alt="测试驱动开发节奏封面"></div>
+          <figcaption>03 Testing Rhythm / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：format_chapter_title() 与五类测试</div><div>03</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 03</div><div>13 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/03-testing-rhythm-flow.jpg" alt="TDD 最小循环"></div>
+          <figcaption>Red / Green / Refine</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Small Function</div>
+          <h2 class="h-xl">函数越小，越适合训练判断。</h2>
+          <ul class="clean">
+            <li>章节号补零：输入规则明确。</li>
+            <li>标题清理：边界条件明确。</li>
+            <li>非法输入异常：失败路径明确。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>测试失败信息是教学材料，不是噪音</div><div>TDD</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 03</div><div>14 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Test Naming</div>
+        <h2 class="h-xl">好的测试名直接回答：什么条件下，应该发生什么。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Shape</div><div class="title"><code>test_formats_single_digit_chapter</code></div><div class="desc">命名描述行为，不复述实现。</div></div>
+          <div class="panel"><div class="label">Failure</div><div class="title">异常测试要明确</div><div class="desc">非法章节号、空标题、非字符串都要单独表达。</div></div>
+          <div class="panel"><div class="label">Habit</div><div class="title">每章都保留验收命令</div><div class="desc">学员离开文档后，仍然知道如何证明完成。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>测试不是附属物，是课程结构的一部分</div><div>Tests</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 04</div><div>15 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Config</div>
+          <h2 class="h-xl">第 4 章把运行差异收进配置对象。</h2>
+          <p class="lead">环境变量不应该散落在业务逻辑里。先定义 <code>AppConfig</code>，再谈后续 API Key、预算和部署。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/04-config-env-cover.jpg" alt="配置与环境变量封面"></div>
+          <figcaption>04 Config / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：AppConfig / load_app_config() / .env.example</div><div>04</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 04</div><div>16 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/04-config-env-flow.jpg" alt="配置加载流程"></div>
+          <figcaption>Defaults / Environment / Validation</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Config Boundary</div>
+          <h2 class="h-xl">配置加载分三步：默认值、覆盖、校验。</h2>
+          <ul class="clean">
+            <li>默认值让本地开发无需先配齐一切。</li>
+            <li>环境变量覆盖让部署环境可以注入差异。</li>
+            <li>校验让错误尽早发生，而不是运行中才爆。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>本章暂时不解析 .env 文件，避免引入额外库分散主题</div><div>Config</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 04</div><div>17 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Why Not Pydantic Yet</div>
+        <h2 class="h-xl">课程早期不用重工具，是为了让校验规则可见。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Visible</div><div class="title">看清字段</div><div class="desc"><code>environment</code>、<code>log_level</code>、<code>default_model</code>、<code>token_budget</code> 都有明确来源。</div></div>
+          <div class="panel"><div class="label">Explicit</div><div class="title">看清覆盖</div><div class="desc">测试用 mapping 注入环境，避免全局环境污染。</div></div>
+          <div class="panel"><div class="label">Deferred</div><div class="title">复杂性后移</div><div class="desc">配置库、密钥管理、真实部署在生产化章节再处理。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>企业级不是一开始就重，而是边界清楚后再加重量</div><div>Tradeoff</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 05</div><div>18 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Logging & Errors</div>
+          <h2 class="h-xl">第 5 章让失败变得可读。</h2>
+          <p class="lead">Agent 系统迟早会失败。课程先训练学员把失败变成日志和错误消息，而不是沉默或堆栈。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/05-logging-errors-cover.jpg" alt="日志与错误信息封面"></div>
+          <figcaption>05 Logging / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：configure_logging() / format_error_message()</div><div>05</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 05</div><div>19 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/05-logging-errors-flow.jpg" alt="日志与错误流程"></div>
+          <figcaption>Logger / Handler / Formatter</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Observable Basics</div>
+          <h2 class="h-xl">日志基础先求确定性。</h2>
+          <ul class="clean">
+            <li>每次配置替换已有 handler，避免重复输出。</li>
+            <li>日志格式固定，方便学员对照测试。</li>
+            <li>错误消息格式化，让异常适合展示给调用者。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>结构化日志、追踪 ID 和指标留到后续生产章节</div><div>Logging</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Act I Recap</div><div>20 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Foundation Recap</div>
+        <h2 class="h-xl">前五章的共同主题：先建立工程语言。</h2>
+        <div class="grid-6">
+          <div class="panel"><div class="label">01</div><div class="title">可安装</div><div class="desc">项目不是散文件。</div></div>
+          <div class="panel"><div class="label">02</div><div class="title">可导入</div><div class="desc">包入口有契约。</div></div>
+          <div class="panel"><div class="label">03</div><div class="title">可测试</div><div class="desc">行为有反馈。</div></div>
+          <div class="panel"><div class="label">04</div><div class="title">可配置</div><div class="desc">运行差异有边界。</div></div>
+          <div class="panel"><div class="label">05</div><div class="title">可观察</div><div class="desc">失败能被读懂。</div></div>
+          <div class="panel"><div class="label">Then</div><div class="title">可替换</div><div class="desc">LLM 客户端才能进入。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>从第 6 章开始，课程进入 LLM 调用边界</div><div>Recap</div></div>
+    </section>
+
+    <section class="slide hero dark">
+      <div class="chrome"><div>Act II</div><div>21 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">LLM 调用边界</div>
+        <h1 class="h-hero">不要把模型调用写成一坨 dict。</h1>
+        <p class="lead tight">第 6 到第 8 章的任务，是把“发给模型的东西”和“模型返回的东西”变成工程可管理对象。</p>
+      </div>
+      <div class="foot"><div>Chapters 06-08</div><div>LLM Boundary</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 06</div><div>22 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Call Shape</div>
+          <h2 class="h-xl">第 6 章定义 LLM 调用长什么样。</h2>
+          <p class="lead">本章仍然不接真实模型。先把 Message、LLMRequest、LLMResponse 这三个对象讲清楚。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/06-llm-call-shape-cover.jpg" alt="LLM 调用形状封面"></div>
+          <figcaption>06 LLM Call Shape / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：provider-neutral payload 与 token usage</div><div>06</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 06</div><div>23 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/06-boundary-map.jpg" alt="LLM 调用边界地图"></div>
+          <figcaption>Boundary Map</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Four Layers</div>
+          <h2 class="h-xl">模型调用被拆成四层。</h2>
+          <ul class="clean">
+            <li>消息层：谁说了什么。</li>
+            <li>请求层：调用哪个模型、带什么参数。</li>
+            <li>响应层：模型返回什么、用了多少 token。</li>
+            <li>客户端层：谁负责真正调用。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>第 6 章只完成前三层，客户端从第 7 章开始</div><div>Boundary</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 06</div><div>24 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Message</div>
+          <h2 class="h-xl">Message 是最小语义单位。</h2>
+          <p class="lead">它约束 role、content 和可选 name。课程刻意不把消息写成裸 dict，是为了让校验和转换有固定位置。</p>
+          <div class="callout">先让数据结构说清楚“允许什么”，再让客户端负责“怎么发送”。</div>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/06-message-stack.jpg" alt="消息栈结构"></div>
+          <figcaption>Message Stack</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>Role 白名单保持学习边界稳定</div><div>Message</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 06</div><div>25 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/06-request-payload.jpg" alt="LLM 请求 payload"></div>
+          <figcaption>Request Payload</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">LLMRequest</div>
+          <h2 class="h-xl">请求对象把调用参数收拢。</h2>
+          <ul class="clean">
+            <li><code>model</code> 决定目标模型名称。</li>
+            <li><code>messages</code> 使用 tuple，避免调用中被外部修改。</li>
+            <li><code>temperature</code>、<code>max_output_tokens</code>、<code>metadata</code> 都有校验。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>to_payload() 是供应商无关结构的出口</div><div>Request</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 06</div><div>26 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">LLMResponse</div>
+          <h2 class="h-xl">响应对象让成本和追踪有入口。</h2>
+          <ul class="clean">
+            <li>assistant 响应仍然是 <code>Message</code>。</li>
+            <li><code>input_tokens</code> 与 <code>output_tokens</code> 为第 10 章成本统计铺路。</li>
+            <li><code>finish_reason</code> 和 <code>raw_id</code> 为后续观察性保留字段。</li>
+          </ul>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/06-response-usage.jpg" alt="LLM 响应用量"></div>
+          <figcaption>Response Usage</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>第 10 章会把 usage 转成成本、预算和限制规则</div><div>Response</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 06</div><div>27 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Enterprise Tradeoff</div>
+        <h2 class="h-xl">第 6 章的取舍，是初学者最容易忽略的地方。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Dataclass</div><div class="title">不用裸 dict</div><div class="desc">校验、转换和字段含义都在对象里。</div></div>
+          <div class="panel"><div class="label">No Pydantic</div><div class="title">先看清规则</div><div class="desc">等字段更多、嵌套更深时，再引入重工具。</div></div>
+          <div class="panel"><div class="label">No Real API</div><div class="title">先分离问题</div><div class="desc">数据边界和网络调用不要在同一章混讲。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>这一页适合课堂讨论：抽象是不是太早？</div><div>Tradeoff</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 07</div><div>28 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Mock LLM Client</div>
+          <h2 class="h-xl">第 7 章让学员不用 API Key 也能学模型调用。</h2>
+          <p class="lead">MockLLMClient 不模拟智能，只模拟边界：异步接口、稳定响应、调用历史和 token usage。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/07-mock-cover.jpg" alt="Mock LLM Client 封面"></div>
+          <figcaption>07 Mock Client / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：BaseLLMClient / MockLLMClient / async tests</div><div>07</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 07</div><div>29 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/07-client-boundary.jpg" alt="客户端边界"></div>
+          <figcaption>Client Boundary</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">BaseLLMClient</div>
+          <h2 class="h-xl">客户端边界统一成一个异步方法。</h2>
+          <div class="callout"><code>complete(request: LLMRequest) -> LLMResponse</code></div>
+          <p class="body">上层代码不应该关心是真模型、Mock、Router，还是未来的缓存客户端。它只依赖这个统一边界。</p>
+        </div>
+      </div>
+      <div class="foot"><div>抽象类比 Protocol 更适合此阶段教学</div><div>Client</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 07</div><div>30 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Async Flow</div>
+          <h2 class="h-xl">为什么一开始就用 async？</h2>
+          <ul class="clean">
+            <li>真实模型调用天然是 I/O。</li>
+            <li>未来 Agent 循环、工具调用、RAG 检索都会遇到等待。</li>
+            <li>早期统一异步接口，避免后面从同步迁移。</li>
+          </ul>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/07-async-flow.jpg" alt="异步调用流程"></div>
+          <figcaption>Async Complete Flow</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>测试中可以直接用 asyncio.run()，暂不引入 pytest-asyncio</div><div>Async</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 07</div><div>31 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/07-mock-contract.jpg" alt="Mock 契约"></div>
+          <figcaption>Mock Contract</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Mock Contract</div>
+          <h2 class="h-xl">Mock 的价值不是像真，而是稳定。</h2>
+          <ul class="clean">
+            <li>固定 response_text，方便断言。</li>
+            <li>固定 token usage，方便后续成本测试。</li>
+            <li>记录 calls，方便验证请求是否被传递。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>Mock 不模拟太多，测试才不会被假智能污染</div><div>Mock</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 07</div><div>32 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Testing Matrix</div>
+          <h2 class="h-xl">这一章的测试矩阵训练“客户端思维”。</h2>
+          <ul class="clean">
+            <li>抽象边界不能直接实例化。</li>
+            <li>Mock 返回稳定响应。</li>
+            <li>调用历史只读暴露。</li>
+            <li>非法配置和非法请求快速失败。</li>
+          </ul>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/07-testing-matrix.jpg" alt="Mock 客户端测试矩阵"></div>
+          <figcaption>Mock Testing Matrix</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>每个测试新建一个 client，避免状态串扰</div><div>Tests</div></div>
+    </section>
+
+    <section class="slide hero light">
+      <div class="chrome"><div>Act III</div><div>33 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">真实客户端与路由</div>
+        <h1 class="h-hero">从“能模拟”走向“能替换”。</h1>
+        <p class="lead tight">第 8 章把真实供应商边界收进 transport；第 9 章把多个客户端收进 Router。</p>
+      </div>
+      <div class="foot"><div>Chapters 08-09</div><div>Client + Router</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 08</div><div>34 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Real Client Boundary</div>
+          <h2 class="h-xl">第 8 章做真实客户端，但不直接装 SDK。</h2>
+          <p class="lead">核心设计是可注入 transport。客户端负责构造 payload、headers、timeout 和响应归一化。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/08-real-cover.jpg" alt="真实模型客户端边界封面"></div>
+          <figcaption>08 Real Client / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：OpenAICompatibleLLMClient 与 FakeTransport 测试</div><div>08</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 08</div><div>35 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/08-transport-boundary.jpg" alt="Transport 边界"></div>
+          <figcaption>Transport Boundary</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Transport</div>
+          <h2 class="h-xl">客户端不直接依赖 HTTP 库。</h2>
+          <ul class="clean">
+            <li>真实网络细节被推到 transport。</li>
+            <li>测试可以注入 FakeTransport。</li>
+            <li>课程不被某个 SDK 的写法绑定。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>OpenAI-compatible 是兼容边界，不是单一供应商绑定</div><div>Transport</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 08</div><div>36 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Client Responsibilities</div>
+        <h2 class="h-xl">真实客户端在这一章只承担四件事。</h2>
+        <div class="grid-4">
+          <div class="panel"><div class="label">Payload</div><div class="title">请求映射</div><div class="desc">把 <code>LLMRequest</code> 转成 OpenAI-compatible payload。</div></div>
+          <div class="panel"><div class="label">Headers</div><div class="title">认证头</div><div class="desc">把 API Key 收进 headers，不泄漏到调用层。</div></div>
+          <div class="panel"><div class="label">Normalize</div><div class="title">响应归一化</div><div class="desc">把 choices、usage、id 转回 <code>LLMResponse</code>。</div></div>
+          <div class="panel"><div class="label">Errors</div><div class="title">错误分类</div><div class="desc">区分 transport 错误和 provider 结构错误。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>这一章不负责读取环境变量，配置注入由调用者完成</div><div>Client</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 08</div><div>37 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Retry Budget</div>
+          <h2 class="h-xl">重试规则要小而确定。</h2>
+          <p class="lead">第 8 章只对 transport 层的超时、连接错误和 transport error 重试；provider 结构错误快速失败。</p>
+          <div class="callout">重试不是万能止痛药。错误类型不清楚时，重试只会掩盖问题。</div>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/08-retry-normalization.jpg" alt="重试与归一化"></div>
+          <figcaption>Retry / Normalize</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>指数退避、jitter、限流识别后续再加</div><div>Retry</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 08</div><div>38 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/08-testing-matrix.jpg" alt="真实客户端测试矩阵"></div>
+          <figcaption>Real Client Testing Matrix</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">FakeTransport</div>
+          <h2 class="h-xl">FakeTransport 让真实客户端在本地可测。</h2>
+          <ul class="clean">
+            <li>验证 payload 和 headers。</li>
+            <li>模拟 timeout、connection 和 provider 错误。</li>
+            <li>验证 retry 次数与响应解析。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>测试替代网络，才可能稳定教学</div><div>Tests</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 08</div><div>39 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Boundary Discipline</div>
+        <h2 class="h-xl">第 8 章的底层训练：所有外部不确定性都要被隔离。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">SDK</div><div class="title">不直接绑定</div><div class="desc">否则测试和供应商迁移都会被牵住。</div></div>
+          <div class="panel"><div class="label">Network</div><div class="title">不进单元测试</div><div class="desc">网络是集成测试主题，不是本章主题。</div></div>
+          <div class="panel"><div class="label">Config</div><div class="title">不在客户端读取</div><div class="desc">客户端接收 config，而不是自己到处找环境变量。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>这是一条企业级工程分界线</div><div>Discipline</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 09</div><div>40 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">LLM Router</div>
+          <h2 class="h-xl">第 9 章把多个模型客户端收进一个路由层。</h2>
+          <p class="lead">路由层读取 <code>metadata["task_type"]</code>，选择 route，改写 request model，然后调用目标客户端。</p>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 56vh"><img src="images/09-router-cover.jpg" alt="多模型路由封面"></div>
+          <figcaption>09 LLM Router / Cover</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>本章交付：LLMRoute / LLMRouter / task_type 路由</div><div>09</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 09</div><div>41 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/09-routing-map.jpg" alt="路由地图"></div>
+          <figcaption>Routing Map</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Routing Map</div>
+          <h2 class="h-xl">路由逻辑很小，但架构意义很大。</h2>
+          <ul class="clean">
+            <li>调用者只看到一个 <code>BaseLLMClient</code>。</li>
+            <li>Router 内部持有多个 <code>LLMRoute</code>。</li>
+            <li>不同任务可以落到不同模型和客户端。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>LLMRouter 自身也实现 BaseLLMClient</div><div>Router</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Chapter 09</div><div>42 / 50</div></div>
+      <div class="frame grid-2">
+        <div class="text-stack">
+          <div class="kicker">Route Contract</div>
+          <h2 class="h-xl">LLMRoute 同时绑定 model 和 client。</h2>
+          <p class="lead">这让“选模型”和“选供应商客户端”成为同一个路由决策。未来可以接入成本、延迟和健康检查。</p>
+          <div class="callout">本章先不做智能路由。显式 task_type 更适合课程当前阶段。</div>
+        </div>
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/09-route-contract.jpg" alt="路由契约"></div>
+          <figcaption>Route Contract</figcaption>
+        </figure>
+      </div>
+      <div class="foot"><div>显式路由让学员能看见每次选择发生在哪里</div><div>Route</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 09</div><div>43 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Default Route</div>
+        <h2 class="h-xl">默认路由是渐进接入的兜底。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Known Task</div><div class="title">命中任务路由</div><div class="desc"><code>metadata["task_type"]</code> 能匹配 route，就使用对应模型。</div></div>
+          <div class="panel"><div class="label">Unknown Task</div><div class="title">回落默认路由</div><div class="desc">课程阶段选择 fallback，而不是直接报错。</div></div>
+          <div class="panel"><div class="label">Request Settings</div><div class="title">保留调用设置</div><div class="desc">Router 只改写 model，不随意改 temperature、tokens 或 metadata。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>这也是第 9 章测试的重点</div><div>Fallback</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Chapter 09</div><div>44 / 50</div></div>
+      <div class="frame grid-2">
+        <figure>
+          <div class="frame-img" style="height: 58vh"><img src="images/09-testing-matrix.jpg" alt="路由测试矩阵"></div>
+          <figcaption>Router Testing Matrix</figcaption>
+        </figure>
+        <div class="text-stack">
+          <div class="kicker">Tests</div>
+          <h2 class="h-xl">用 Mock 验证路由，不用真实模型验证路由。</h2>
+          <ul class="clean">
+            <li>默认路由调用正确 client。</li>
+            <li>任务路由改写 model。</li>
+            <li>未知任务 fallback。</li>
+            <li>非法 route 和空请求快速失败。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot"><div>MockLLMClient.calls 是第 9 章测试路由的证据</div><div>Matrix</div></div>
+    </section>
+
+    <section class="slide hero dark">
+      <div class="chrome"><div>Act IV</div><div>45 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Synthesis</div>
+        <h1 class="h-hero">九章之后，系统已经有骨架。</h1>
+        <p class="lead tight">它还不是完整 Agent，但已经具备企业级 Agent 必须依赖的工程骨架：边界、测试、配置、观察和替换点。</p>
+      </div>
+      <div class="foot"><div>阶段性总结</div><div>Synthesis</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Architecture</div><div>46 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">End State</div>
+        <h2 class="h-xl">当前架构可以被读成两层。</h2>
+        <div class="grid-2">
+          <div class="panel"><div class="label">Foundation</div><div class="title">工程基础层</div><div class="desc">项目元信息、包结构、标题函数、配置加载、日志配置、错误消息。它们服务所有后续模块。</div></div>
+          <div class="panel"><div class="label">LLM Gateway</div><div class="title">模型调用层</div><div class="desc">Message、LLMRequest、LLMResponse、BaseLLMClient、Mock、OpenAI-compatible client、Router。</div></div>
+        </div>
+        <div class="pipeline" data-cols="6">
+          <div class="step"><div class="nb">01</div><div class="st">AppConfig</div><div class="sd">运行差异入口。</div></div>
+          <div class="step"><div class="nb">02</div><div class="st">Message</div><div class="sd">对话数据单位。</div></div>
+          <div class="step"><div class="nb">03</div><div class="st">Request</div><div class="sd">模型调用参数。</div></div>
+          <div class="step"><div class="nb">04</div><div class="st">Client</div><div class="sd">统一调用边界。</div></div>
+          <div class="step"><div class="nb">05</div><div class="st">Transport</div><div class="sd">外部 I/O 隔离。</div></div>
+          <div class="step"><div class="nb">06</div><div class="st">Router</div><div class="sd">多模型选择。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>这是进入 Token、Prompt、结构化输出之前的基础</div><div>Architecture</div></div>
+    </section>
+
+    <section class="slide dark">
+      <div class="chrome"><div>Student Check</div><div>47 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Can They Explain?</div>
+        <h2 class="h-xl">阶段性验收，不是背 API，而是能解释这些问题。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Foundation</div><div class="title">为什么第 1 章不写 Agent？</div><div class="desc">因为没有工程反馈回路，Agent 逻辑无法安全迭代。</div></div>
+          <div class="panel"><div class="label">Boundary</div><div class="title">为什么不用裸 dict 调模型？</div><div class="desc">因为调用参数、消息校验和响应统计需要稳定承载物。</div></div>
+          <div class="panel"><div class="label">Router</div><div class="title">为什么 Router 只改写 model？</div><div class="desc">因为请求设置属于调用者意图，路由层只负责目标选择。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>建议现场让学员任选一题口头解释 2 分钟</div><div>Check</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Teaching Agenda</div><div>48 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">2-Hour Run Sheet</div>
+        <h2 class="h-xl">授课节奏建议。</h2>
+        <div class="grid-4">
+          <div class="panel"><div class="label">00:00-00:15</div><div class="title">总览九章</div><div class="desc">先讲为什么这是一个 LLM 网关的雏形。</div></div>
+          <div class="panel"><div class="label">00:15-00:45</div><div class="title">工程基础</div><div class="desc">快速串联项目、包、测试、配置、日志。</div></div>
+          <div class="panel"><div class="label">00:45-01:30</div><div class="title">LLM 边界</div><div class="desc">重点讲 Message、Request、Response、Mock 和真实客户端。</div></div>
+          <div class="panel"><div class="label">01:30-02:00</div><div class="title">路由与讨论</div><div class="desc">用 Router 收束，讨论第 10 章 token 与成本。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>如果时间紧，压缩第 1-5 章，保留第 6-9 章深讲</div><div>Run Sheet</div></div>
+    </section>
+
+    <section class="slide light">
+      <div class="chrome"><div>Exercises</div><div>49 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">After Class</div>
+        <h2 class="h-xl">课后练习要围绕“边界是否真的成立”。</h2>
+        <div class="grid-3">
+          <div class="panel"><div class="label">Exercise 01</div><div class="title">新增一个 task_type</div><div class="desc">给 Router 增加 <code>summarize</code> 路由，并用 Mock 验证模型名称被改写。</div></div>
+          <div class="panel"><div class="label">Exercise 02</div><div class="title">增加响应字段校验</div><div class="desc">为 <code>LLMResponse</code> 增加一个失败用例，确认 token 不能为负数。</div></div>
+          <div class="panel"><div class="label">Exercise 03</div><div class="title">拆一个配置项</div><div class="desc">把默认模型配置接入 Router 构造过程，但不要让 Router 自己读环境变量。</div></div>
+        </div>
+      </div>
+      <div class="foot"><div>练习重点：改动要被测试证明</div><div>Practice</div></div>
+    </section>
+
+    <section class="slide hero dark">
+      <div class="chrome"><div>Close</div><div>50 / 50</div></div>
+      <div class="frame">
+        <div class="kicker">Next Chapter</div>
+        <h1 class="h-hero">第 10 章开始，模型调用要开始算账。</h1>
+        <p class="lead tight">Token 与成本统计会接上第 6 章的 usage、第 8 章的真实客户端和第 9 章的多模型路由。下一阶段的关键词是：预算、限制、可解释成本。</p>
+        <div class="meta-row"><span>Chapter 10</span><span>/</span><span>Token & Cost</span><span>/</span><span>Budget Boundary</span></div>
+      </div>
+      <div class="foot"><div>Enterprise Agent 阶段性总结完</div><div>End</div></div>
+    </section>
+
+  </main>
+  <nav id="nav" aria-label="Slides"></nav>
+  <script>
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    const deck = document.getElementById("deck");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const nav = document.getElementById("nav");
+    let index = 0;
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(innerWidth * dpr);
+      canvas.height = Math.floor(innerHeight * dpr);
+      canvas.style.width = innerWidth + "px";
+      canvas.style.height = innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      deck.style.width = slides.length * 100 + "vw";
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    slides.forEach((_, i) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.setAttribute("aria-label", "Page " + (i + 1));
+      button.addEventListener("click", () => go(i));
+      nav.appendChild(button);
+    });
+
+    function go(next) {
+      index = Math.max(0, Math.min(slides.length - 1, next));
+      deck.style.transform = `translateX(${-index * 100}vw)`;
+      Array.from(nav.children).forEach((button, i) => button.classList.toggle("active", i === index));
+    }
+
+    window.addEventListener("keydown", event => {
+      if (["ArrowRight", "PageDown", " ", "ArrowDown"].includes(event.key)) {
+        event.preventDefault();
+        go(index + 1);
+      }
+      if (["ArrowLeft", "PageUp", "ArrowUp"].includes(event.key)) {
+        event.preventDefault();
+        go(index - 1);
+      }
+      if (event.key === "Home") go(0);
+      if (event.key === "End") go(slides.length - 1);
+    });
+
+    let touchX = 0;
+    window.addEventListener("touchstart", event => { touchX = event.touches[0].clientX; }, { passive: true });
+    window.addEventListener("touchend", event => {
+      const dx = event.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    function draw(t) {
+      const w = innerWidth;
+      const h = innerHeight;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#0a1f3d";
+      ctx.fillRect(0, 0, w, h);
+      ctx.lineWidth = 1;
+      for (let y = -80; y < h + 100; y += 34) {
+        ctx.beginPath();
+        for (let x = -40; x < w + 60; x += 18) {
+          const wave = Math.sin((x * 0.008) + t * 0.00045) * 16 + Math.cos((x + y) * 0.006 + t * 0.0003) * 10;
+          if (x === -40) ctx.moveTo(x, y + wave);
+          else ctx.lineTo(x, y + wave);
+        }
+        ctx.strokeStyle = "rgba(241,243,245,0.055)";
+        ctx.stroke();
+      }
+      for (let x = 0; x < w; x += 72) {
+        ctx.beginPath();
+        ctx.moveTo(x + Math.sin(t * 0.0002 + x) * 8, 0);
+        ctx.lineTo(x + Math.cos(t * 0.0002 + x) * 8, h);
+        ctx.strokeStyle = "rgba(178,137,79,0.035)";
+        ctx.stroke();
+      }
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+    const requestedSlide = Number(new URLSearchParams(location.search).get("slide"));
+    go(Number.isFinite(requestedSlide) && requestedSlide > 0 ? requestedSlide - 1 : 0);
+  </script>
+</body>
+</html>
